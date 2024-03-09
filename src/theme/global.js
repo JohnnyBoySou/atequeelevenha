@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import {  TouchableRipple } from 'react-native-paper';
 
 export const Main = styled.SafeAreaView`
   flex: 1;
@@ -10,7 +9,6 @@ export const Scroll = styled.ScrollView`
 `
 
 export const View = styled.View`
-
 `
 export const Row = styled.View`
   flex-direction: row;
@@ -23,77 +21,29 @@ export const Column = styled.View`
 `
 
 
-export const Button = styled(TouchableRipple).attrs(() => ({
-  borderless: true, 
-  rippleColor: "#FFFFFF90",
-}))`
-  background: ${({ color }) => color};
-  border-radius: 6px;
-  padding-left: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  align-content: center;
-  flex-direction: row;
-  justify-content: space-between;
-
-`
-
-
-export const ButtonLabel = styled.Text`
-  color: ${props => props.theme.color.light};
-  font-size: 18px;
-  text-align: center;
-  margin-top: 8px;
-  flex-grow: 2;
-  font-family: ${props => props.theme.font.medium};
-`;
-
-export const ButtonIcon = styled.View`
-  width: 50px;
-  border-left-color: #FFF;
-  border-left-width: 2px;
-  margin-top: -20px;
-  margin-bottom: -20px;
-`
-
-
-
 export const Label = styled.Text`
-  color: ${props => props.theme.color.label};
+  color: #d7d7d7;
   font-size: 18px;
+  letter-spacing: -1px;
   font-family: ${props => props.theme.font.book};
 `;
 
 export const Title = styled.Text`
-  color: ${props => props.theme.color.title};
+  color: #fff;
   font-size: 24px;
-  font-family: ${props => props.theme.font.medium};
-`;
-
-export const AuthorLabel = styled.Text`
-  color: ${props => props.theme.color.secundary};
-  font-size: 18px;
+  letter-spacing: -2px;
   font-family: ${props => props.theme.font.medium};
 `;
 
 
+export const HeadTitle = styled.Text`
+  color: #fff;
+  font-size: 32px;
+  letter-spacing: -1px;
+  font-family: ${props => props.theme.font.bold};
+`;
 
-export const BtCircle = styled(TouchableRipple).attrs(() => ({
-  borderless: true, 
-  rippleColor: "#FFFFFF90",
-}))`
-  background: ${props => props.theme.color.primary};
-  border-radius: 100px;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  `
-
-
-  export const HeadTitle = styled.Text`
-  color: ${props => props.theme.color.title};
-  font-size: 22px;
-  font-family: ${props => props.theme.font.medium};
+export const Spacer = styled.View`
+  height: ${props => props.height || 16}px;
+  width: ${props => props.width || 16}px;
 `
-
-

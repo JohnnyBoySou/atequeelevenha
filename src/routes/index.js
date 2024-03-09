@@ -2,20 +2,12 @@ import React, { useState, useEffect, } from 'react';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { createStackNavigator, TransitionPresets, } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-
 import HomePage from '../pages/home';
-import MangalistDetailsPage from '../pages/mangalists/details';
-import MangaDetailsPage from '../pages/manga/details';
-import MangaPages from '../pages/manga/pages';
-import NovidadesPage from '../pages/novidades';
-import ContinuePage from '../pages/continue';
-import PreferencesPage from './../pages/preferences/index';
-import OnboardingPage from '../pages/onboarding/index';
-import AsyncStatic from '../pages/async';
-import CollectionsPage from './../pages/collections/index';
-import CollectionDetailsPage from './../pages/collections/details';
-import AccountPage from '../pages/account';
+import PostPage from '../pages/post/details';
+import ShortDetails from '../pages/shorts/details';
+import PreyPage from '../pages/prey/details';
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createStackNavigator();
@@ -36,7 +28,6 @@ export default function Router() {
     }
     loadFonts();
   }, []);
-
   useEffect(() => {
     SplashScreen.hideAsync().catch(() => {
     });
@@ -47,20 +38,17 @@ export default function Router() {
   }
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="AsyncStatic" screenOptions={{headerShown: false,}} >
+        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false,  }} >
             <Stack.Screen name="Home" component={HomePage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="Novidades" component={NovidadesPage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="MangalistDetails" component={MangalistDetailsPage} options={{...TransitionPresets.SlideFromRightIOS   , }}/>
-            <Stack.Screen name="MangaDetails" component={MangaDetailsPage} options={{...TransitionPresets.SlideFromRightIOS   , }}/>
-            <Stack.Screen name="MangaPages" component={MangaPages} options={{...TransitionPresets.SlideFromRightIOS   , }}/>
-            <Stack.Screen name="Onboarding" component={OnboardingPage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="Continue" component={ContinuePage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="Preferences" component={PreferencesPage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="AsyncStatic" component={AsyncStatic} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="Collections" component={CollectionsPage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="CollectionDetails" component={CollectionDetailsPage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
-            <Stack.Screen name="Account" component={AccountPage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
+            <Stack.Screen name="Post" component={PostPage} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
+            <Stack.Screen name="ShortDetails" component={ShortDetails} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
+            <Stack.Screen name="Prey" component={PreyPage} options={{...TransitionPresets.ModalPresentationIOS    , }}/>
         </Stack.Navigator>
     </NavigationContainer>
    );
 }
+
+
+const Drawer = createDrawerNavigator();
+
+//drawerPosition: 'right',
