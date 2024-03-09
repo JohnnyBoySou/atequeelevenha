@@ -11,4 +11,3 @@ Design Files
   <img src="https://github.com/JohnnyBoySou/atequeelevenha/blob/master/src/assets/design/details%20page.png" width="300px" height="auto"/>
 </div>
 
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=JohnnyBoySou&show_icons=true)
