@@ -75,14 +75,11 @@ export default function PreyPage({navigation }) {
                         </Column>
                     </Row>
                 
-                
                     <Title style={{ fontSize: 28, marginTop: 12,}}>Pedido</Title>
                     <TextInput value={pedido} maxLength={300} placeholderTextColor="#F8F8F890" placeholder='Escreva o seu pedido' onChangeText={setpedido}  style={{ backgroundColor: "#404040", marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 20, letterSpacing: 0.4, lineHeight: 24, color: "#fff", fontFamily: 'Font_Book', borderWidth: 2, borderColor: pedido?.length > 16 ? '#27AE60': '#393939', textAlign: 'left', textAlignVertical: 'top',}}	multiline numberOfLines={6} autoCorrect />
                     <Label>Limite de letras {pedido?.length}/300</Label>
                 
-                
-                
-                    <Row style={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 10,  }}>
+                    <Row style={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 10,   }}>
                         <Pressable style={{ paddingHorizontal: 16, paddingVertical: 10, backgroundColor: "#303030", borderRadius: 100, }}>
                             <Title style={{ color: "#fff", letterSpacing: 0, fontFamily: 'Font_Book',fontSize: 20 }}>Salvar e voltar</Title>
                         </Pressable>

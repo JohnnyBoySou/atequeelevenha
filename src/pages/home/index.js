@@ -20,10 +20,10 @@ export default function HomePage({ navigation }) {
 
     const toggleAnimation = useAnimationState({
         close: {
-            translateX: width + 100,
+            translateX: width,
         },
         open: {
-            translateX: 200,
+            translateX: 120,
         },
     });
 
@@ -44,10 +44,11 @@ export default function HomePage({ navigation }) {
     return (
         <Main>
 
-            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300,}} style={{ position: 'absolute', top: 0, right: 0, width: 500, height: height, backgroundColor: "#101010", zIndex: 99, }} >
-                <Pressable onPress={handleCloseTab} style={{ marginRight: 8, borderWidth: 2, borderColor: "#fff", paddingVertical: 10, paddingHorizontal: 16, borderRadius: 12, zIndex: 99, }}>
-                        <AntDesign name="close" size={24} color="#fff" />
-                    </Pressable>
+            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300,}} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: "#101010", zIndex: 99, }} >
+                <Pressable onPress={handleCloseTab} style={{ marginRight: 8, alignSelf: 'flex-start', top: 40, left: 20, width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: "#fff", zIndex: 99, }}>
+                    <AntDesign name="close" size={24} color="#000" />
+                </Pressable>
+                <SideBar/>
             </MotiView>
 
             <Scroll >
@@ -236,3 +237,18 @@ const Prayer = () => {
         </Row>
     )
   }
+
+const SideBar = () => { 
+    return(
+        <Column style={{ padding: 20, marginTop: 40, }}>
+            <Column  style={{ width: 244, alignSelf: 'flex-start', height: 200, backgroundColor: "#252525", borderRadius: 24, }}/>
+            <Spacer height={20}/>
+            <Column  style={{ width: 244, alignSelf: 'flex-start', height: 100, backgroundColor: "#323232", borderRadius: 24, }}/>
+            <Spacer height={10}/>
+            <Column  style={{ width: 244, alignSelf: 'flex-start', height: 60, backgroundColor: "#121212", borderRadius: 24, }}/>
+            <Spacer height={32}/>
+            <Column  style={{ width: 244, alignSelf: 'flex-start', height: 70, backgroundColor: "#505050", borderRadius: 24, }}/>
+            <Spacer height={8}/>
+        </Column>
+    )
+   }
