@@ -100,8 +100,6 @@ export default function HomePage({ navigation }) {
 }
 
 
-
-
 const WordOfDay = ({ item }) => {
     const navigation = useNavigation();
     const { color, font } = useContext(ThemeContext);
@@ -193,16 +191,16 @@ const Calendar = () => {
         { id: 3, day: 3, month: 'Junho', complete: false, lock: true,},
         { id: 4, day: 4, month: 'Junho', complete: false, lock: true,},
     ]);
-
+    const navigation = useNavigation();
     const Card = ({item}) => { 
         return(
-            <Column>
+            <Pressable onPress={() => {navigation.navigate('Calendar')}} >
                 <Column style={{ width: 80, height: 200, marginLeft: 12, justifyContent: 'flex-end', alignItems: 'center',  borderRadius: 100, 
                     backgroundColor: item?.complete ? "#E26D5E" : "#303030",}}>
                     <Title style={{  transform: [{rotate: '90deg',}], width: 200,  }}>{item?.day}  de  {item?.month}</Title>
                     <AntDesign name={item.lock ? 'lock' : 'check'} size={24} color={item.lock ? '#ffffff50' : 'transparent'} style={{ marginTop: 0, marginBottom: 20, }}/>
                 </Column>
-            </Column>
+            </Pressable>
         )
     }
     return(

@@ -8,6 +8,7 @@ import HomePage from '../pages/home';
 import PostPage from '../pages/post/details';
 import ShortDetails from '../pages/shorts/details';
 import PreyPage from '../pages/prey/details';
+import CalendarPage from '../pages/calendar';
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createStackNavigator();
@@ -28,10 +29,10 @@ export default function Router() {
     }
     loadFonts();
   }, []);
-  useEffect(() => {
-    SplashScreen.hideAsync().catch(() => {
-    });
-  }, []);
+
+  useEffect( ()=> {
+     SplashScreen.hideAsync().catch(() => {});
+  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
@@ -43,12 +44,8 @@ export default function Router() {
             <Stack.Screen name="Post" component={PostPage} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
             <Stack.Screen name="ShortDetails" component={ShortDetails} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
             <Stack.Screen name="Prey" component={PreyPage} options={{...TransitionPresets.ModalPresentationIOS    , }}/>
-        </Stack.Navigator>
+            <Stack.Screen name="Calendar" component={CalendarPage} options={{...TransitionPresets.ModalPresentationIOS    , }}/>
+       </Stack.Navigator>
     </NavigationContainer>
    );
 }
-
-
-const Drawer = createDrawerNavigator();
-
-//drawerPosition: 'right',
