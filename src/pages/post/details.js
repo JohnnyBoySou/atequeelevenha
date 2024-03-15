@@ -5,13 +5,10 @@ import { AntDesign, FontAwesome5, Feather, Ionicons, Fontisto, FontAwesome } fro
 import { AnimatePresence, MotiImage, MotiView } from 'moti';
 import { ThemeContext } from 'styled-components/native';
 
-//API
-import { Days } from '../../api/days';
-
 const { width, height } = Dimensions.get('window');
 
 export default function PostPage({ route, navigation }) {
-    const item  = Days[0];
+    const item  = route.params.item;
     const [porcentage, setporcentage] = useState(0);
     const { color, font} = useContext(ThemeContext);
 

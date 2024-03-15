@@ -7,7 +7,7 @@ import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import { ExpandingDot } from "react-native-animated-pagination-dots";
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
-
+import { getDays } from '../../api/days';
 
 
 export default function HomePage({ navigation }) {
@@ -16,31 +16,24 @@ export default function HomePage({ navigation }) {
     const day = formatarData(new Date())
     const item = { title: 'Palavra do dia', time: '6 min', day: day, pastor: 'Sousa', versiculo: 'Josué 1:9', }
 
+    const [data, setdata] = useState([]);
+
     const [tabIsOpen, settabIsOpen] = useState(false);
+    const toggleAnimation = useAnimationState({ close: {  translateX: width,  }, open: {  translateX: 120, }, });
+    const [loading, setloading] = useState(true);
 
-    const toggleAnimation = useAnimationState({
-        close: {
-            translateX: width,
-        },
-        open: {
-            translateX: 120,
-        },
-    });
-
-    const handleOpenTab = () => {
-        toggleAnimation.transitionTo('open');
-        settabIsOpen(true)
-    }
-    const handleCloseTab = () => {
-        toggleAnimation.transitionTo('close');
-        settabIsOpen(false)
-    }
-
+    const handleOpenTab = () => {  toggleAnimation.transitionTo('open'); settabIsOpen(true) }
+    const handleCloseTab = () => { toggleAnimation.transitionTo('close'); settabIsOpen(false) }
 
     useEffect(() => {
+        setloading(true)
+        const fetchData = () => { 
+            getDays().then((res) => { setdata(res); setloading(false) }    )
+        }
+         fetchData()
         handleCloseTab()
     }, [])
-    
+    if(loading){  return <Main><Label>Carregando...</Label></Main>  }
     return (
         <Main>
 
@@ -73,7 +66,7 @@ export default function HomePage({ navigation }) {
                 <Column style={{ paddingHorizontal: 20, marginVertical: 20, }}>
                     <HeadTitle>Palavra do dia</HeadTitle>
                     <Spacer height={12} />
-                    <WordOfDay item={item} />
+                    <WordOfDay item={data[0]} />
                     <Spacer height={24} />
                     <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
                         <HeadTitle>Vídeos curtos</HeadTitle>
@@ -104,14 +97,14 @@ const WordOfDay = ({ item }) => {
     const navigation = useNavigation();
     const { color, font } = useContext(ThemeContext);
     return (
-        <Pressable onPress={() => {navigation.navigate('Post',{item:'1',})}}  style={{ backgroundColor: color.primary, flexGrow: 1, padding: 12, borderRadius: 16, }}>
+        <Pressable onPress={() => {navigation.navigate('Post',{item: item,})}}  style={{ backgroundColor: color.primary, flexGrow: 1, padding: 12, borderRadius: 16, }}>
             <Pressable style={{ paddingHorizontal: 16, paddingVertical: 8, backgroundColor: "#f7f7f730", alignSelf: 'flex-end', borderRadius: 100, }}>
                 <Label>{item?.time}</Label>
             </Pressable>
-            <Title style={{ textAlign: 'center', fontSize: 46, fontFamily: font.book, marginTop: 12, marginBottom: 26, }}>{item.day}</Title>
+            <Title style={{ textAlign: 'center', fontSize: 46, fontFamily: font.book, marginTop: 12, marginBottom: 26, }}>{item?.day} de {item.month}</Title>
             <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
                 <Label style={{ color: "#fff", fontSize: 20, }}>Pastor: {item.pastor}</Label>
-                <Label style={{ color: "#fff", fontSize: 24, }}>{item.versiculo}</Label>
+                <Label style={{ color: "#fff", fontSize: 24, }}>{item.versiculoCaption}</Label>
             </Row>
         </Pressable>
     )

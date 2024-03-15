@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState , useCallback } from 'react';
 import { createStackNavigator, TransitionPresets, } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import HomePage from '../pages/home';
@@ -7,39 +7,32 @@ import ShortDetails from '../pages/shorts/details';
 import PreyPage from '../pages/prey/details';
 import CalendarPage from '../pages/calendar';
 
-import * as Font from 'expo-font';
+import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator();
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  useEffect(() => {
-    async function loadFonts() {
-      try{
-        await Font.loadAsync({
-          Font_Book: require('../assets/fonts/Circular_Book.ttf'),
-          Font_Medium: require('../assets/fonts/Circular_Medium.ttf'),
-          Font_Bold: require('../assets/fonts/Circular_Bold.ttf'),
-          Font_Black: require('../assets/fonts/Circular_Black.ttf'),
-        });}
-      catch(e){console.log(e)}
-      finally{setFontsLoaded(true)}
+  const [fontsLoaded, fontError] = useFonts({
+    Font_Book: require('../assets/fonts/Circular_Book.ttf'),
+    Font_Medium: require('../assets/fonts/Circular_Medium.ttf'),
+    Font_Bold: require('../assets/fonts/Circular_Bold.ttf'),
+    Font_Black: require('../assets/fonts/Circular_Black.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
     }
-    loadFonts();
-  }, []);
+  }, [fontsLoaded, fontError]);
 
-  useEffect(() => {
-    SplashScreen.hideAsync().catch(() => {
-    });
-  }, []);
-
-  if (!fontsLoaded) {
+  if (!fontsLoaded && !fontError) {
     return null;
   }
+
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={onLayoutRootView}>
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false,  }} >
             <Stack.Screen name="Home" component={HomePage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
             <Stack.Screen name="Post" component={PostPage} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
