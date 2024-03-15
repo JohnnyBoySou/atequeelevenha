@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef , useEffect} from 'react';
-import { Pressable, Dimensions, FlatList, Animated } from 'react-native';
+import { Pressable, Dimensions, FlatList, Animated, Image } from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '../../theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
@@ -8,15 +8,16 @@ import { ExpandingDot } from "react-native-animated-pagination-dots";
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '../../api/days';
+import { getShorts } from './../../api/shorts';
 
 
 export default function HomePage({ navigation }) {
 
     function formatarData(data) { const meses = ['Jan', 'Fev', 'Março', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']; const dia = data.getDate(); const mes = meses[data.getMonth()]; const ano = data.getFullYear(); return `${dia} de ${mes}`; }
     const day = formatarData(new Date())
-    const item = { title: 'Palavra do dia', time: '6 min', day: day, pastor: 'Sousa', versiculo: 'Josué 1:9', }
 
     const [data, setdata] = useState([]);
+    const [shorts, setshorts] = useState([]);
 
     const [tabIsOpen, settabIsOpen] = useState(false);
     const toggleAnimation = useAnimationState({ close: {  translateX: width,  }, open: {  translateX: 120, }, });
@@ -28,8 +29,10 @@ export default function HomePage({ navigation }) {
     useEffect(() => {
         setloading(true)
         const fetchData = () => { 
-            getDays().then((res) => { setdata(res); setloading(false) }    )
+            getDays().then((res) => { setdata(res);  setloading(false)} )
+            getShorts().then((res) => { setshorts(res); console.log(res) } )
         }
+        
          fetchData()
         handleCloseTab()
     }, [])
@@ -71,7 +74,7 @@ export default function HomePage({ navigation }) {
                     <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
                         <HeadTitle>Vídeos curtos</HeadTitle>
                     </Row>
-                    <Shorts />
+                    {shorts.length > 0 && <Shorts shorts={shorts}/>}
                     <Spacer height={24} />
                     <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
                         <HeadTitle>Calendário</HeadTitle>
@@ -110,30 +113,24 @@ const WordOfDay = ({ item }) => {
     )
 }
 
-const Shorts = ({}) => {
+const Shorts = ({ shorts }) => {
     const { color, font } = useContext(ThemeContext);
     const navigation = useNavigation();
+
     const Video = ({ item, index }) => {
         return (
             <Pressable onPress={() => navigation.navigate('ShortDetails', { item: item, })} style={{ width: 200, height: 272, backgroundColor: "#DF8E3C", marginLeft: 20,  borderRadius: 16, }}>
-                <MotiImage source={{uri: item.capa}} style={{ width: 200, height: 272, borderRadius: 16, }} resizeMode='cover' />
+                <Image source={{uri: item?.url}} style={{ width: 200, height: 272, borderRadius: 16, }} resizeMode='cover' />
             </Pressable>
         )
     }
-    const shorts = [
-        { id: 1, title: 'Como vencer a ansiedade', time: '6 min', url: 'https://i.pinimg.com/564x/86/72/3d/86723dc6dab55ad2ef3ab06ffb6f4efa.jpg', capa: 'https://i.pinimg.com/564x/86/72/3d/86723dc6dab55ad2ef3ab06ffb6f4efa.jpg', },
-        { id: 2, title: 'Como vencer a ansiedade', time: '6 min', url: '', capa: 'https://i.pinimg.com/564x/84/db/7a/84db7a703f2b342f13809bbbdd73e5e1.jpg' },
-        { id: 3, title: 'Como vencer a ansiedade', time: '6 min', url: '', capa: 'https://i.pinimg.com/736x/7d/95/ba/7d95ba69f1b4e990c4e6dc1e19d35c3d.jpg' },
-        { id: 4, title: 'Como vencer a ansiedade', time: '6 min', url: '', capa: 'https://i.pinimg.com/564x/6d/f2/55/6df25580f066f55aa28af5a06be11bfb.jpg' },
-        { id: 5, title: 'Como vencer a ansiedade', time: '6 min', url: '', capa: 'https://i.pinimg.com/564x/6e/8f/d2/6e8fd230b4f4479c0a5357487ca7e043.jpg' },
-        { id: 6, title: 'Como vencer a ansiedade', time: '6 min', url: '', capa: 'https://i.pinimg.com/564x/5c/e4/c4/5ce4c4968243b0863b33ad6129755f2a.jpg' },
-    ]
+   
     const scrollX = useRef(new Animated.Value(0)).current;
 
     return (
         <Column style={{ marginTop: 16, }}>
             <FlatList
-                data={shorts.slice(0, 6)}
+                data={shorts}
                 renderItem={({ item, index }) => <Video item={item} index={index} />}
                 keyExtractor={item => item.id}
                 style={{ marginHorizontal: -20, }}
@@ -209,7 +206,7 @@ const Calendar = () => {
            
         </Row>
     )
- }
+}
 
 const Prayer = () => { 
     const navigation = useNavigation();
@@ -227,7 +224,7 @@ const Prayer = () => {
             </Column>
         </Row>
     )
-  }
+}
 
 const SideBar = () => { 
     return(
@@ -242,4 +239,4 @@ const SideBar = () => {
             <Spacer height={8}/>
         </Column>
     )
-   }
+}
