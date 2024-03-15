@@ -1,4 +1,4 @@
-import React, { useState , useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { createStackNavigator, TransitionPresets, } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import HomePage from '../pages/home';
@@ -6,9 +6,9 @@ import PostPage from '../pages/post/details';
 import ShortDetails from '../pages/shorts/details';
 import PreyPage from '../pages/prey/details';
 import CalendarPage from '../pages/calendar';
-
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { Column, Title } from '../theme/global';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,7 +28,7 @@ export default function App() {
   }, [fontsLoaded, fontError]);
 
   if (!fontsLoaded && !fontError) {
-    return null;
+    return (<Column><Title>Erro ao carregar</Title></Column>)
   }
 
   return (
