@@ -30,7 +30,7 @@ export default function HomePage({ navigation }) {
         setloading(true)
         const fetchData = () => { 
             getDays().then((res) => { setdata(res);  setloading(false)} )
-            getShorts().then((res) => { setshorts(res); console.log(res) } )
+            getShorts().then((res) => { setshorts(res); } )
         }
         
          fetchData()
@@ -119,8 +119,8 @@ const Shorts = ({ shorts }) => {
 
     const Video = ({ item, index }) => {
         return (
-            <Pressable onPress={() => navigation.navigate('ShortDetails', { item: item, })} style={{ width: 200, height: 272, backgroundColor: "#DF8E3C", marginLeft: 20,  borderRadius: 16, }}>
-                <Image source={{uri: item?.url}} style={{ width: 200, height: 272, borderRadius: 16, }} resizeMode='cover' />
+            <Pressable onPress={() => navigation.navigate('ShortDetails', { item: item, })} style={{ width: 190, height: 272, backgroundColor: "#DF8E3C", marginLeft: 20,  borderRadius: 16, }}>
+                <Image source={{uri: item?.url}} style={{ width: 190, height: 272, borderRadius: 16, }} resizeMode='cover' />
             </Pressable>
         )
     }
