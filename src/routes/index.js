@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { createStackNavigator, TransitionPresets, } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import HomePage from '../pages/home';
@@ -8,15 +8,14 @@ import PreyPage from '../pages/prey/details';
 import CalendarPage from '../pages/calendar';
 import ReelsPage from '../pages/reels';
 import ReelsScrollPage from '../pages/reels/scroll';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { Column, Title } from '../theme/global';
-
-SplashScreen.preventAutoHideAsync();
+//import { useFonts } from 'expo-font';
+//import * as SplashScreen from 'expo-splash-screen';
+//SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator();
 export default function App() {
-  const [fontsLoaded, fontError] = useFonts({
+  
+  /**const [fontsLoaded, fontError] = useFonts({
     Font_Book: require('../assets/fonts/Circular_Book.ttf'),
     Font_Medium: require('../assets/fonts/Circular_Medium.ttf'),
     Font_Bold: require('../assets/fonts/Circular_Bold.ttf'),
@@ -31,10 +30,11 @@ export default function App() {
 
   if (!fontsLoaded && !fontError) {
     return (<Column><Title>Erro ao carregar</Title></Column>)
-  }
+  } onReady={onLayoutRootView}
+  */
 
   return (
-    <NavigationContainer onReady={onLayoutRootView}>
+    <NavigationContainer>
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false,  }} >
             <Stack.Screen name="Home" component={HomePage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
             <Stack.Screen name="Post" component={PostPage} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
