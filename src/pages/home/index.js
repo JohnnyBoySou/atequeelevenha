@@ -130,18 +130,18 @@ const Shorts = ({ shorts }) => {
     return (
         <Column style={{ marginTop: 16, }}>
             <FlatList
-                data={shorts}
+                data={shorts.slice(0,5).reverse()}
                 renderItem={({ item, index }) => <Video item={item} index={index} />}
                 keyExtractor={item => item.id}
                 style={{ marginHorizontal: -20, }}
                 horizontal
                 decelerationRate={0.8}
-                ListFooterComponent={<Column style={{  width: 200, height: 272, justifyContent: 'center', alignItems: 'center',  backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16,}}>
+                ListFooterComponent={<Pressable onPress={() => {navigation.navigate('Reels')}} style={{  width: 200, height: 272, justifyContent: 'center', alignItems: 'center',  backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16,}}>
                 <AntDesign name="pluscircle" size={64} color="#fff" />
                 <Pressable onPress={() => {navigation.navigate('Reels')}}  style={{ paddingHorizontal: 16, paddingVertical: 8, marginTop: 12, backgroundColor: "#f7f7f730",  borderRadius: 100, }}>
                         <Label>Ver mais</Label>
                     </Pressable>
-                </Column>}
+                </Pressable>}
                 snapToOffsets={[440, 880, 1100,]}
                 showsHorizontalScrollIndicator={false}
                 onScroll={Animated.event([{nativeEvent:{contentOffset: { x: scrollX } } }], {useNativeDriver: false, }
