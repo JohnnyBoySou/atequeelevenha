@@ -1,9 +1,11 @@
 export default{
   background: "#171717",
   color: {
-    primary: "#E26D5E",
-    secundary: "#DF8E3C",
-
+    primary: "#3E59AE",
+    secundary: "#84DCC6",
+    tree: "#FE4A49",
+    four: "#FFF197",
+    five: "#FFF7EC",
     background: "#171717",
     blue: "#0092FF",
     red: "#EB5757",

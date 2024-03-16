@@ -31,14 +31,15 @@
     "moti": "^0.28.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.73.4",
+    "react-native": "^0.73.5",
     "react-native-animated-pagination-dots": "^0.1.73",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-modalize": "^2.1.1",
     "react-native-reanimated": "~3.6.2",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-web": "~0.19.6",
-    "styled-components": "*"
+    "styled-components": "*",
+    "expo-system-ui": "~2.9.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

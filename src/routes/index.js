@@ -6,6 +6,7 @@ import PostPage from '../pages/post/details';
 import ShortDetails from '../pages/shorts/details';
 import PreyPage from '../pages/prey/details';
 import CalendarPage from '../pages/calendar';
+import ReelsPage from '../pages/reels';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { Column, Title } from '../theme/global';
@@ -33,13 +34,14 @@ export default function App() {
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false,  }} >
+        <Stack.Navigator initialRouteName="Reels" screenOptions={{headerShown: false,  }} >
             <Stack.Screen name="Home" component={HomePage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
             <Stack.Screen name="Post" component={PostPage} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
             <Stack.Screen name="ShortDetails" component={ShortDetails} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
             <Stack.Screen name="Prey" component={PreyPage} options={{...TransitionPresets.ModalPresentationIOS    , }}/>
-            <Stack.Screen name="Calendar" component={CalendarPage} options={{...TransitionPresets.ModalPresentationIOS    , }}/>
-       </Stack.Navigator>
+            <Stack.Screen name="Calendar" component={CalendarPage} options={{...TransitionPresets.ModalSlideFromRight    , }}/>
+            <Stack.Screen name="Reels" component={ReelsPage} options={{...TransitionPresets.RevealFromBottomAndroid      , }}/>
+      </Stack.Navigator>
     </NavigationContainer>
    );
 }

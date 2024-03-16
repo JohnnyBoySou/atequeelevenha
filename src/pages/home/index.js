@@ -136,7 +136,12 @@ const Shorts = ({ shorts }) => {
                 style={{ marginHorizontal: -20, }}
                 horizontal
                 decelerationRate={0.8}
-                ListFooterComponent={<Column style={{  width: 200, height: 272, backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16,}}><AntDesign name="plus" size={24} color="#fff" /></Column>}
+                ListFooterComponent={<Column style={{  width: 200, height: 272, justifyContent: 'center', alignItems: 'center',  backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16,}}>
+                <AntDesign name="pluscircle" size={64} color="#fff" />
+                <Pressable onPress={() => {navigation.navigate('Reels')}}  style={{ paddingHorizontal: 16, paddingVertical: 8, marginTop: 12, backgroundColor: "#f7f7f730",  borderRadius: 100, }}>
+                        <Label>Ver mais</Label>
+                    </Pressable>
+                </Column>}
                 snapToOffsets={[440, 880, 1100,]}
                 showsHorizontalScrollIndicator={false}
                 onScroll={Animated.event([{nativeEvent:{contentOffset: { x: scrollX } } }], {useNativeDriver: false, }
@@ -148,7 +153,7 @@ const Shorts = ({ shorts }) => {
                 </Pressable>
             
                     <ExpandingDot
-                        data={shorts.slice(0, 4)}
+                        data={shorts.slice(0, 3)}
                         expandingDotWidth={30}
                         scrollX={scrollX}
                         inActiveDotOpacity={0.8}
@@ -182,12 +187,13 @@ const Calendar = () => {
         { id: 4, day: 4, month: 'Junho', complete: false, lock: true,},
     ]);
     const navigation = useNavigation();
+    const { color } = useContext(ThemeContext)
     const Card = ({item}) => { 
         return(
             <Pressable onPress={() => {navigation.navigate('Calendar')}} >
                 <Column style={{ width: 80, height: 200, marginLeft: 12, justifyContent: 'flex-end', alignItems: 'center',  borderRadius: 100, 
-                    backgroundColor: item?.complete ? "#E26D5E" : "#303030",}}>
-                    <Title style={{  transform: [{rotate: '90deg',}], width: 200,  }}>{item?.day}  de  {item?.month}</Title>
+                    backgroundColor: item?.complete ? color.secundary : "#303030",}}>
+                    <Title style={{  transform: [{rotate: '90deg',}], width: 200, color: item?.complete ? "#000" : "#fff" }}>{item?.day}  de  {item?.month}</Title>
                     <AntDesign name={item.lock ? 'lock' : 'check'} size={24} color={item.lock ? '#ffffff50' : 'transparent'} style={{ marginTop: 0, marginBottom: 20, }}/>
                 </Column>
             </Pressable>
@@ -209,17 +215,18 @@ const Calendar = () => {
 }
 
 const Prayer = () => { 
+    const { color } = useContext(ThemeContext)
     const navigation = useNavigation();
     return(
         <Row style={{ position: 'relative', marginVertical: 30, justifyContent: 'center', }}>
             <Column style={{ width: 300, height: 240, backgroundColor: "#404040", position: 'absolute', borderRadius: 32, transform: [{rotate: '-12deg'}] }}/> 
-            <Column  style={{ width: 300, height: 240, backgroundColor: "#E26D5E", position: 'absolute', borderRadius: 32, transform: [{rotate: '5deg'}], justifyContent: 'center', alignItems: 'center',  }}>
+            <Column  style={{ width: 300, height: 240, backgroundColor: color.primary, position: 'absolute', borderRadius: 32, transform: [{rotate: '5deg'}], justifyContent: 'center', alignItems: 'center',  }}>
                 <Column  style={{ width: 72, height: 72, backgroundColor: "#ffffff30", borderRadius: 100, justifyContent: 'center', alignItems: 'center', }}>
                     <MotiImage source={require('../../assets/imgs/prayer.png')} style={{ width: 62, height: 62, }} resizeMode='contain' />
                 </Column>
                 <Title style={{ textAlign: 'center', fontSize: 28, }}>Quero fazer um pedido {"\n"}de oração</Title>
                 <Pressable onPress={() => {navigation.navigate('Prey')}}  style={{ paddingHorizontal: 32, paddingVertical: 8, borderRadius: 100, backgroundColor: "#fff", justifyContent: 'center', alignItems: 'center',  alignSelf:'center' , marginTop: 12,}}>
-                    <Title style={{ color: "#E26D5E", }}>Fazer oração</Title>
+                    <Title style={{ color: color.primary, }}>Fazer oração</Title>
                 </Pressable>
             </Column>
         </Row>
