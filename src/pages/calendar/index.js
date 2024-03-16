@@ -13,7 +13,7 @@ export default function CalendarPage({ navigation }) {
         {date: '24 de Junho', status: 'Bloqueado', time: 'Não disponível', pastor: 'Secreto', tema: 'Secreto'},
     ]
 
-    const adjustDate =useRef(null);
+    const adjustDate = useRef(null);
     const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Dezembro']
     const [month, setMonth] = useState('Junho');
     const [week, setWeek] = useState('4ª Semana');
