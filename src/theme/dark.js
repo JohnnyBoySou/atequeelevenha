@@ -1,31 +1,24 @@
 export default{
   background: "#171717",
+  theme: "dark",
   color: {
     primary: "#3E59AE",
     secundary: "#84DCC6",
     tree: "#FE4A49",
     four: "#FFF197",
     five: "#FFF7EC",
-    background: "#171717",
+
     blue: "#0092FF",
+
     red: "#EB5757",
     green: "#27AE60",
 
     title: "#FFFFFF",
     label: "#cccccc",
+
     light: "#FFFFFF",
+    background: "#171717",
 
-    off: "#303030",
-    off2: "#404040",
-    off3: "#606060",
-
-    rare: '#9DACFF',
-    lendary: '#3454D1',
-    premium: {
-      bg: "#E0CA3C",
-      label: "#E9D972",
-      title: "#FFF"
-    },
   },
   size: {
     label: 18,

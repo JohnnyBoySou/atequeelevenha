@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { AnimatePresence, MotiImage, MotiView } from "moti";
 import { Column, Label, Main, Title, Row, Scroll } from "../../theme/global";
 import { Dimensions, Pressable, ScrollView } from "react-native";
@@ -9,10 +9,11 @@ const { width, height } = Dimensions.get('window');
 
 import Slider from '@react-native-community/slider';
 import { Video, ResizeMode } from 'expo-av';
+import { ThemeContext } from "styled-components/native";
 
 export default function ShortDetails({ route, navigation,  }) {
   const item = route.params?.item;
-  
+  const { color, font, theme} = useContext(ThemeContext);
   const aboutModal = useRef(null);
   const video = useRef(null);
   
@@ -34,6 +35,7 @@ export default function ShortDetails({ route, navigation,  }) {
           resizeMode={ResizeMode.COVER}
           isLooping
           onLoad={() => {togglePlay(); setisPlay(!isPlay); }}
+          posterSource={require('../../assets/imgs/placeholder-video.png')}
           onPlaybackStatusUpdate={e => settime((e.positionMillis / e.durationMillis * 100).toFixed(0)) }
           progressUpdateIntervalMillis={50}
         />
@@ -51,21 +53,21 @@ export default function ShortDetails({ route, navigation,  }) {
       </Pressable>
     </Main>
 
-      <BottomSheet ref={aboutModal} snapPoints={[90, 350, '80%']} backgroundStyle={{backgroundColor: "#171717", }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
+      <BottomSheet ref={aboutModal} snapPoints={[90, 350, '80%']} backgroundStyle={{backgroundColor: color.background, }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
         <BottomSheetScrollView>
 
           <Row style={{ justifyContent: 'space-between', alignItems: 'center',  paddingHorizontal: 20, paddingBottom: 20, marginTop: 0, borderBottomColor: "#303030", borderBottomWidth: 2,}}>
             <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
               <Pressable onPress={() => navigation.goBack()}  style={{ width: 42, height: 42, borderRadius: 100, marginLeft: -10, justifyContent: 'center', alignItems: 'center', }}>
-                <AntDesign name="arrowleft" size={18} color="#fff" />
+                <AntDesign name="arrowleft" size={18} color={color.title} />
               </Pressable>
 
-              <Pressable onPress={() => settype('about')} style={{ backgroundColor: type === 'about' ? '#fff' : 'transparent',  flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: "#ffffff70",  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
-                <Label style={{ color: type === 'about' ? '#000' : '#fff' }}>Sobre</Label>
+              <Pressable onPress={() => settype('about')} style={{ backgroundColor: type === 'about' ? color.title : 'transparent',  flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: "#ffffff70",  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
+                <Label style={{ color: type === 'about' ? color.background : color.title }}>Sobre</Label>
               </Pressable>
 
-              <Pressable onPress={() => settype('video')} style={{ backgroundColor: type === 'video' ? '#fff' : 'transparent', marginLeft: 12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: "#ffffff70",  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
-                <Label style={{ color: type === 'video' ? '#000' : '#fff' }}>Vídeo</Label>
+              <Pressable onPress={() => settype('video')} style={{ backgroundColor: type === 'video' ? color.title : 'transparent', marginLeft: 12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: "#ffffff70",  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
+                <Label style={{ color: type === 'video' ? color.background : color.title }}>Vídeo</Label>
               </Pressable>
             </Row>
             <Row>
