@@ -39,7 +39,8 @@
     "react-native-safe-area-context": "^4.8.2",
     "react-native-web": "~0.19.6",
     "styled-components": "*",
-    "expo-system-ui": "~2.9.3"
+    "expo-system-ui": "~2.9.3",
+    "@react-native-community/slider": "4.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

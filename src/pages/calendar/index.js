@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Column, Label, Main, Title, Scroll, Row } from '../../theme/global';
 import { FlatList, Pressable } from 'react-native';
 import { MotiImage } from 'moti';
 import { AntDesign } from '@expo/vector-icons';
 import {Modalize} from 'react-native-modalize';
+import { ThemeContext } from 'styled-components/native';
 
 export default function CalendarPage({ navigation }) {
     let item = [
@@ -17,6 +18,9 @@ export default function CalendarPage({ navigation }) {
     const [month, setMonth] = useState('Junho');
     const [week, setWeek] = useState('4ª Semana');
     const weeks = ['1ª Semana', '2ª Semana', '3ª Semana', '4ª Semana']
+
+    const { color } = useContext(ThemeContext);
+
     return (
         <Main>
             <Scroll>
@@ -34,7 +38,7 @@ export default function CalendarPage({ navigation }) {
 
                 <Pressable onPress={() => {adjustDate.current?.open()}}  style={{ flexDirection: 'row', backgroundColor: "#303030", borderRadius: 8, marginBottom: 12, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, }}>
                     <Title style={{ fontSize: 32, marginVertical: 20, }}>Essa semana</Title>
-                    <Column style={{ width: 52, height: 52, borderRadius: 6, backgroundColor: "#E26D5E", justifyContent: 'center', alignItems: 'center',  }}>
+                    <Column style={{ width: 52, height: 52, borderRadius: 6, backgroundColor: color.primary, justifyContent: 'center', alignItems: 'center',  }}>
                         <AntDesign name='arrowright' size={24} color='#FFFFFF' style={{ }} />
                     </Column>                        
                 </Pressable>
@@ -68,7 +72,7 @@ export default function CalendarPage({ navigation }) {
                         <FlatList
                             data={months}
                             style={{ height: 300, marginLeft: -30, marginRight: 10,}}
-                            renderItem={({ item, index }) => <Pressable onPress={() => setMonth(item)} style={{ backgroundColor: month === item ? "#E26D5E" : "#303030", paddingVertical: 20, borderRadius: 100, marginVertical: 10, paddingRight: 30, }}>
+                            renderItem={({ item, index }) => <Pressable onPress={() => setMonth(item)} style={{ backgroundColor: month === item ? "#3E59AE" : "#303030", paddingVertical: 20, borderRadius: 100, marginVertical: 10, paddingRight: 30, }}>
                                 <Label style={{ color: "#FFFFFF", fontSize: 42, textAlign: 'right' }}>{item}</Label>
                             </Pressable>}
                             keyExtractor={item => item}
@@ -78,8 +82,8 @@ export default function CalendarPage({ navigation }) {
                         <FlatList
                             data={weeks}
                             style={{ height: 300, marginRight: -50, marginLeft:10,}}
-                            renderItem={({ item,  }) => <Pressable onPress={() => setWeek(item)} style={{ backgroundColor: week === item ? "#fff" : "#E26D5E",  paddingVertical: 20, borderRadius: 100, marginVertical: 10, borderWidth: 2, borderColor: "#fff", paddingLeft: 30,}}>
-                                <Label style={{ color: week === item ? '#E26D5E' : "#FFFFFF",  fontSize: 42, textAlign: 'left' }}>{item}</Label>
+                            renderItem={({ item,  }) => <Pressable onPress={() => setWeek(item)} style={{ backgroundColor: week === item ? "#fff" : "#3E59AE",  paddingVertical: 20, borderRadius: 100, marginVertical: 10, borderWidth: 2, borderColor: "#fff", paddingLeft: 30,}}>
+                                <Label style={{ color: week === item ? '#3E59AE' : "#FFFFFF",  fontSize: 42, textAlign: 'left' }}>{item}</Label>
                             </Pressable>}
                             keyExtractor={item => item}
                             showsVerticalScrollIndicator={false}
@@ -87,7 +91,7 @@ export default function CalendarPage({ navigation }) {
 
                     </Row>
                     <Pressable onPress={() => {adjustDate.current?.close()}} >
-                        <Label style={{ backgroundColor: "#E26D5E", alignSelf:'center', borderRadius: 100, paddingVertical: 12, paddingHorizontal: 32, textAlign: 'center', color: "#FFFFFF", }}>Salvar</Label>
+                        <Label style={{ backgroundColor: "#3E59AE", alignSelf:'center', borderRadius: 100, paddingVertical: 12, paddingHorizontal: 32, textAlign: 'center', color: "#FFFFFF", }}>Salvar</Label>
                     </Pressable>
                 </Main>
 
@@ -98,7 +102,7 @@ export default function CalendarPage({ navigation }) {
 
 const Days = ({ item }) => { 
     return(
-        <Column style={{ backgroundColor: item?.status === 'Completo' ? "#E26D5E" : "#303030", padding: 12, borderRadius: 12,  marginTop: 20, paddingHorizontal: 20,}}>
+        <Column style={{ backgroundColor: item?.status === 'Completo' ? "#3E59AE" : "#303030", padding: 12, borderRadius: 12,  marginTop: 20, paddingHorizontal: 20,}}>
             <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
                 <Title>{item.date}</Title>
                 <Label style={{ backgroundColor: "#FFFFFF30", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 100,}}>{item.status}</Label>

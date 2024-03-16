@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { Animated, FlatList, Image, Pressable } from "react-native";
-import { Main, Scroll, Title, Column, Label, Row,  } from "../../theme/global";
+import { Main, Scroll, Title, Column, Label, Row, Spacer,  } from "../../theme/global";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
@@ -9,23 +9,20 @@ import { getShorts, getShortsPopular, getShortsRecents } from "../../api/shorts"
 export default function ReelsPage(  { navigation }) {
 
     const [shorts, setShorts] = useState([]);
+    const [popular, setpopular] = useState();
+    const [recents, setrecents] = useState();
     const { color, font } = useContext(ThemeContext);
 
     useEffect(() => {
         getShorts().then((res) => {  setShorts(res);  }  );
-        getShortsPopular().then((res) => {  setShorts(res);  }  );
-        getShortsRecents().then((res) => {  setShorts(res);  }  );
+        getShortsPopular().then((res) => {  setpopular(res.reverse());  }  );
+        getShortsRecents().then((res) => {  setrecents(res);  }  );
     }, [])
 
     return(
         <Main>
             <Scroll>
                 <Column>
-                    <Row>
-                        <Row style={{ justifyContent: 'space-between', alignItems: 'center', flexGrow: 1, backgroundColor: color.primary, height: 84, borderBottomRightRadius: 32,}}></Row>
-                        <Row style={{ justifyContent: 'space-between', alignItems: 'center', flexGrow: 3, backgroundColor: color.secundary, height: 84, borderBottomLeftRadius: 32, borderTopRightRadius: 32,}}></Row>
-
-                    </Row>
                     <Row>
                         <Row style={{ justifyContent: 'space-between', alignItems: 'center', backgroundColor: color.tree, flexGrow: 1, height: 84, borderBottomRightRadius: 32, borderTopLeftRadius: 32,}}></Row>
                         <Row style={{ justifyContent: 'space-between', alignItems: 'center', backgroundColor: color.four, flexGrow: 2, height: 84, borderBottomRightRadius: 32, borderTopLeftRadius: 32,}}></Row>
@@ -42,15 +39,14 @@ export default function ReelsPage(  { navigation }) {
                     </Row>
                 </Column>
                 <Column style={{ paddingHorizontal: 20,  marginTop: 20,}}>
-                    <Title style={{ fontSize: 32, }}>Todos os Shorts</Title>
-                    <Shorts shorts={shorts}/>
+                    <Title style={{ fontSize: 52, }}>Veja nossos Shorts</Title>
                     
-                    <Title style={{ fontSize: 32, }}>Recentes</Title>
-                    <Shorts shorts={shorts}/>
+                    <Title style={{ fontSize: 32, marginTop: 20, }}>Recentes</Title>
+                    <Shorts shorts={recents}/>
 
-                    <Title style={{ fontSize: 32, }}>Populares</Title>
-                    <Shorts shorts={shorts}/>
-
+                    <Title style={{ fontSize: 32, marginTop: 20, }}>Populares</Title>
+                    <Shorts shorts={popular}/>
+                    <Spacer height={100} />
 
 
                 </Column>

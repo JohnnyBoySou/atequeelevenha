@@ -23,6 +23,10 @@ export default function HomePage({ navigation }) {
     const toggleAnimation = useAnimationState({ close: {  translateX: width,  }, open: {  translateX: 120, }, });
     const [loading, setloading] = useState(true);
 
+    const toggleOpen = () => { 
+        if(tabIsOpen){ toggleAnimation.transitionTo('close'); settabIsOpen(false) }
+        else{ toggleAnimation.transitionTo('open'); settabIsOpen(true) }
+     }
     const handleOpenTab = () => {  toggleAnimation.transitionTo('open'); settabIsOpen(true) }
     const handleCloseTab = () => { toggleAnimation.transitionTo('close'); settabIsOpen(false) }
 
@@ -47,24 +51,20 @@ export default function HomePage({ navigation }) {
                 <SideBar/>
             </MotiView>
 
-            <Scroll >
-                <Row style={{ paddingTop: 30, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
-                    <MotiImage source={require('../../assets/imgs/logo.png')} style={{ width: 100, height: 100, }} resizeMode='contain' />
-
-                    <Pressable onPress={handleOpenTab} style={{ marginRight: 8, borderWidth: 2, borderColor: "#fff", paddingVertical: 10, paddingHorizontal: 16, borderRadius: 12, zIndex: 99, }}>
-                        <SimpleLineIcons name="menu" size={24} color="#fff" />
+            <Scroll>
+                <Row style={{ paddingTop: 50, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
+                    <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff',  borderColor: "#fff", width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
+                       {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius:12, backgroundColor: "#fff",}}/>
+                        <Column style={{ width: 20, height: 2, borderRadius:12, backgroundColor: "#fff", marginTop: 6,}}/>
+                        <Column style={{ width: 25, height: 2, borderRadius:12, backgroundColor: "#fff", marginTop: 6,}}/></Column> : <AntDesign name="close" size={28} color="#000" /> }
                     </Pressable>
                 </Row>
 
-                <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
-                    <MotiImage source={require('../../assets/imgs/smash.png')} style={{ width: 240, height: 240, marginLeft: 20, opacity: 0.3, marginRight: -70, }} resizeMode='contain' />
-                    <MotiImage source={require('../../assets/imgs/gradient.png')} style={{ width: 530, height: 400, marginTop: -270, }} resizeMode='cover' />
-                </Row>
-
-                <Column style={{ paddingHorizontal: 20, }}>
-                    <Title style={{ fontSize: 52, fontFamily: 'Font_Book', }}>Até que Ele venha</Title>
-                    <Label style={{ fontSize: 22, lineHeight: 24, marginTop: 10, }}>Vamos te mostrar um novo jeito de ver e sentir a palavra de Deus.</Label>
+                <Column>
+                    <MotiImage source={require('../../assets/imgs/wide.png')} style={{ width: '100%', height: 340, }} resizeMode='contain' />
+                    <Label style={{ fontSize: 22, lineHeight: 24, marginTop: -30, textAlign: 'center', width:300, alignSelf: 'center'}}>Vamos te mostrar um novo jeito de ver e sentir a palavra de Deus.</Label>
                 </Column>
+
 
                 <Column style={{ paddingHorizontal: 20, marginVertical: 20, }}>
                     <HeadTitle>Palavra do dia</HeadTitle>
