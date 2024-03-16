@@ -12,7 +12,7 @@ export default function PreyPage({navigation }) {
     const [who, setWho] = useState('Myself');
     const [pedido, setpedido] = useState('');
 
-
+    const {color, font} = useContext(ThemeContext);
 
     function maskPhone(value){
         value = value.replace(/\D/g, "");
@@ -53,35 +53,35 @@ export default function PreyPage({navigation }) {
                             <Pressable onPress={() => {setWho('myself')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'myself' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/whatsapp/116/person-bowing-deeply_1f647.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
-                            <Title style={{ fontFamily: 'Font_Book',  textAlign: 'center', marginTop: 4, fontSize: 22}}>A mim</Title>
+                            <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>A mim</Title>
                         </Column>
                         <Column>
                             <Pressable onPress={() => {setWho('family')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'family' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/whatsapp/390/family-man-woman-boy_1f468-200d-1f469-200d-1f466.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
-                            <Title style={{ fontFamily: 'Font_Book',  textAlign: 'center', marginTop: 4, fontSize: 22}}>Família</Title>
+                            <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>Família</Title>
                         </Column>
                         <Column>
                             <Pressable onPress={() => {setWho('friend')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'friend' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/apple/391/handshake_1f91d.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
-                            <Title style={{ fontFamily: 'Font_Book',  textAlign: 'center', marginTop: 4, fontSize: 22}}>Amigo</Title>
+                            <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>Amigo</Title>
                         </Column>
                         <Column>
                             <Pressable onPress={() => {setWho('other')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'other' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/apple/391/man-raising-hand_1f64b-200d-2642-fe0f.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
-                            <Title style={{ fontFamily: 'Font_Book',  textAlign: 'center', marginTop: 4, fontSize: 22}}>Conhecido</Title>
+                            <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>Conhecido</Title>
                         </Column>
                     </Row>
                 
                     <Title style={{ fontSize: 28, marginTop: 12,}}>Pedido</Title>
-                    <TextInput value={pedido} maxLength={300} placeholderTextColor="#F8F8F890" placeholder='Escreva o seu pedido' onChangeText={setpedido}  style={{ backgroundColor: "#404040", marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 20, letterSpacing: 0.4, lineHeight: 24, color: "#fff", fontFamily: 'Font_Book', borderWidth: 2, borderColor: pedido?.length > 16 ? '#27AE60': '#393939', textAlign: 'left', textAlignVertical: 'top',}}	multiline numberOfLines={6} autoCorrect />
+                    <TextInput value={pedido} maxLength={300} placeholderTextColor="#F8F8F890" placeholder='Escreva o seu pedido' onChangeText={setpedido}  style={{ backgroundColor: "#404040", marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 20, letterSpacing: 0.4, lineHeight: 24, color: "#fff", fontFamily: font.book, borderWidth: 2, borderColor: pedido?.length > 16 ? '#27AE60': '#393939', textAlign: 'left', textAlignVertical: 'top',}}	multiline numberOfLines={6} autoCorrect />
                     <Label>Limite de letras {pedido?.length}/300</Label>
                 
                     <Row style={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 10,   }}>
                         <Pressable style={{ paddingHorizontal: 16, paddingVertical: 10, backgroundColor: "#303030", borderRadius: 100, }}>
-                            <Title style={{ color: "#fff", letterSpacing: 0, fontFamily: 'Font_Book',fontSize: 20 }}>Salvar e voltar</Title>
+                            <Title style={{ color: "#fff", letterSpacing: 0, fontFamily: font.book, fontSize: 20 }}>Salvar e voltar</Title>
                         </Pressable>
                         <Pressable onPress={() => {navigation.navigate('Prey')}}  style={{ paddingHorizontal: 32, paddingVertical: 12, borderRadius: 100, backgroundColor: "#27AE60", justifyContent: 'center', alignItems: 'center',  alignSelf:'center' ,}}>
                             <Title style={{ color: "#fff", letterSpacing: -1, }}>Fazer Pedido</Title>

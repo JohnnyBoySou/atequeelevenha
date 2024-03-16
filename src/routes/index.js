@@ -8,6 +8,7 @@ import PreyPage from '../pages/prey/details';
 import CalendarPage from '../pages/calendar';
 import ReelsPage from '../pages/reels';
 import ReelsScrollPage from '../pages/reels/scroll';
+import Error from '../pages/error';
 //import { useFonts } from 'expo-font';
 //import * as SplashScreen from 'expo-splash-screen';
 //SplashScreen.preventAutoHideAsync();
@@ -35,7 +36,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false,  }} >
+        <Stack.Navigator initialRouteName="Error" screenOptions={{headerShown: false,  }} >
+            <Stack.Screen name="Error" component={Error} />
             <Stack.Screen name="Home" component={HomePage} options={{...TransitionPresets.ModalSlideFromBottomIOS  , }}/>
             <Stack.Screen name="Post" component={PostPage} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
             <Stack.Screen name="ShortDetails" component={ShortDetails} options={{...TransitionPresets.ModalPresentationIOS   , }}/>
