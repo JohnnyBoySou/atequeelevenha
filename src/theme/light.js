@@ -26,9 +26,9 @@ export default{
     sublabel: 16,
   },
   font: {
-    black: "Font_Black",
-    bold: "Font_Bold",
-    medium: "Font_Medium",
-    book: "Font_Book",
+    black: "Roboto",
+    bold: "Roboto",
+    medium: "Roboto",
+    book: "Roboto",
   },
 }

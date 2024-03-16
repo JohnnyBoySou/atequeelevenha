@@ -11,8 +11,8 @@ import ReelsScrollPage from '../pages/reels/scroll';
 //import { useFonts } from 'expo-font';
 //import * as SplashScreen from 'expo-splash-screen';
 //SplashScreen.preventAutoHideAsync();
-
 const Stack = createStackNavigator();
+
 export default function App() {
   
   /**const [fontsLoaded, fontError] = useFonts({
