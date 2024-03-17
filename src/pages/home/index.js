@@ -10,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import { getDays } from '../../api/days';
 import { getShorts } from './../../api/shorts';
 
-
 export default function HomePage({ navigation }) {
     const { color, theme, font } = useContext(ThemeContext);
     function formatarData(data) { const meses = ['Jan', 'Fev', 'Março', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']; const dia = data.getDate(); const mes = meses[data.getMonth()]; const ano = data.getFullYear(); return `${dia} de ${mes}`; }
