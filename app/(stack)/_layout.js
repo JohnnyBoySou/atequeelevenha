@@ -1,6 +1,5 @@
-import { Stack, } from 'expo-router';
-import { TransitionPresets } from '@react-navigation/stack';
-import { StatusBar, useColorScheme } from 'react-native'
+ 
+import {  useColorScheme } from 'react-native'
 import { ThemeProvider } from 'styled-components/native';
 import dark from '@theme/dark';
 import light from '@theme/light';
@@ -15,15 +14,15 @@ export default function StackLayout() {
   return (
     <ThemeProvider theme={theme === "dark" ? dark : light}>
       <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name="pins" options={{...TransitionPresets.ModalPresentationIOS    , }}/>
-        <Stack.Screen name="index"  options={{...TransitionPresets.ModalSlideFromBottomIOS  , }} />
-        <Stack.Screen name="reels" options={{...TransitionPresets.RevealFromBottomAndroid      , }}/>
-        <Stack.Screen name="calendar" options={{...TransitionPresets.ModalPresentationIOS    , }} />
-        <Stack.Screen name="error"  options={{...TransitionPresets.RevealFromBottomAndroid      , }} />
-        <Stack.Screen name="post/[item]"  options={{...TransitionPresets.ModalPresentationIOS   , }}/>
-        <Stack.Screen name="shorts/[item]" options={{...TransitionPresets.ModalPresentationIOS   , }}/>
-        <Stack.Screen name="prey" options={{...TransitionPresets.ModalPresentationIOS    , }}/>
-        <Stack.Screen name="reels_scroll" options={{...TransitionPresets.ModalPresentationIOS    , }}/>
+        <Stack.Screen name="pins"  />
+        <Stack.Screen name="index"  />
+        <Stack.Screen name="reels"  />
+        <Stack.Screen name="calendar"  />
+        <Stack.Screen name="error"  />
+        <Stack.Screen name="post/[item]"   />
+        <Stack.Screen name="shorts/[item]"  />
+        <Stack.Screen name="prey" />
+        <Stack.Screen name="reels_scroll" />
       </Stack>
     </ThemeProvider>
   );
