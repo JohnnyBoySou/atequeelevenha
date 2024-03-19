@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable } from "react-native";
-import { Title, Column, Main } from "../theme/global";
+import { Title, Column, Main } from "@theme/global";
 
 export default function Error({ navigation}){
     return (

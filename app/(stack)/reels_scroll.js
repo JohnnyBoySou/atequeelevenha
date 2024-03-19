@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState, useEffect, useCallback } from "react";
 import { FlatList, Pressable, Dimensions, ScrollView } from "react-native";
-import { Main, Title, Column, Label, Row,  } from "../theme/global";
+import { Main, Title, Column, Label, Row,  } from "@theme/global";
 import { ThemeContext } from 'styled-components/native';
-import { getShortsRecents } from "../api/shorts";
+import { getShortsRecents } from "@api/shorts";
 import { AntDesign, FontAwesome6, MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 

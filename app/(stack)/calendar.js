@@ -3,7 +3,6 @@ import { Column, Label, Main, Title, Scroll, Row } from '@theme/global';
 import { FlatList, Pressable } from 'react-native';
 import { MotiImage } from 'moti';
 import { AntDesign } from '@expo/vector-icons';
-import {Modalize} from 'react-native-modalize';
 import { ThemeContext } from 'styled-components/native';
 import { router } from 'expo-router';
 

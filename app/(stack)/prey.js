@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Column, Row, Title, Label, Scroll, Main, Spacer, HeadTitle } from '../theme/global';
-import { Image, TouchableOpacity, Dimensions, FlatList, Pressable, TextInput } from 'react-native';
-import { AntDesign, FontAwesome5, Feather, Ionicons, Fontisto, FontAwesome } from '@expo/vector-icons';
-import { AnimatePresence, MotiImage, MotiView } from 'moti';
+import React, { useContext, useState } from 'react';
+import { Column, Row, Title, Label, Scroll, Main, Spacer } from '@theme/global';
+import { Image, Dimensions, Pressable, TextInput } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { router } from 'expo-router';
 const { width, height } = Dimensions.get('window');

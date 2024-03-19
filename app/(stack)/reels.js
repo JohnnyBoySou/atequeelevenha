@@ -1,10 +1,9 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { Animated, FlatList, Image, Pressable } from "react-native";
-import { Main, Scroll, Title, Column, Label, Row, Spacer,  } from "../theme/global";
+import { Main, Scroll, Title, Column, Label, Row, Spacer,  } from "@theme/global";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
-import { getShorts, getShortsPopular, getShortsRecents } from "../api/shorts";
+import { getShorts, getShortsPopular, getShortsRecents } from "@api/shorts";
 
 export default function ReelsPage(  { navigation }) {
 

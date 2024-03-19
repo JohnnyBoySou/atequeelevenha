@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext} from 'react';
 import { Column, Row, Main, Scroll, Title, Label, } from '@theme/global';
-import { listPins } from '../hooks/usePin';
+import { listPins } from '@hooks/usePin';
 import { FlatList, Image } from 'react-native';
 import { ThemeContext } from 'styled-components/native';
 export default function PinsSaves() {
