@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Column, Row, Main, Scroll, Title, Label, } from '@theme/global';
 
 import { FILTERS, POSTS } from '@api/pins';
@@ -8,10 +8,18 @@ import { Pressable } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { router } from 'expo-router';
+import { getPins } from '../api/pins';
 
 export default function Pins() {
     const [filter, setFilter] = useState(FILTERS[0])
     const { color } = useContext(ThemeContext)
+    const [POSTS, setPOSTS] = useState([]);
+
+    useEffect(() => {
+        getPins().then((data) => {
+            setPOSTS(data);
+        });
+    }, [])
     return (
         <Main>
             <Scroll stickyHeaderIndices={[1]}>

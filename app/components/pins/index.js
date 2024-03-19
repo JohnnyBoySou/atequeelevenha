@@ -1,15 +1,40 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useRef } from "react"
 import { Image,  View, StyleSheet, ScrollView, Pressable } from "react-native"
 import { AntDesign, Feather } from "@expo/vector-icons"
 import { Row, Title, Column } from '@theme/global';
 import { ThemeContext } from 'styled-components/native';
-import { MotiView } from 'moti';
+import { MotiImage, MotiView } from 'moti';
 import { addPin, deletePin, verifyPin } from "../../hooks/usePin";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 
 export function PostsList({ posts, filter }) {
 
     const { color, font} = useContext(ThemeContext)
+    const detailsRef = useRef(null);
+    const [select, setSelect] = useState(posts[0]);
+    const [selectAspect, setselectAspect] = useState();
+    const [selectPin, setselectPin] = useState(false);
+
+
+    const toggleSelectPin = () => { 
+            if(pined){
+                deletePin(select).then((res) => {
+                    setselectPin(res)
+                })
+            }else{
+                addPin(select).then((res) => {
+                    setselectPin(res)
+                })
+            }
+         }
+
+        useEffect(() => {
+            verifyPin(select).then((res) => {
+                setselectPin(res)
+            })
+        }, [select])
+
     const [active, setactive] = useState(false);
     const filteredPosts = filter === 'Tudo' ? posts : posts.filter((post) => post.tag === filter)
 
@@ -24,6 +49,7 @@ export function PostsList({ posts, filter }) {
     function Post({ post, active }) {
         const [pined, setpined] = useState(false);
         const [aspectRatio, setAspectRatio] = useState(1)
+        const [isOpen, setisOpen] = useState(false);
         useEffect(() => {
             if (post?.image) {
                 Image.getSize(post.image, (width, height) => {
@@ -31,7 +57,6 @@ export function PostsList({ posts, filter }) {
                 })
             }
             verifyPin(post).then((res) => {
-                console.log(res)
                 setpined(res)
             })
         }, [])
@@ -43,38 +68,49 @@ export function PostsList({ posts, filter }) {
                 })
             }else{
                 addPin(post).then((res) => {
-                    console.log(res)
                     setpined(res)
                 })
             }
          }
 
+         const toggleModal = () => { 
+            if(isOpen) {
+                detailsRef.current?.close()
+                setisOpen(false)
+            } else{
+                setselectAspect(aspectRatio)
+                detailsRef.current?.expand()
+                setisOpen(true)
+            }
+          }
 
-        return (
-        <Column style={{ marginBottom: 12, }}>
+
+    return (
+        <Pressable onPress={() => {setSelect(post); toggleModal()}}  style={{ marginBottom: 12, }}>
             <Image
             source={{ uri: post.image }}
             style={[styles.image, { aspectRatio }]}
             />
             {active ? <></> :
             <Row style={{justifyContent: 'space-between', alignItems: 'center',}}>
-                <Title style={{color: color.title, fontSize: 18, letterSpacing: 0, marginTop: 4,}}>{post.title}</Title>
+                <Title style={{color: color.title, fontSize: 16, letterSpacing: 0, marginTop: 4, fontFamily: font.book,}}>{post.title.slice(0,19)}</Title>
                 <Pressable onPress={togglePin} style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', }}>
                     <AntDesign name={pined ? 'heart' : 'hearto'} size={24} color={color.red} />
                 </Pressable>
             </Row>}
-        </Column>
+        </Pressable>
         )
     }
+
+
     return (
+        <>
       <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={{gap: 12,}} style={{ paddingBottom: 50, marginHorizontal: 20, }}>
         <Row>
             <MotiView from={{opacity: 0, translateY: 30}} animate={{opacity: 1, translateY: 0,}} style={{flex:1, marginBottom: 12, paddingTop: 10, marginRight: 10,}}> 
                 {postsByColumn("left")}
             </MotiView>
             <MotiView from={{opacity: 0, translateY: 50}} animate={{opacity: 1, translateY: 0,}} style={{flex:1, marginBottom: 12, paddingTop: 20, marginLeft: 10,}} transition={{delay: 300,}}> 
-               
-               
                <Column style={{ backgroundColor: active ? color.secundary : color.primary, padding: 12, borderRadius: 12, marginBottom: 20, }}>
                     <Pressable onPress={() => {setactive(!active)}} >
                         <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
@@ -83,13 +119,28 @@ export function PostsList({ posts, filter }) {
                                 <Column style={{ width: 26, height: 26, backgroundColor: active ? color.secundary : color.primary, borderRadius: 100, alignSelf: active ? 'flex-end' : 'flex-start', marginHorizontal: 8,}}/>
                             </Column>
                         </Row>
-
                     </Pressable>
                </Column>
                {postsByColumn("right")}
             </MotiView>
         </Row>
+
+        <BottomSheet  detached={false}  ref={detailsRef} snapPoints={[0.1, '90%']}   backgroundStyle={{backgroundColor: color.background, }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
+          <BottomSheetScrollView>
+            <Column>
+                <MotiImage from={{opacity: 0, translateY: 30}} animate={{opacity: 1, translateY: 0,}} style={{ width: '100%', aspectRatio: selectAspect, borderRadius: 18, marginBottom: 20, }} source={{ uri: select?.image }} />
+                <Row>
+                    <Title style={{ fontSize: 24, letterSpacing: 0, marginTop: 4, fontFamily: font.medium, width: '90%'}}>{select?.title}</Title>
+                    <Pressable onPress={toggleSelectPin} style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', }}>
+                        <AntDesign name={selectPin ? 'heart' : 'hearto'} size={24} color={color.red} />
+                    </Pressable>
+                </Row>
+            </Column>
+            </BottomSheetScrollView>
+        </BottomSheet>
       </ScrollView>
+      </>
+
     )
   }
 
