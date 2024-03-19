@@ -5,8 +5,8 @@
     "version": "1.9.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "schema": "atequeelevenha",
     "userInterfaceStyle": "automatic",
+    "scheme": "atequeelevenha",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
