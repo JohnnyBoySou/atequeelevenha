@@ -16,6 +16,7 @@ export default{
     title: "#FFFFFF",
     label: "#cccccc",
 
+    off: '#303030',
     light: "#FFFFFF",
     background: "#171717",
 

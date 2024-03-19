@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Até que Ele venha",
+    "name": "Ate que Ele venha",
     "slug": "atequeelevenha",
-    "version": "1.7.0",
+    "version": "1.9.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "schema": "com.joaosousa.atequeelevenha",
+    "schema": "atequeelevenha",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",

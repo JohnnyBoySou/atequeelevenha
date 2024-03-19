@@ -46,7 +46,7 @@ export default function HomePage({ navigation }) {
             </MotiView>
 
             <Scroll>
-                <Row style={{ paddingTop: 40, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
+                <Row style={{ paddingTop: 0, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
                     <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff', borderColor: color.title, width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
                         {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius: 12, backgroundColor: color.title, }} />
                             <Column style={{ width: 20, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} />
@@ -142,9 +142,9 @@ const Shorts = ({ shorts }) => {
                 style={{ marginHorizontal: -20, }}
                 horizontal
                 decelerationRate={0.8}
-                ListFooterComponent={<Pressable onPress={() => { navigation.navigate('Reels') }} style={{ width: 200, height: 272, justifyContent: 'center', alignItems: 'center', backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16, }}>
+                ListFooterComponent={<Pressable onPress={() => { router.navigate('reels_scroll') }} style={{ width: 200, height: 272, justifyContent: 'center', alignItems: 'center', backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16, }}>
                     <AntDesign name="pluscircle" size={64} color="#fff" />
-                    <Pressable onPress={() => { navigation.navigate('Reels') }} style={{ paddingHorizontal: 16, paddingVertical: 8, marginTop: 12, backgroundColor: "#f7f7f730", borderRadius: 100, }}>
+                    <Pressable onPress={() => { router.navigate('reels_scroll') }} style={{ paddingHorizontal: 16, paddingVertical: 8, marginTop: 12, backgroundColor: "#f7f7f730", borderRadius: 100, }}>
                         <Label>Ver mais</Label>
                     </Pressable>
                 </Pressable>}

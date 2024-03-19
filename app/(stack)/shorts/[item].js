@@ -1,13 +1,11 @@
 import React, { useState, useRef, useContext } from "react";
-import { AnimatePresence, MotiImage, MotiView } from "moti";
-import { Column, Label, Main, Title, Row, Scroll } from "../../theme/global";
+import { AnimatePresence, MotiView } from "moti";
+import { Column, Label, Main, Title, Row } from "../../theme/global";
 import { Dimensions, Pressable, ScrollView } from "react-native";
 import { AntDesign, FontAwesome6, MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
-
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 const { width, height } = Dimensions.get('window');
 
-import Slider from '@react-native-community/slider';
 import { Video, ResizeMode } from 'expo-av';
 import { ThemeContext } from "styled-components/native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -105,18 +103,6 @@ export default function ShortDetails({ route, navigation,  }) {
           </Row>
 
           
-
-          <Column style={{ backgroundColor: "#303030", width: 170, alignSelf: 'center',  borderRadius: 100, marginHorizontal: 20,}}>
-              <Slider
-                style={{width: 100, height: 50, transform: [{ scaleX: 1.5 }, { scaleY: 1.5 },], marginHorizontal: 34,   }}
-                minimumValue={0}
-                maximumValue={1}
-                minimumTrackTintColor="#FFFFFF"
-                maximumTrackTintColor="#D7D7D7"
-                thumbTintColor="#3E59AE"
-                onValueChange={(value) => video.current.setVolumeAsync(value)}
-              />
-            </Column>
 
 
             </Column>

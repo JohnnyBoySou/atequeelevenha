@@ -70,15 +70,4 @@ export const POSTS = [
       tag: "Setup",
     },
   ]
-
-  export const FILTERS = [
-    "Tudo",
-    "UI Clone",
-    "Setup",
-    "Gamer",
-    "Escritório",
-    "Casa",
-    "Mobile",
-    "Inspirações",
-    "Interfaces",
-  ]
+export const FILTERS = ["Tudo", "Deus", "Inspiração", "Bom dia", "Motivação", "Versículos", "Ensinamentos"];

@@ -33,42 +33,42 @@ export default function PreyPage({navigation }) {
  return (
         <Main>
             <Scroll >
-                <Column style={{ paddingVertical: 42, paddingHorizontal: 20, }}>
+                <Column style={{  paddingHorizontal: 20, paddingBottom: 32, }}>
                     <Pressable onPress={() => router.back()} style={{ zIndex: 100, width: 52, height: 52, borderRadius: 100,}}>
-                        <AntDesign name="arrowleft" size={32} color="#fff" />
+                        <AntDesign name="arrowleft" size={32} color={color.title} />
                     </Pressable>
                     <Title style={{ fontSize: 52, }}>Oração</Title>
                     <Label style={{ fontSize: 22, }}>Realize seu pedido de oração</Label>
                     
-                    <Spacer height={32} />
+                    <Spacer height={24} />
                     <Title style={{ fontSize: 28,}}>Nome completo</Title>
-                    <TextInput value={name} onChangeText={setname} placeholderTextColor="#F8F8F890" placeholder='Ex.: João de Jesus'autoComplete='name'  style={{ backgroundColor: "#404040", marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 24, color: "#fff", fontFamily: 'Font_Medium', borderWidth: 2, borderColor: name?.includes(' ') ? '#27AE60': '#393939',}}	/>
+                    <TextInput value={name} onChangeText={setname} placeholderTextColor={color.title+30} placeholder='Ex.: João de Jesus'autoComplete='name'  style={{ backgroundColor: color.off, marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 24, color: color.title, fontFamily: 'Font_Medium', borderWidth: 2, borderColor: name?.includes(' ') ? '#27AE60': color.off,}}	/>
                     
                     <Title style={{ fontSize: 28,}}>Telefone</Title>
-                    <TextInput value={telefone} placeholderTextColor="#F8F8F890" placeholder='Ex.: (47) 9 9876-5432' autoComplete='tel' keyboardType='numeric' onChangeText={(text) => handleChange(text)}  style={{ backgroundColor: "#404040", marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 24, color: "#fff", fontFamily: 'Font_Medium', borderWidth: 2, borderColor: telefone?.length == 16 ? '#27AE60': '#393939',}}	/>
+                    <TextInput value={telefone} placeholderTextColor={color.title+30} placeholder='Ex.: (47) 9 9876-5432' autoComplete='tel' keyboardType='numeric' onChangeText={(text) => handleChange(text)}  style={{ backgroundColor: color.off, marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 24, color:color.title, fontFamily: 'Font_Medium', borderWidth: 2, borderColor: telefone?.length == 16 ? '#27AE60': color.off,}}	/>
 
                     <Title style={{ fontSize: 28, marginBottom: 12,}}>É direcionado a quem</Title>
                     <Row style={{ justifyContent: 'space-evenly', alignItems: 'center',  }}>
                         <Column>
-                            <Pressable onPress={() => {setWho('myself')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'myself' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
+                            <Pressable onPress={() => {setWho('myself')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'myself' ? "#27AE60" : color.off, justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/whatsapp/116/person-bowing-deeply_1f647.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
                             <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>A mim</Title>
                         </Column>
                         <Column>
-                            <Pressable onPress={() => {setWho('family')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'family' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
+                            <Pressable onPress={() => {setWho('family')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'family' ? "#27AE60" : color.off, justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/whatsapp/390/family-man-woman-boy_1f468-200d-1f469-200d-1f466.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
                             <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>Família</Title>
                         </Column>
                         <Column>
-                            <Pressable onPress={() => {setWho('friend')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'friend' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
+                            <Pressable onPress={() => {setWho('friend')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'friend' ? "#27AE60" : color.off, justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/apple/391/handshake_1f91d.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
                             <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>Amigo</Title>
                         </Column>
                         <Column>
-                            <Pressable onPress={() => {setWho('other')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'other' ? "#27AE60" : '#303030', justifyContent: 'center', alignItems: 'center',  }}>
+                            <Pressable onPress={() => {setWho('other')}}  style={{ width: 80, height: 80, borderRadius: 12, backgroundColor: who === 'other' ? "#27AE60" : color.off, justifyContent: 'center', alignItems: 'center',  }}>
                                 <Image source={{uri: 'https://em-content.zobj.net/source/apple/391/man-raising-hand_1f64b-200d-2642-fe0f.png'}} style={{ width: 54, height: 54, }} />
                             </Pressable>
                             <Title style={{ fontFamily: font.book,  textAlign: 'center', marginTop: 4, fontSize: 22}}>Conhecido</Title>
@@ -76,14 +76,14 @@ export default function PreyPage({navigation }) {
                     </Row>
                 
                     <Title style={{ fontSize: 28, marginTop: 12,}}>Pedido</Title>
-                    <TextInput value={pedido} maxLength={300} placeholderTextColor="#F8F8F890" placeholder='Escreva o seu pedido' onChangeText={setpedido}  style={{ backgroundColor: "#404040", marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 20, letterSpacing: 0.4, lineHeight: 24, color: "#fff", fontFamily: font.book, borderWidth: 2, borderColor: pedido?.length > 16 ? '#27AE60': '#393939', textAlign: 'left', textAlignVertical: 'top',}}	multiline numberOfLines={6} autoCorrect />
+                    <TextInput value={pedido} maxLength={300} placeholderTextColor={color.title+30} placeholder='Escreva o seu pedido' onChangeText={setpedido}  style={{ backgroundColor: color.off, marginTop: 8,marginBottom: 12, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 12, fontSize: 20, letterSpacing: 0.4, lineHeight: 24, color: color.title, fontFamily: font.book, borderWidth: 2, borderColor: pedido?.length > 16 ? '#27AE60': color.off, textAlign: 'left', textAlignVertical: 'top',}}	multiline numberOfLines={6} autoCorrect />
                     <Label>Limite de letras {pedido?.length}/300</Label>
                 
                     <Row style={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 10,   }}>
-                        <Pressable style={{ paddingHorizontal: 16, paddingVertical: 10, backgroundColor: "#303030", borderRadius: 100, }}>
-                            <Title style={{ color: "#fff", letterSpacing: 0, fontFamily: font.book, fontSize: 20 }}>Salvar e voltar</Title>
+                        <Pressable style={{ paddingHorizontal: 16, paddingVertical: 10, backgroundColor: color.off, borderRadius: 100, }}>
+                            <Title style={{ color: color.title, letterSpacing: 0, fontFamily: font.book, fontSize: 20 }}>Salvar e voltar</Title>
                         </Pressable>
-                        <Pressable onPress={() => {navigation.navigate('Prey')}}  style={{ paddingHorizontal: 32, paddingVertical: 12, borderRadius: 100, backgroundColor: "#27AE60", justifyContent: 'center', alignItems: 'center',  alignSelf:'center' ,}}>
+                        <Pressable onPress={() => {navigation.navigate('Prey')}}  style={{ paddingHorizontal: 32, paddingVertical: 12, borderRadius: 100, backgroundColor: color.green, justifyContent: 'center', alignItems: 'center',  alignSelf:'center' ,}}>
                             <Title style={{ color: "#fff", letterSpacing: -1, }}>Fazer Pedido</Title>
                         </Pressable>
                     </Row>

@@ -6,7 +6,7 @@ import dark from '@theme/dark';
 import light from '@theme/light';
 
 export const unstable_settings = {
-  initialRouteName: 'pins',
+  initialRouteName: 'index',
 };
 
 export default function StackLayout() {

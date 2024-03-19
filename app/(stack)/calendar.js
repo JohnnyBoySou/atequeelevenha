@@ -20,14 +20,14 @@ export default function CalendarPage({ navigation }) {
     const [week, setWeek] = useState('4ª Semana');
     const weeks = ['1ª Semana', '2ª Semana', '3ª Semana', '4ª Semana']
 
-    const { color } = useContext(ThemeContext);
+    const { color, theme } = useContext(ThemeContext);
 
     return (
         <Main>
             <Scroll>
-                <Column style={{ marginHorizontal: 20,  marginVertical: 20,}}>
+                <Column style={{ marginHorizontal: 20, marginBottom: 50,}}>
                     <Pressable onPress={() => router.back()} style={{ zIndex: 100, width: 52, height: 52, borderRadius: 100,}}>
-                        <AntDesign name="arrowleft" size={32} color="#fff" />
+                        <AntDesign name="arrowleft" size={32} color={color.title} />
                     </Pressable>
                     <Row>
                         <Column>
@@ -37,9 +37,9 @@ export default function CalendarPage({ navigation }) {
                         <MotiImage source={require('@assets/imgs/gradient.png')} style={{ width: 530, height: 400, marginTop: -320, }} resizeMode='cover' />
                     </Row>
 
-                <Pressable onPress={() => {adjustDate.current?.open()}}  style={{ flexDirection: 'row', backgroundColor: "#303030", borderRadius: 8, marginBottom: 12, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, }}>
+                <Pressable onPress={() => {adjustDate.current?.open()}}  style={{ flexDirection: 'row', backgroundColor: color.off, borderRadius: 8, marginBottom: 12, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, }}>
                     <Title style={{ fontSize: 32, marginVertical: 20, }}>Essa semana</Title>
-                    <Column style={{ width: 52, height: 52, borderRadius: 6, backgroundColor: color.primary, justifyContent: 'center', alignItems: 'center',  }}>
+                    <Column style={{ width: 52, height: 52, borderRadius: 6, backgroundColor: color.primary, justifyContent: 'center', alignItems: 'center',  marginRight: -10,}}>
                         <AntDesign name='arrowright' size={24} color='#FFFFFF' style={{ }} />
                     </Column>                        
                 </Pressable>
@@ -47,11 +47,11 @@ export default function CalendarPage({ navigation }) {
                 <Row style={{ marginBottom: 4, justifyContent: 'space-between', alignItems: 'center', marginTop: 12,}}>
                     <Title style={{ fontSize: 32, marginVertical: 10, }}>Dias</Title>
                     <Row>
-                        <Pressable style={{ backgroundColor: '#fff', borderRadius: 100, paddingHorizontal: 20, paddingVertical:10, marginRight: 10,}}> 
-                            <Label style={{ color: "#000", }}>{month}</Label>
+                        <Pressable style={{ backgroundColor: color.secundary, borderRadius: 100, paddingHorizontal: 20, paddingVertical:10, marginRight: 10,}}> 
+                            <Label style={{ color: color.title, }}>{month}</Label>
                         </Pressable>
-                        <Pressable style={{ backgroundColor: '#fff', borderRadius: 100, paddingHorizontal: 20, paddingVertical:10, }}> 
-                            <Label style={{ color: "#000", }}>{week}</Label>
+                        <Pressable style={{ backgroundColor: color.secundary, borderRadius: 100, paddingHorizontal: 20, paddingVertical:10, }}> 
+                            <Label style={{ color:color.title, }}>{week}</Label>
                         </Pressable>
                     </Row>
                 </Row>
@@ -73,8 +73,8 @@ export default function CalendarPage({ navigation }) {
                         <FlatList
                             data={months}
                             style={{ height: 300, marginLeft: -30, marginRight: 10,}}
-                            renderItem={({ item, index }) => <Pressable onPress={() => setMonth(item)} style={{ backgroundColor: month === item ? "#3E59AE" : "#303030", paddingVertical: 20, borderRadius: 100, marginVertical: 10, paddingRight: 30, }}>
-                                <Label style={{ color: "#FFFFFF", fontSize: 42, textAlign: 'right' }}>{item}</Label>
+                            renderItem={({ item, index }) => <Pressable onPress={() => setMonth(item)} style={{ backgroundColor: month === item ? "#3E59AE" : color.off, paddingVertical: 20, borderRadius: 100, marginVertical: 10, paddingRight: 30, }}>
+                                <Label style={{ color:  month === item ? "#fff" : color.title, fontSize: 42, textAlign: 'right' }}>{item}</Label>
                             </Pressable>}
                             keyExtractor={item => item}
                             showsVerticalScrollIndicator={false}
@@ -102,16 +102,18 @@ export default function CalendarPage({ navigation }) {
     }
 
 const Days = ({ item }) => { 
+    
+    const { color, theme } = useContext(ThemeContext);
     return(
-        <Column style={{ backgroundColor: item?.status === 'Completo' ? "#3E59AE" : "#303030", padding: 12, borderRadius: 12,  marginTop: 20, paddingHorizontal: 20,}}>
+        <Column style={{ backgroundColor: item?.status === 'Completo' ? "#3E59AE" : color.off, padding: 12, borderRadius: 12,  marginTop: 20, paddingHorizontal: 20,}}>
             <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
-                <Title>{item.date}</Title>
-                <Label style={{ backgroundColor: "#FFFFFF30", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 100,}}>{item.status}</Label>
+                <Title style={{ color: item?.status === 'Completo' ? "#fff" : color.title, letterSpacing: -1, }}>{item.date}</Title>
+                <Label style={{ backgroundColor: "#FFFFFF50", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 100, color: item?.status === 'Completo' ? "#fff" : color.label,}}>{item.status}</Label>
             </Row>
-            <Title style={{ fontSize: 32,  marginVertical: 12,fontFamily: 'Font_Book', }}>{item.tema}</Title>
+            <Title style={{ fontSize: 32,  marginVertical: 12,fontFamily: 'Font_Book', color: item?.status === 'Completo' ? "#fff" : color.title,}}>{item.tema}</Title>
             <Row style={{ justifyContent: 'space-between', alignItems: 'center',  marginTop: 10,}}>
-                <Label>{item.time}</Label>
-                <Label>{item.pastor}</Label>
+                <Label style={{ color: item?.status === 'Completo' ? "#fff" : color.label, }}>{item.time}</Label>
+                <Label style={{ color: item?.status === 'Completo' ? "#fff" : color.label, }}>{item.pastor}</Label>
              </Row>   
         </Column>
     )

@@ -16,7 +16,7 @@ export default{
     title: "#142B74",
     label: "#48588A",
 
-    off: "#F1F3FF",
+    off: "#f5e4ce",
     background: "#FFF7EC",
   },
   size: {

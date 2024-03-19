@@ -5,12 +5,11 @@ import { Slot } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider, } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  const [loaded] = useFonts({
     Font_Book: require('@assets/fonts/Circular_Book.ttf'),
     Font_Medium: require('@assets/fonts/Circular_Medium.ttf'),
     Font_Bold: require('@assets/fonts/Circular_Bold.ttf'),
@@ -25,9 +24,7 @@ export default function RootLayout() {
   if (!loaded) { return null; }
   return(
     <GestureHandlerRootView style={{ flex: 1, }}>
-      <SafeAreaProvider  >
         <Slot/>
-      </SafeAreaProvider>
     </GestureHandlerRootView>
   ) 
 }
