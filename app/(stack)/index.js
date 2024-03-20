@@ -3,13 +3,13 @@ import { Pressable, Dimensions, FlatList, Animated, Image } from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
-import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { ExpandingDot } from "react-native-animated-pagination-dots";
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '@api/days';
 import { getShorts } from '@api/shorts';
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 
 export default function HomePage({ navigation }) {
     const { color, theme, font } = useContext(ThemeContext);

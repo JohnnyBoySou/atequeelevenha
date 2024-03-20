@@ -3,6 +3,7 @@ import {  useColorScheme } from 'react-native'
 import { ThemeProvider } from 'styled-components/native';
 import dark from '@theme/dark';
 import light from '@theme/light';
+import { Stack } from 'expo-router'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -23,6 +24,8 @@ export default function StackLayout() {
         <Stack.Screen name="shorts/[item]"  />
         <Stack.Screen name="prey" />
         <Stack.Screen name="reels_scroll" />
+        <Stack.Screen name="auth" />
+        <Stack.Screen name="editor/index" />
       </Stack>
     </ThemeProvider>
   );

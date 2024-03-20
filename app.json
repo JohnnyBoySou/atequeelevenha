@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "scheme": "atequeelevenha",
+    "scheme": "com.joaosousa.atequeelevenha",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -42,6 +42,9 @@
         {
           "microphonePermission": "Permita o Até que ele venha a acessar o microfone."
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin"
       ]
     ]
   }

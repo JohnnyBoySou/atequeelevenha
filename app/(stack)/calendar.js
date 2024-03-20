@@ -5,6 +5,7 @@ import { MotiImage } from 'moti';
 import { AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { router } from 'expo-router';
+import BottomSheet , { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 export default function CalendarPage({ navigation }) {
     let item = [
@@ -36,10 +37,10 @@ export default function CalendarPage({ navigation }) {
                         <MotiImage source={require('@assets/imgs/gradient.png')} style={{ width: 530, height: 400, marginTop: -320, }} resizeMode='cover' />
                     </Row>
 
-                <Pressable onPress={() => {adjustDate.current?.open()}}  style={{ flexDirection: 'row', backgroundColor: color.off, borderRadius: 8, marginBottom: 12, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, }}>
+                <Pressable onPress={() => {adjustDate.current?.expand()}}  style={{ flexDirection: 'row', backgroundColor: color.off, borderRadius: 8, marginBottom: 12, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, }}>
                     <Title style={{ fontSize: 32, marginVertical: 20, }}>Essa semana</Title>
                     <Column style={{ width: 52, height: 52, borderRadius: 6, backgroundColor: color.primary, justifyContent: 'center', alignItems: 'center',  marginRight: -10,}}>
-                        <AntDesign name='arrowright' size={24} color='#FFFFFF' style={{ }} />
+                        <AntDesign name='arrowright' size={24} color='#FFFFFF'/>
                     </Column>                        
                 </Pressable>
 
@@ -64,8 +65,9 @@ export default function CalendarPage({ navigation }) {
 
                     </Column>                
             </Scroll>
-            <Modalize ref={adjustDate} adjustToContentHeight handlePosition='inside'>
-                <Main style={{ paddingVertical: 20, }}>
+            <BottomSheet ref={adjustDate} snapPoints={[0.1,  480]} style={{ backgroundColor: color.background, }} >
+                <BottomSheetScrollView style={{ backgroundColor: color.background, }}>
+                    <Column>
                     <Title style={{ marginLeft: 20, }}>Calendário</Title>
                     <Label style={{ marginLeft: 20, marginBottom: 10,}}>Escolha o mês e a semana</Label>
                     <Row style={{ marginVertical: 10, }}>
@@ -93,9 +95,11 @@ export default function CalendarPage({ navigation }) {
                     <Pressable onPress={() => {adjustDate.current?.close()}} >
                         <Label style={{ backgroundColor: "#3E59AE", alignSelf:'center', borderRadius: 100, paddingVertical: 12, paddingHorizontal: 32, textAlign: 'center', color: "#FFFFFF", }}>Salvar</Label>
                     </Pressable>
-                </Main>
+                    </Column>
 
-            </Modalize>
+                </BottomSheetScrollView>
+
+            </BottomSheet>
         </Main>
     )
     }

@@ -47,7 +47,7 @@ export default function () {
 
     function onEndSplash(){
         setTimeout(() => {
-            router.push('/(stack)');
+            router.push('/(stack)/auth');
         }, 1300);
     }
     return (

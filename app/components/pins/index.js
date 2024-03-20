@@ -125,7 +125,7 @@ export function PostsList({ posts, filter }) {
             </MotiView>
         </Row>
 
-        <BottomSheet  detached={false}  ref={detailsRef} snapPoints={[0.1, '90%']}   backgroundStyle={{backgroundColor: color.background, }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
+        <BottomSheet  detached={false}  ref={detailsRef} snapPoints={[0.1, 500]}   backgroundStyle={{backgroundColor: color.background, }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
           <BottomSheetScrollView>
             <Column>
                 <MotiImage from={{opacity: 0, translateY: 30}} animate={{opacity: 1, translateY: 0,}} style={{ width: '100%', aspectRatio: selectAspect, borderRadius: 18, marginBottom: 20, }} source={{ uri: select?.image }} />
