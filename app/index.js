@@ -51,11 +51,11 @@ export default function () {
         const user = await AsyncStorage.getItem('user')
         setTimeout(() => {
             if (user) {
-                router.push('/(stack)/auth');
+                router.push('/(stack)');
                 return;
             }
             else{
-                router.push('/(stack)/onboarding');
+                router.push('/(stack)/auth');
             }
         }, 1300);
     }

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { Pressable, Dimensions, FlatList, Animated, Image } from 'react-native';
+import { Pressable, Dimensions, FlatList, Animated, Image , ActivityIndicator} from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
@@ -38,7 +38,11 @@ export default function HomePage({ navigation }) {
         getUser()
         toggleAnimation.transitionTo('close'); settabIsOpen(false)
     }, [])
-    if (loading) { return <Main><Label>Carregando...</Label></Main> }
+    if (loading) { return <Main >
+        <Column style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }}>
+            <ActivityIndicator size={142} color="#142B74" />
+        </Column>
+        </Main> }
     return (
         <Main>
 
@@ -50,10 +54,15 @@ export default function HomePage({ navigation }) {
             </MotiView>
 
             <Scroll>
+                <MotiView from={{opacity: 0, translateY: -50,}} animate={{ opacity: 1, translateY: 0,}}>
+
                 <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
-                    <HeadTitle style={{ lineHeight: 36, fontSize: 32, zIndex: 99,}}>
-                    {saudacao()}, {'\n'}{user?.nome}
-                    </HeadTitle>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                        <Image source={{ uri: user?.avatar }} style={{ width: 52, height: 52, borderRadius: 100, marginRight: 10, }} />
+                        <HeadTitle style={{ lineHeight: 26, fontSize: 28, zIndex: 99,}}>
+                        {saudacao()}, {'\n'}{user?.nome}
+                        </HeadTitle>
+                    </Row>
 
                     <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff', borderColor: color.title, width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
                         {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius: 12, backgroundColor: color.title, }} />
@@ -61,12 +70,18 @@ export default function HomePage({ navigation }) {
                             <Column style={{ width: 25, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} /></Column> : <AntDesign name="close" size={28} color="#000" />}
                     </Pressable>
                 </Row>
+                </MotiView>
+
+
+                <MotiView from={{opacity: 0, translateY: 50,}} animate={{ opacity: 1, translateY: 0,}} transition={{delay: 300,}}>
 
                 <Column>
                     <MotiImage source={banner} style={{ width: '100%', height: 310, marginTop: -20,}} resizeMode='contain' />
                     <Label style={{ fontSize: 22, lineHeight: 24, marginTop: -30, textAlign: 'center', width: 300, alignSelf: 'center' }}>Vamos te mostrar um novo jeito de ver e sentir a palavra de Deus.</Label>
                 </Column>
+                </MotiView>
 
+                <MotiView from={{opacity: 0, translateY: 50,}} animate={{ opacity: 1, translateY: 0,}} transition={{delay: 700,}}>
                 <Column style={{ paddingHorizontal: 20, marginVertical: 20, }}>
                     <HeadTitle>Palavra do dia</HeadTitle>
                     <Spacer height={12} />
@@ -91,6 +106,8 @@ export default function HomePage({ navigation }) {
                     <Prayer />
                     <Spacer height={244} />
                 </Column>
+                </MotiView>
+
             </Scroll>
         </Main>
     )

@@ -36,7 +36,7 @@ export default function PostPage( ) {
         <Main>
               <Column>
                 <Row style={{ justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, backgroundColor: color.primary, paddingVertical: 24, borderBottomRightRadius: 16,}}>
-                    <Title style={{fontSize: 32, }}>{item.title}</Title>
+                    <Title style={{fontSize: 32, color: "#f7f7f7",}}>{item.title}</Title>
                     <Label style={{fontSize: 24, color: "#f7f7f7", }}>{item.time}</Label>
                 </Row>
                 <Row style={{ marginTop: -2, }}>
@@ -44,7 +44,7 @@ export default function PostPage( ) {
                     <Column style={{  paddingHorizontal: 20, backgroundColor: color.primary, paddingBottom: 20, borderBottomRightRadius: 16,}}>
                         {complete ? 
                             <MotiView from={{translateX: 20, opacity: 0.5}} animate={{ translateX: 0, opacity: 1,}} style={{ marginRight: -14, marginBottom: 2, }}>
-                                <Title>Parabéns! </Title>
+                                <Title style={{ color: "#f7f7f7", }}>Parabéns! </Title>
                                 <Label style={{ color: "#f7f7f7", fontSize: 20, }}>Você completou mais um dia! {"\n"}Bora compartilhar com um amigo        </Label> 
                             </MotiView>
                             : <>
@@ -87,10 +87,10 @@ export default function PostPage( ) {
                 </Column>
 
                 <Column style={{ backgroundColor: color.primary, paddingVertical: 32, borderRadius: 32, paddingHorizontal: 20, }}>
-                    <Title style={{ fontSize: 52, fontFamily: font.book, }}>Mais um dia {"\n"}Completo</Title>
+                    <Title style={{ fontSize: 52, fontFamily: font.book, color: "#f7f7f7", }}>Mais um dia {"\n"}Completo</Title>
                     <Label style={{ color: "#f7f7f7", fontSize: 20, }}>Mas isso é só o começo viu, tem muito por vir!</Label>
                     <Spacer height={20}/>
-                    <Title>Veja novamente</Title>
+                    <Title style={{ color: "#f7f7f7", }}>Veja novamente</Title>
 
                     <FlatList
                         data={lastDays}
@@ -106,10 +106,10 @@ export default function PostPage( ) {
                     />
 
                     <Spacer height={20}/>
-                    <Title>Nós siga nas redes sociais</Title>
+                    <Title style={{ color: "#f7f7f7", }}>Nós siga nas redes sociais</Title>
                     
                     <Spacer height={20}/>
-                    <Title>Continue</Title>
+                    <Title style={{ color: "#f7f7f7", }}>Continue</Title>
                     <Spacer height={12}/>
                     <Row>
                         <Pressable style={{ borderWidth: 2, borderColor: "#fff", backgroundColor: "#ffffff30", borderRadius: 100, flexGrow: 1, paddingVertical: 14, justifyContent: 'center', alignItems: 'center',  }}>
