@@ -1,10 +1,12 @@
 import 'react-native-reanimated';
+import 'expo-dev-client'    
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { Slot } from 'expo-router';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StatusBar } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,6 +26,7 @@ export default function RootLayout() {
   if (!loaded) { return null; }
   return(
     <GestureHandlerRootView style={{ flex: 1, }}>
+        <StatusBar barStyle="dark-content" translucent />
         <Slot/>
     </GestureHandlerRootView>
   ) 

@@ -7,7 +7,7 @@ import { ThemeContext } from 'styled-components/native';
 import { router } from 'expo-router';
 import BottomSheet , { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
-export default function CalendarPage({ navigation }) {
+export default function CalendarPage({ }) {
     let item = [
         {date: '22 de Junho', status: 'Incompleto', time: 'às 10:00h', pastor: 'Pastor João Sousa', tema: 'O que Deus nos orienta'},
         {date: '23 de Junho', status: 'Completo', time: 'às 10:00h', pastor: 'Pastor João Sousa', tema: 'As mudanças na nossa vida'},

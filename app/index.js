@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Column, Scroll } from '@theme/global';
+import React, { useEffect } from 'react';
+import { Column } from '@theme/global';
 import Animated, { useSharedValue, withSequence, withTiming, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
-import { Image, StyleSheet, useWindowDimensions, useColorScheme } from 'react-native';
+import { StyleSheet, useWindowDimensions, useColorScheme } from 'react-native';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function () {
@@ -45,9 +47,16 @@ export default function () {
         logoAnimation();
     }, [])
 
-    function onEndSplash(){
+   async function onEndSplash(){
+        const user = await AsyncStorage.getItem('user')
         setTimeout(() => {
-            router.push('/(stack)/auth');
+            if (user) {
+                router.push('/(stack)/auth');
+                return;
+            }
+            else{
+                router.push('/(stack)/onboarding');
+            }
         }, 1300);
     }
     return (

@@ -8,7 +8,8 @@
         "@pages/*": ["app/pages/*"],
         "@api/*": ["app/api/*"],
         "@hooks/*": ["app/hooks/*"],
-        "@theme/*": ["app/theme/*"]
+        "@theme/*": ["app/theme/*"],
+        "@env": ["../app/env"]
       }
     }
   }

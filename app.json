@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ate que Ele venha",
     "slug": "atequeelevenha",
-    "version": "1.9.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -23,7 +23,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFF7EC"
       },
-      "package": "com.joaosousa.atequeelevenha"
+      "package": "com.joaosousa.atequeelevenha",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -36,16 +37,10 @@
       }
     },
     "plugins": [
-      "expo-router",
-      [
-        "expo-av",
-        {
-          "microphonePermission": "Permita o Até que ele venha a acessar o microfone."
-        }
-      ],
-      [
-        "@react-native-google-signin/google-signin"
-      ]
+      [ "expo-router" ],
+      [ "expo-av", { "microphonePermission": "Permita o Até que ele venha a acessar o microfone."  } ],
+      [ "expo-dev-launcher", { "launchModeExperimental": "most-recent"  } ], 
+      [ "expo-build-properties" ]
     ]
   }
 }

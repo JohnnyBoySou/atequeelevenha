@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "633985811853",
+    "project_id": "atequeelevenha",
+    "storage_bucket": "atequeelevenha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633985811853:android:fed89f335fdcfd3da829c4",
+        "android_client_info": {
+          "package_name": "com.joaosousa.atequeelevenha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633985811853-8ihjlsbm15iarol1hik0u63kbngr8tnc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joaosousa.atequeelevenha",
+            "certificate_hash": "6bd00146da44a6c6de77492e190fe935563fc40d"
+          }
+        },
+        {
+          "client_id": "633985811853-be8t49k06ittuieblinva9737225lql3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQvLEYfuJGZEucacd-3xfz-2wlKAmRNCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633985811853-be8t49k06ittuieblinva9737225lql3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

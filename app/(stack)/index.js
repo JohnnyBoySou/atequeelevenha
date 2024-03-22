@@ -4,27 +4,30 @@ import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@the
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
 import { AntDesign } from '@expo/vector-icons';
-import { ExpandingDot } from "react-native-animated-pagination-dots";
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '@api/days';
 import { getShorts } from '@api/shorts';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomePage({ navigation }) {
     const { color, theme, font } = useContext(ThemeContext);
-    function formatarData(data) { const meses = ['Jan', 'Fev', 'Março', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']; const dia = data.getDate(); const mes = meses[data.getMonth()]; const ano = data.getFullYear(); return `${dia} de ${mes}`; }
-    const day = formatarData(new Date())
     const banner = theme == 'dark' ? require('@assets/imgs/wide.png') : require('@assets/imgs/wide_light.png')
     const [data, setdata] = useState([]);
     const [shorts, setshorts] = useState([]);
+    const [user, setuser] = useState();
 
     const [tabIsOpen, settabIsOpen] = useState(false);
-    const toggleAnimation = useAnimationState({ close: { translateX: width, }, open: { translateX: 120, }, });
+    const toggleAnimation = useAnimationState({ close: { translateX: width + 20, }, open: { translateX: 120, }, });
     const [loading, setloading] = useState(true);
-
+    const saudacao = () => { const hora = new Date().getHours(); if (hora >= 0 && hora < 12) { return 'Bom dia' } else if (hora >= 12 && hora < 18) { return 'Boa tarde' } else { return 'Boa noite' } }
     const toggleOpen = () => { if (tabIsOpen) { toggleAnimation.transitionTo('close'); settabIsOpen(false) } else { toggleAnimation.transitionTo('open'); settabIsOpen(true) } }
 
+    const getUser = async () => { 
+        const user = await AsyncStorage.getItem('user')
+        setuser(JSON.parse(user))
+     }
     useEffect(() => {
         setloading(true)
         const fetchData = () => {
@@ -32,6 +35,7 @@ export default function HomePage({ navigation }) {
             getShorts().then((res) => { setshorts(res); })
         }
         fetchData()
+        getUser()
         toggleAnimation.transitionTo('close'); settabIsOpen(false)
     }, [])
     if (loading) { return <Main><Label>Carregando...</Label></Main> }
@@ -46,7 +50,11 @@ export default function HomePage({ navigation }) {
             </MotiView>
 
             <Scroll>
-                <Row style={{ paddingTop: 0, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
+                <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
+                    <HeadTitle style={{ lineHeight: 36, fontSize: 32, zIndex: 99,}}>
+                    {saudacao()}, {'\n'}{user?.nome}
+                    </HeadTitle>
+
                     <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff', borderColor: color.title, width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
                         {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius: 12, backgroundColor: color.title, }} />
                             <Column style={{ width: 20, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} />
@@ -55,7 +63,7 @@ export default function HomePage({ navigation }) {
                 </Row>
 
                 <Column>
-                    <MotiImage source={banner} style={{ width: '100%', height: 300, marginTop: -20, }} resizeMode='contain' />
+                    <MotiImage source={banner} style={{ width: '100%', height: 310, marginTop: -20,}} resizeMode='contain' />
                     <Label style={{ fontSize: 22, lineHeight: 24, marginTop: -30, textAlign: 'center', width: 300, alignSelf: 'center' }}>Vamos te mostrar um novo jeito de ver e sentir a palavra de Deus.</Label>
                 </Column>
 
@@ -153,29 +161,8 @@ const Shorts = ({ shorts }) => {
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false, }
                 )}
             />
-            <Column style={{ marginTop: 60, marginBottom: -20, }}>
-                <ExpandingDot
-                    data={shorts.slice(0, 3)}
-                    expandingDotWidth={30}
-                    scrollX={scrollX}
-                    inActiveDotOpacity={0.8}
-                    activeDotColor={color.primary}
-                    inActiveDotColor={color.secundary}
-                    dotStyle={{
-                        width: 12,
-                        height: 12,
-                        borderRadius: 100,
-                        marginHorizontal: 6,
-                    }}
-                    containerStyle={{
-                        backgroundColor: color.secundary + 40,
-                        padding: 12,
-                        right: 0,
-                        bottom: 6,
-                        borderRadius: 100,
-                    }}
-                />
-            </Column>
+            
+
         </Column>
     )
 }
@@ -254,7 +241,7 @@ const SideBar = () => {
 const Pins = () => {
 
     return (
-        <Pressable onPress={() => {router.navigate('pins')}} style={{ justifyContent: 'center', alignItems: 'center',  alignSelf: 'center' }}>
+        <Pressable onPress={() => {router.navigate('pins/home')}} style={{ justifyContent: 'center', alignItems: 'center',  alignSelf: 'center' }}>
             <Row style={{ marginTop: 10, }}>
                 <Image source={{uri: 'https://i.pinimg.com/564x/e8/e6/40/e8e64037177233eb55079c088c543a7d.jpg'}} style={{  width: '47%', alignSelf: 'flex-start', height: 270, backgroundColor: "#252525", borderRadius: 24, }} />
                 <Spacer height={6} width={10} />

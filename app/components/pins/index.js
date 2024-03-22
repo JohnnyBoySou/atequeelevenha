@@ -4,8 +4,9 @@ import { AntDesign, Feather } from "@expo/vector-icons"
 import { Row, Title, Column } from '@theme/global';
 import { ThemeContext } from 'styled-components/native';
 import { MotiImage, MotiView } from 'moti';
-import { addPin, deletePin, verifyPin } from "../../hooks/usePin";
+import { addPin, deletePin, verifyPin } from "@hooks/usePin";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { router } from "expo-router";
 
 
 export function PostsList({ posts, filter }) {
@@ -73,20 +74,11 @@ export function PostsList({ posts, filter }) {
             }
          }
 
-         const toggleModal = () => { 
-            if(isOpen) {
-                detailsRef.current?.close()
-                setisOpen(false)
-            } else{
-                setselectAspect(aspectRatio)
-                detailsRef.current?.expand()
-                setisOpen(true)
-            }
-          }
+       
 
 
     return (
-        <Pressable onPress={() => {setSelect(post); toggleModal()}}  style={{ marginBottom: 12, }}>
+        <Pressable onPress={() => router.navigate({pathname: '/(stack)/pins/[item]', params: { it: JSON.stringify(post), }})}  style={{ marginBottom: 12, }}>
             <Image
             source={{ uri: post.image }}
             style={[styles.image, { aspectRatio }]}
@@ -125,19 +117,6 @@ export function PostsList({ posts, filter }) {
             </MotiView>
         </Row>
 
-        <BottomSheet  detached={false}  ref={detailsRef} snapPoints={[0.1, 500]}   backgroundStyle={{backgroundColor: color.background, }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
-          <BottomSheetScrollView>
-            <Column>
-                <MotiImage from={{opacity: 0, translateY: 30}} animate={{opacity: 1, translateY: 0,}} style={{ width: '100%', aspectRatio: selectAspect, borderRadius: 18, marginBottom: 20, }} source={{ uri: select?.image }} />
-                <Row>
-                    <Title style={{ fontSize: 24, letterSpacing: 0, marginTop: 4, fontFamily: font.medium, width: '90%'}}>{select?.title}</Title>
-                    <Pressable onPress={toggleSelectPin} style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', }}>
-                        <AntDesign name={selectPin ? 'heart' : 'hearto'} size={24} color={color.red} />
-                    </Pressable>
-                </Row>
-            </Column>
-            </BottomSheetScrollView>
-        </BottomSheet>
       </ScrollView>
       </>
 
