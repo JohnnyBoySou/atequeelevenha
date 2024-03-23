@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Column, Row, Main, Scroll, Title, Label, } from '@theme/global';
-import { Pressable, Image, Dimensions, ImageBackground } from 'react-native';
+import { Pressable, Image,  ImageBackground } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { MotiImage, MotiView } from 'moti';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -8,7 +8,8 @@ import { verifyPin } from '@hooks/usePin';
 import { ThemeContext } from 'styled-components/native';
 import { deletePin, addPin } from '@hooks/usePin';
 
-const { width, height } = Dimensions.get('window')
+
+
 
 export default function PinDetails() {
     const { color, font	} = useContext(ThemeContext)
@@ -40,6 +41,9 @@ export default function PinDetails() {
         }
      }
 
+
+   
+
     return (
         <Main>
             <Scroll>
@@ -56,14 +60,15 @@ export default function PinDetails() {
                     </Pressable>
 
                     <Title style={{ fontSize: 24, width: '70%', marginHorizontal: 12, letterSpacing: -1, fontFamily: font.medium, marginVertical: 12,}}>{item?.title}</Title>
-                   
+
                     </Row>
                    
-                   
+
                     <Pressable onPress={togglePin} style={{ paddingVertical: 10, flexDirection: 'row', paddingHorizontal: 20, alignSelf:'center', borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: like ? color.red : color.red+20, }}>
                         <Title style={{ color: like ? "#fff" : color.red, marginRight: 6,}}>{like ? 'Curtido' : 'Curtir'}</Title>
                         <AntDesign name={like ? 'heart' : 'hearto'} size={22} color={like ? "#FFF" : color.red} />
                     </Pressable>
+                  
                 </MotiView>
             </Scroll>
         </Main>

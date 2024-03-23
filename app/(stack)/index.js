@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { Pressable, Dimensions, FlatList, Animated, Image , ActivityIndicator} from 'react-native';
+import { Pressable, Dimensions, FlatList, Animated, Image , ActivityIndicator, NativeModules } from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
@@ -11,9 +11,10 @@ import { getShorts } from '@api/shorts';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function HomePage({ navigation }) {
+export default function HomePage({  }) {
     const { color, theme, font } = useContext(ThemeContext);
     const banner = theme == 'dark' ? require('@assets/imgs/wide.png') : require('@assets/imgs/wide_light.png')
+    const [dark, setdark] = useState(false);
     const [data, setdata] = useState([]);
     const [shorts, setshorts] = useState([]);
     const [user, setuser] = useState();
@@ -28,16 +29,30 @@ export default function HomePage({ navigation }) {
         const user = await AsyncStorage.getItem('user')
         setuser(JSON.parse(user))
      }
+
     useEffect(() => {
         setloading(true)
-        const fetchData = () => {
+        const fetchData = async () => {
+           
             getDays().then((res) => { setdata(res); setloading(false) })
             getShorts().then((res) => { setshorts(res); })
         }
         fetchData()
         getUser()
         toggleAnimation.transitionTo('close'); settabIsOpen(false)
+        
     }, [])
+ 
+
+    const changeTheme = async () => { 
+        const storedTheme = await AsyncStorage.getItem('theme');
+        const tm = storedTheme === 'light' ? 'dark' : 'light';
+        await AsyncStorage.setItem('theme', tm);
+        setdark(tm == 'dark' ? true : false) 
+    }
+
+ 
+
     if (loading) { return <Main >
         <Column style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }}>
             <ActivityIndicator size={142} color="#142B74" />
@@ -46,30 +61,36 @@ export default function HomePage({ navigation }) {
     return (
         <Main>
 
-            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: color.background, zIndex: 99, }} >
-                <Pressable onPress={toggleOpen} style={{ marginRight: 8, alignSelf: 'flex-start', top: 40, left: 20, width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: "#fff", zIndex: 99, }}>
-                    <AntDesign name="close" size={24} color="#000" />
-                </Pressable>
+            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: theme == dark ? "#303030" : "#FFE2BA", zIndex: 99, }} >
+                <Row style={{ justifyContent: 'space-between', alignItems: 'center', width: 240,   marginTop: 50, marginLeft:20,}}>
+                    <Pressable onPress={toggleOpen} style={{ marginRight: 8,  width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: "#fff", zIndex: 99, }}>
+                        <AntDesign name="close" size={24} color="#000" />
+                    </Pressable>
+                    <Pressable onPress={changeTheme} > 
+                    <Column style={{ width: 70, height: 40, backgroundColor: dark ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
+                        <Column style={{ width: 26, height: 26, backgroundColor: dark ? "#fff" : "#969696", borderRadius: 100, alignSelf: dark ? 'flex-end' : 'flex-start', marginHorizontal: 8,}}/>
+                    </Column>
+                    </Pressable>
+                </Row>
                 <SideBar />
             </MotiView>
 
             <Scroll>
                 <MotiView from={{opacity: 0, translateY: -50,}} animate={{ opacity: 1, translateY: 0,}}>
+                    <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
+                        <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                            <Image source={{ uri: user?.avatar }} style={{ width: 52, height: 52, borderRadius: 100, marginRight: 10, }} />
+                            <HeadTitle style={{ lineHeight: 26, fontSize: 24, zIndex: 99, marginLeft: 6,}}>
+                            {saudacao()}, {'\n'}{user?.nome}
+                            </HeadTitle>
+                        </Row>
 
-                <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
-                        <Image source={{ uri: user?.avatar }} style={{ width: 52, height: 52, borderRadius: 100, marginRight: 10, }} />
-                        <HeadTitle style={{ lineHeight: 26, fontSize: 28, zIndex: 99,}}>
-                        {saudacao()}, {'\n'}{user?.nome}
-                        </HeadTitle>
+                        <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff', borderColor: color.title, width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
+                            {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius: 12, backgroundColor: color.title, }} />
+                                <Column style={{ width: 20, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} />
+                                <Column style={{ width: 25, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} /></Column> : <AntDesign name="close" size={28} color="#000" />}
+                        </Pressable>
                     </Row>
-
-                    <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff', borderColor: color.title, width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
-                        {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius: 12, backgroundColor: color.title, }} />
-                            <Column style={{ width: 20, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} />
-                            <Column style={{ width: 25, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} /></Column> : <AntDesign name="close" size={28} color="#000" />}
-                    </Pressable>
-                </Row>
                 </MotiView>
 
 
@@ -241,8 +262,11 @@ const Prayer = () => {
 }
 
 const SideBar = () => {
+    const [dark, setdark] = useState();
     return (
         <Column style={{ padding: 20, marginTop: 40, }}>
+          
+
             <Column style={{ width: 244, alignSelf: 'flex-start', height: 200, backgroundColor: "#252525", borderRadius: 24, }} />
             <Spacer height={20} />
             <Column style={{ width: 244, alignSelf: 'flex-start', height: 100, backgroundColor: "#323232", borderRadius: 24, }} />

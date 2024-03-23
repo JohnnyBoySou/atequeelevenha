@@ -1,17 +1,19 @@
- 
 import {  useColorScheme } from 'react-native'
 import { ThemeProvider } from 'styled-components/native';
 import dark from '@theme/dark';
 import light from '@theme/light';
 import { Stack } from 'expo-router'
+import { useTheme } from '@hooks/useTheme';
+
+
 
 export const unstable_settings = {
   initialRouteName: 'index',
 };
 
-export default function StackLayout() {
+export default  function StackLayout() {
+   const theme = useTheme()
   
-  const theme = useColorScheme()
   return (
     <ThemeProvider theme={theme === "dark" ? dark : light}>
       <Stack screenOptions={{headerShown: false}}>
@@ -29,7 +31,6 @@ export default function StackLayout() {
         <Stack.Screen name="editor/index" />
         <Stack.Screen name="onboarding" />
         <Stack.Screen name="auth" />
-
       </Stack>
     </ThemeProvider>
   );
