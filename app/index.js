@@ -51,7 +51,7 @@ export default function () {
         const user = await AsyncStorage.getItem('user')
         setTimeout(() => {
             if (user) {
-                router.push('/(stack)');
+                router.replace('/(stack)/pins/home');
                 return;
             }
             else{

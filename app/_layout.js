@@ -26,7 +26,6 @@ export default function RootLayout() {
   if (!loaded) { return null; }
   return(
     <GestureHandlerRootView style={{ flex: 1, }}>
-        <StatusBar barStyle="dark-content" translucent />
         <Slot/>
     </GestureHandlerRootView>
   ) 

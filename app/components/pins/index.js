@@ -1,56 +1,22 @@
 import { useContext, useEffect, useState, useRef } from "react"
-import { Image,  View, StyleSheet, ScrollView, Pressable } from "react-native"
+import { Image,  FlatList, StyleSheet, ScrollView, Pressable } from "react-native"
 import { AntDesign, Feather } from "@expo/vector-icons"
-import { Row, Title, Column } from '@theme/global';
+import { Row, Title, Column, Spacer } from '@theme/global';
 import { ThemeContext } from 'styled-components/native';
 import { MotiImage, MotiView } from 'moti';
-import { addPin, deletePin, verifyPin } from "@hooks/usePin";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { addPin, deletePin, verifyPin } from "@hooks/usePin"; 
 import { router } from "expo-router";
+import Animated from "react-native-reanimated"; 
 
 
-export function PostsList({ posts, filter }) {
+export function PostsList({ posts, filter = 'Papel de Parede' }) {
 
     const { color, font} = useContext(ThemeContext)
-    const detailsRef = useRef(null);
-    const [select, setSelect] = useState(posts[0]);
-    const [selectAspect, setselectAspect] = useState();
-    const [selectPin, setselectPin] = useState(false);
-
-
-    const toggleSelectPin = () => { 
-            if(pined){
-                deletePin(select).then((res) => {
-                    setselectPin(res)
-                })
-            }else{
-                addPin(select).then((res) => {
-                    setselectPin(res)
-                })
-            }
-         }
-
-        useEffect(() => {
-            verifyPin(select).then((res) => {
-                setselectPin(res)
-            })
-        }, [select])
-
-    const [active, setactive] = useState(false);
     const filteredPosts = filter === 'Tudo' ? posts : posts.filter((post) => post.tag === filter)
-
-    function postsByColumn(column) {
-      const rest = column === "left" ? 0 : 1
-      return filteredPosts
-        .filter((_, index) => index % 2 === rest)
-        .map((post) => <Post key={post.id} post={post} active={active}/>)
-    }
-  
     
-    function Post({ post, active }) {
+    function Post({ post, active, index }) {
         const [pined, setpined] = useState(false);
         const [aspectRatio, setAspectRatio] = useState(1)
-        const [isOpen, setisOpen] = useState(false);
         useEffect(() => {
             if (post?.image) {
                 Image.getSize(post.image, (width, height) => {
@@ -78,46 +44,40 @@ export function PostsList({ posts, filter }) {
 
 
     return (
-        <Pressable onPress={() => router.navigate({pathname: '/(stack)/pins/[item]', params: { it: JSON.stringify(post), }})}  style={{ marginBottom: 12, }}>
-            <Image
+        <Pressable onPress={() => router.push({pathname: '/(stack)/pins/[item]', params: { it: JSON.stringify(post), index: index, }})}  style={{ marginBottom: 12, flexGrow: 1,}}>
+            <Animated.Image sharedTransitionTag={post.id.toString()}
             source={{ uri: post.image }}
             style={[styles.image, { aspectRatio }]}
             />
+
             {active ? <></> :
-            <Row style={{justifyContent: 'space-between', alignItems: 'center',}}>
-                <Title style={{color: color.title, fontSize: 16, letterSpacing: 0, marginTop: 4, fontFamily: font.book,}}>{post.title.slice(0,19)}</Title>
                 <Pressable onPress={togglePin} style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', }}>
                     <AntDesign name={pined ? 'heart' : 'hearto'} size={24} color={color.red} />
                 </Pressable>
-            </Row>}
+            }
         </Pressable>
         )
     }
 
 
+    const itens1 = filteredPosts.filter((_, index) => index % 2 === 0)
+    const itens2 = filteredPosts.filter((_, index) => index % 2 === 1)
+
     return (
         <>
-      <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={{gap: 12,}} style={{ paddingBottom: 50, marginHorizontal: 20, }}>
-        <Row>
-            <MotiView from={{opacity: 0, translateY: 30}} animate={{opacity: 1, translateY: 0,}} style={{flex:1, marginBottom: 12, paddingTop: 10, marginRight: 10,}}> 
-                {postsByColumn("left")}
-            </MotiView>
-            <MotiView from={{opacity: 0, translateY: 50}} animate={{opacity: 1, translateY: 0,}} style={{flex:1, marginBottom: 12, paddingTop: 20, marginLeft: 10,}} transition={{delay: 300,}}> 
-               <Column style={{ backgroundColor: active ? color.secundary : color.primary, padding: 12, borderRadius: 12, marginBottom: 20, }}>
-                    <Pressable onPress={() => {setactive(!active)}} >
-                        <Row style={{ justifyContent: 'space-between', alignItems: 'center',  }}>
-                            <Title style={{ color: active ? color.title : "#fff", }}>Títulos</Title>
-                            <Column style={{ width: 70, height: 40, backgroundColor: "#fff",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
-                                <Column style={{ width: 26, height: 26, backgroundColor: active ? color.secundary : color.primary, borderRadius: 100, alignSelf: active ? 'flex-end' : 'flex-start', marginHorizontal: 8,}}/>
-                            </Column>
-                        </Row>
-                    </Pressable>
-               </Column>
-               {postsByColumn("right")}
-            </MotiView>
-        </Row>
-
-      </ScrollView>
+        <Row style={{ marginHorizontal: 12, }}>
+            <FlatList
+                data={itens1}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item, index }) => <Post post={item} index={index}/>}
+                />
+                <Spacer/>
+            <FlatList
+                data={itens2}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item, index }) => <Post post={item}  index={index}/>}
+                />
+            </Row>
       </>
 
     )

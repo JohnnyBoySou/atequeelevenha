@@ -13,7 +13,7 @@ export default function Pins() {
     const [filter, setFilter] = useState(FILTERS[0])
     const { color } = useContext(ThemeContext)
     const [POSTS, setPOSTS] = useState([]);
-    const [category, setcategory] = useState();
+    const [category, setcategory] = useState(true);
 
     useEffect(() => {
         getPins().then((data) => {
@@ -50,19 +50,19 @@ export default function Pins() {
                 </Column>}
 
                 {!category && 
-                    <Pressable onPress={() => {setcategory(!category)}} >
+                    <Pressable >
                         <Row style={{ justifyContent: 'center', alignItems: 'flex-end',  marginTop: 50,}}>
-                            <Column style={{ width: 120, height: 120, borderRadius: 500, marginHorizontal: 12, marginBottom: -40, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
+                            <Pressable style={{ width: 120, height: 120, borderRadius: 500, marginHorizontal: 12, marginBottom: -40, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Pressable>
                         </Row>
                         <Row style={{ justifyContent: 'center', alignItems: 'flex-end', marginBottom: 12,  }}>
-                            <Column style={{ width: 140, height: 140, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
-                            <Column style={{ width: 80, height: 80, borderRadius: 500, marginHorizontal: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
-                            <Column style={{ width: 140, height: 140, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
+                            <Pressable style={{ width: 140, height: 140, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>{FILTERS[5]}</Title></Pressable>
+                            <Pressable style={{ width: 80, height: 80, borderRadius: 500, marginHorizontal: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>{FILTERS[1]}</Title></Pressable>
+                            <Pressable style={{ width: 140, height: 140, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>{FILTERS[2]}</Title></Pressable>
                         </Row>
                         <Row>
-                            <Column style={{ width: 90, height: 90, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
-                            <Column style={{ width: 150, height: 150, borderRadius: 500, marginHorizontal: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
-                            <Column style={{ width: 120, height: 120, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>Popular</Title></Column>
+                            <Pressable style={{ width: 90, height: 90, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>{FILTERS[0]}</Title></Pressable>
+                            <Pressable style={{ width: 150, height: 150, borderRadius: 500, marginHorizontal: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>{FILTERS[4]}</Title></Pressable>
+                            <Pressable style={{ width: 120, height: 120, borderRadius: 500, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secundary, }}><Title>{FILTERS[3]}</Title></Pressable>
                         </Row>
                     
                     </Pressable>

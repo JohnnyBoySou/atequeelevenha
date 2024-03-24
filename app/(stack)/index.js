@@ -1,18 +1,19 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { Pressable, Dimensions, FlatList, Animated, Image , ActivityIndicator, NativeModules } from 'react-native';
+import { Pressable, Dimensions, FlatList, Animated, Image , ActivityIndicator,  } from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
 import { AntDesign } from '@expo/vector-icons';
-const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '@api/days';
 import { getShorts } from '@api/shorts';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const { width, height } = Dimensions.get('window');
+
 export default function HomePage({  }) {
-    const { color, theme, font } = useContext(ThemeContext);
+    const { color, theme } = useContext(ThemeContext);
     const banner = theme == 'dark' ? require('@assets/imgs/wide.png') : require('@assets/imgs/wide_light.png')
     const [dark, setdark] = useState(false);
     const [data, setdata] = useState([]);
@@ -33,7 +34,6 @@ export default function HomePage({  }) {
     useEffect(() => {
         setloading(true)
         const fetchData = async () => {
-           
             getDays().then((res) => { setdata(res); setloading(false) })
             getShorts().then((res) => { setshorts(res); })
         }
@@ -47,8 +47,8 @@ export default function HomePage({  }) {
     const changeTheme = async () => { 
         const storedTheme = await AsyncStorage.getItem('theme');
         const tm = storedTheme === 'light' ? 'dark' : 'light';
-        await AsyncStorage.setItem('theme', tm);
         setdark(tm == 'dark' ? true : false) 
+        await AsyncStorage.setItem('theme', tm);
     }
 
  
@@ -95,38 +95,37 @@ export default function HomePage({  }) {
 
 
                 <MotiView from={{opacity: 0, translateY: 50,}} animate={{ opacity: 1, translateY: 0,}} transition={{delay: 300,}}>
-
-                <Column>
-                    <MotiImage source={banner} style={{ width: '100%', height: 310, marginTop: -20,}} resizeMode='contain' />
-                    <Label style={{ fontSize: 22, lineHeight: 24, marginTop: -30, textAlign: 'center', width: 300, alignSelf: 'center' }}>Vamos te mostrar um novo jeito de ver e sentir a palavra de Deus.</Label>
-                </Column>
+                    <Column>
+                        <MotiImage source={banner} style={{ width: '100%', height: 310, marginTop: -20,}} resizeMode='contain' />
+                        <Label style={{ fontSize: 22, lineHeight: 24, marginTop: -30, textAlign: 'center', width: 300, alignSelf: 'center' }}>Vamos te mostrar um novo jeito de ver e sentir a palavra de Deus.</Label>
+                    </Column>
                 </MotiView>
 
                 <MotiView from={{opacity: 0, translateY: 50,}} animate={{ opacity: 1, translateY: 0,}} transition={{delay: 700,}}>
-                <Column style={{ paddingHorizontal: 20, marginVertical: 20, }}>
-                    <HeadTitle>Palavra do dia</HeadTitle>
-                    <Spacer height={12} />
-                    <WordOfDay item={data[0]} />
-                    <Spacer height={24} />
-                    <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
-                        <HeadTitle>Vídeos curtos</HeadTitle>
-                    </Row>
-                    {shorts.length > 0 && <Shorts shorts={shorts} />}
-                    <Spacer height={24} />
-                    <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
-                        <HeadTitle>Calendário</HeadTitle>
-                    </Row>
-                    <Calendar />
-                    <Spacer height={24} />
-                    <HeadTitle>Pins cristões</HeadTitle>
-                    <Pins />
-                    <Spacer height={24} />
-                    <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
-                        <HeadTitle>Pedido de oração</HeadTitle>
-                    </Row>
-                    <Prayer />
-                    <Spacer height={244} />
-                </Column>
+                    <Column style={{ paddingHorizontal: 20, marginVertical: 20, }}>
+                        <HeadTitle>Palavra do dia</HeadTitle>
+                        <Spacer height={12} />
+                        <WordOfDay item={data[0]} />
+                        <Spacer height={24} />
+                        <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
+                            <HeadTitle>Vídeos curtos</HeadTitle>
+                        </Row>
+                        {shorts.length > 0 && <Shorts shorts={shorts} />}
+                        <Spacer height={24} />
+                        <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
+                            <HeadTitle>Calendário</HeadTitle>
+                        </Row>
+                        <Calendar />
+                        <Spacer height={24} />
+                        <HeadTitle>Pins cristões</HeadTitle>
+                        <Pins />
+                        <Spacer height={24} />
+                        <Row style={{ justifyContent: 'space-between', alignItems: 'center', }}>
+                            <HeadTitle>Pedido de oração</HeadTitle>
+                        </Row>
+                        <Prayer />
+                        <Spacer height={244} />
+                    </Column>
                 </MotiView>
 
             </Scroll>
@@ -146,6 +145,7 @@ const WordOfDay = ({ item }) => {
         })
     }
     return (
+        <>
         <Pressable onPress={handle}
             style={{ backgroundColor: color.primary, flexGrow: 1, padding: 12, borderRadius: 16, }}>
             <Pressable style={{ paddingHorizontal: 16, paddingVertical: 8, backgroundColor: "#f7f7f730", alignSelf: 'flex-end', borderRadius: 100, }}>
@@ -157,6 +157,8 @@ const WordOfDay = ({ item }) => {
                 <Label style={{ color: "#fff", fontSize: 24, }}>{item.versiculoCaption}</Label>
             </Row>
         </Pressable>
+        <Column style={{ backgroundColor: color.primary+80, marginHorizontal: 20, height: 16, flexGrow: 1, borderBottomRightRadius: 12, borderBottomLeftRadius: 12,}}/>
+        </>
     )
 }
 

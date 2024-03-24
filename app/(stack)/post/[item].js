@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Column, Row, Title, Label, Scroll, Main, Spacer } from '../../theme/global';
-import { Image, TouchableOpacity, Dimensions, FlatList, Pressable } from 'react-native';
-import { AntDesign, FontAwesome5, Feather, Ionicons, Fontisto, FontAwesome } from '@expo/vector-icons';
-import { AnimatePresence, MotiImage, MotiView } from 'moti';
+import { FlatList, Pressable } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { MotiImage, MotiView } from 'moti';
 import { ThemeContext } from 'styled-components/native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-const { width, height } = Dimensions.get('window');
 
 export default function PostPage( ) {
     const { it } = useLocalSearchParams();
@@ -49,9 +48,9 @@ export default function PostPage( ) {
                             </MotiView>
                             : <>
                         <Row style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, }}>
-                            <Title style={{ opacity: 0.7, }}>Progresso</Title>
+                            <Title style={{ opacity: 0.7, color: "#fff", }}>Progresso</Title>
                             <Pressable style={{ backgroundColor:"#000", borderRadius: 12, borderBottomRightRadius: 0, paddingVertical: 6, paddingHorizontal:12, }}>
-                                <Label>{porcentage.toFixed(0)}%</Label>
+                                <Label style={{ color: "#fff", }}>{porcentage.toFixed(0)}%</Label>
                             </Pressable>
                         </Row>
 
