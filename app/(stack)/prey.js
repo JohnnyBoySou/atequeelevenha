@@ -4,6 +4,7 @@ import { Image, Dimensions, Pressable, TextInput } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { router } from 'expo-router';
+import Animated from 'react-native-reanimated';
 const { width, height } = Dimensions.get('window');
 
 export default function PreyPage({navigation }) {
@@ -36,8 +37,18 @@ export default function PreyPage({navigation }) {
                     <Pressable onPress={() => router.back()} style={{ zIndex: 100, width: 52, height: 52, borderRadius: 100,}}>
                         <AntDesign name="arrowleft" size={32} color={color.title} />
                     </Pressable>
-                    <Title style={{ fontSize: 52, }}>Oração</Title>
-                    <Label style={{ fontSize: 22, }}>Realize seu pedido de oração</Label>
+
+
+                    <Row style={{justifyContent: 'space-between', aligItems: 'center', }}> 
+                        <Column>
+                            <Title style={{ fontSize: 52, }}>Oração</Title>
+                            <Label style={{ fontSize: 22, }}>Realize seu pedido de oração</Label>
+                        </Column>
+                        <Animated.View sharedTransitionTag="prey"  style={{ width: 72, height: 72, backgroundColor: "#3E59AE", borderRadius: 100, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+                            <Image source={require('@assets/imgs/prayer.png')} style={{ width: 62, height: 62, }} resizeMode='contain' />
+                        </Animated.View>
+                    </Row>
+                    
                     
                     <Spacer height={24} />
                     <Title style={{ fontSize: 28,}}>Nome completo</Title>

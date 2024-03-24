@@ -27,6 +27,8 @@ export default  function StackLayout() {
         <Stack.Screen name="editor/index" />
         <Stack.Screen name="onboarding" />
         <Stack.Screen name="auth" />
+        <Stack.Screen name="notifications" options={{ animation: 'slide_from_right'}}/>
+        <Stack.Screen name="account" options={{ animation: 'slide_from_left'}}/>
       </Stack>
     </ThemeProvider>
   );

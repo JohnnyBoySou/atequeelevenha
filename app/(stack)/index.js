@@ -1,14 +1,15 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { Pressable, Dimensions, FlatList, Animated, Image , ActivityIndicator,  } from 'react-native';
+import { Image, Pressable, Dimensions, FlatList,  ActivityIndicator,  } from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '@api/days';
 import { getShorts } from '@api/shorts';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
 
@@ -78,18 +79,24 @@ export default function HomePage({  }) {
             <Scroll>
                 <MotiView from={{opacity: 0, translateY: -50,}} animate={{ opacity: 1, translateY: 0,}}>
                     <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
-                        <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                        <Pressable onPress={() => { router.navigate('account')}} style={{ justifyContent: 'center', alignItems: 'center',  flexDirection: 'row'}}>
                             <Image source={{ uri: user?.avatar }} style={{ width: 52, height: 52, borderRadius: 100, marginRight: 10, }} />
                             <HeadTitle style={{ lineHeight: 26, fontSize: 24, zIndex: 99, marginLeft: 6,}}>
                             {saudacao()}, {'\n'}{user?.nome}
                             </HeadTitle>
-                        </Row>
-
-                        <Pressable onPress={toggleOpen} style={{ marginRight: 8, borderWidth: 2, backgroundColor: !tabIsOpen ? 'transparent' : '#fff', borderColor: color.title, width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
-                            {!tabIsOpen ? <Column><Column style={{ width: 30, height: 2, borderRadius: 12, backgroundColor: color.title, }} />
-                                <Column style={{ width: 20, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} />
-                                <Column style={{ width: 25, height: 2, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} /></Column> : <AntDesign name="close" size={28} color="#000" />}
                         </Pressable>
+
+                        <Row>
+                        <Pressable onPress={() => { router.navigate('notifications')}} style={{  backgroundColor: !tabIsOpen ? 'transparent' : '#fff',  width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
+                            <Fontisto name="bell" size={24} color={color.title} />
+                        </Pressable>
+                        <Pressable onPress={toggleOpen} style={{ marginRight: 8,  backgroundColor: !tabIsOpen ? 'transparent' : '#fff',  width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
+                            {!tabIsOpen ? <Column style={{ justifyContent: 'center', alignItems: 'flex-end',  }}>
+                                <Column style={{ width: 30, height: 3, borderRadius: 12, backgroundColor: color.title, }} />
+                                <Column style={{ width: 20, height: 3, borderRadius: 12, backgroundColor: color.title, marginTop: 6,}} />
+                                <Column style={{ width: 25, height: 3, borderRadius: 12, backgroundColor: color.title, marginTop: 6, }} /></Column> : <AntDesign name="close" size={28} color="#000" />}
+                        </Pressable>
+                        </Row>
                     </Row>
                 </MotiView>
 
@@ -180,7 +187,6 @@ const Shorts = ({ shorts }) => {
         )
     }
 
-    const scrollX = useRef(new Animated.Value(0)).current;
     return (
         <Column style={{ marginTop: 16, }}>
             <FlatList
@@ -192,14 +198,12 @@ const Shorts = ({ shorts }) => {
                 decelerationRate={0.8}
                 ListFooterComponent={<Pressable onPress={() => { router.navigate('reels_scroll') }} style={{ width: 200, height: 272, justifyContent: 'center', alignItems: 'center', backgroundColor: color.primary, marginHorizontal: 20, borderRadius: 16, }}>
                     <AntDesign name="pluscircle" size={64} color="#fff" />
-                    <Pressable onPress={() => { router.navigate('reels_scroll') }} style={{ paddingHorizontal: 16, paddingVertical: 8, marginTop: 12, backgroundColor: "#f7f7f730", borderRadius: 100, }}>
+                    <Column onPress={() => { router.navigate('reels_scroll') }} style={{ paddingHorizontal: 16, paddingVertical: 8, marginTop: 12, backgroundColor: "#f7f7f730", borderRadius: 100, }}>
                         <Label>Ver mais</Label>
-                    </Pressable>
+                    </Column>
                 </Pressable>}
                 snapToOffsets={[440, 880, 1100,]}
-                showsHorizontalScrollIndicator={false}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false, }
-                )}
+                showsHorizontalScrollIndicator={false} 
             />
             
 
@@ -251,9 +255,9 @@ const Prayer = () => {
         <Row style={{ position: 'relative', marginVertical: 30, justifyContent: 'center', }}>
             <Column style={{ width: 300, height: 240, backgroundColor: color.primary + 50, position: 'absolute', borderRadius: 32, transform: [{ rotate: '-12deg' }] }} />
             <Column style={{ width: 300, height: 240, backgroundColor: color.primary, position: 'absolute', borderRadius: 32, transform: [{ rotate: '5deg' }], justifyContent: 'center', alignItems: 'center', }}>
-                <Column style={{ width: 72, height: 72, backgroundColor: "#ffffff30", borderRadius: 100, justifyContent: 'center', alignItems: 'center', }}>
-                    <MotiImage source={require('@assets/imgs/prayer.png')} style={{ width: 62, height: 62, }} resizeMode='contain' />
-                </Column>
+                <Animated.View sharedTransitionTag="prey" style={{ width: 72, height: 72, backgroundColor: "#ffffff30", borderRadius: 100, justifyContent: 'center', alignItems: 'center', }}>
+                    <Image  source={require('@assets/imgs/prayer.png')} style={{ width: 62, height: 62, }} resizeMode='contain' />
+                </Animated.View>
                 <Title style={{ textAlign: 'center', fontSize: 28, color: '#fff', }}>Quero fazer um pedido {"\n"}de oração</Title>
                 <Pressable onPress={() => { router.navigate('/prey') }} style={{ paddingHorizontal: 32, paddingVertical: 8, borderRadius: 100, backgroundColor: "#fff", justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 12, }}>
                     <Title style={{ color: color.primary, }}>Fazer oração</Title>
@@ -264,11 +268,8 @@ const Prayer = () => {
 }
 
 const SideBar = () => {
-    const [dark, setdark] = useState();
     return (
         <Column style={{ padding: 20, marginTop: 40, }}>
-          
-
             <Column style={{ width: 244, alignSelf: 'flex-start', height: 200, backgroundColor: "#252525", borderRadius: 24, }} />
             <Spacer height={20} />
             <Column style={{ width: 244, alignSelf: 'flex-start', height: 100, backgroundColor: "#323232", borderRadius: 24, }} />
@@ -282,7 +283,6 @@ const SideBar = () => {
 }
 
 const Pins = () => {
-
     return (
         <Pressable onPress={() => {router.navigate('pins/home')}} style={{ justifyContent: 'center', alignItems: 'center',  alignSelf: 'center' }}>
             <Row style={{ marginTop: 10, }}>

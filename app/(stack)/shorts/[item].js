@@ -14,11 +14,10 @@ export default function ShortDetails({ route, navigation,  }) {
   const {it} = useLocalSearchParams()
   const item = JSON.parse(it)
 
-  const { color, font, theme} = useContext(ThemeContext);
+  const { color,  theme} = useContext(ThemeContext);
   const aboutModal = useRef(null);
   const video = useRef(null);
   
-  const [type, settype] = useState('about');
   const [like, setLike] = useState(false);
   const [isPlay, setisPlay] = useState(true);
   const [time, settime] = useState(0);
