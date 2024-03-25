@@ -60,6 +60,8 @@ export default function PinDetails() {
 
     return (
         <Main>
+            <Scroll>
+
             <Image blurRadius={10} source={{ uri: item.image }} style={{ width: '100%', height: '110%', position: 'absolute', top: 0, left: 0, paddingVertical: 40, }} />
                     <Pressable onPress={() => router.back()} style={{ zIndex: 100, width: 42, height: 42, borderRadius: 100, marginLeft: 30, backgroundColor: '#fff', marginBottom: 12, justifyContent: 'center', alignItems: 'center',  marginTop: 12,}}>
                         <AntDesign name="arrowleft" size={28} color={color.title} />
@@ -72,11 +74,15 @@ export default function PinDetails() {
                         <AntDesign name={like ? 'heart' : 'hearto'} size={22} color={like ? "#FFF" : color.red} />
                     </Pressable>
 
+            </Scroll>
+        </Main>
+    )
+}   
 
+/**
+ * 
                     <Pressable onPress={saveImageFromUrl} style={{ paddingVertical: 10, flexDirection: 'row', paddingHorizontal: 20, marginTop: 25, alignSelf:'center', borderRadius: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: color.blue, }}>
                         <Title style={{ color: "#fff", marginRight: 6,}}>Salvar</Title>
                         <AntDesign name='download' size={22} color="#FFF" />
                     </Pressable>
-        </Main>
-    )
-}   
+ */

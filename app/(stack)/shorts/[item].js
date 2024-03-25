@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { AnimatePresence, MotiView } from "moti";
 import { Column, Label, Main, Title, Row } from "../../theme/global";
 import { Dimensions, Pressable, ScrollView } from "react-native";
@@ -9,8 +9,9 @@ const { width, height } = Dimensions.get('window');
 import { Video, ResizeMode } from 'expo-av';
 import { ThemeContext } from "styled-components/native";
 import { router, useLocalSearchParams } from "expo-router";
+import { addShort, deleteShort, verifyShort } from "../../hooks/useShorts";
 
-export default function ShortDetails({ route, navigation,  }) {
+export default function ShortDetails({ }) {
   const {it} = useLocalSearchParams()
   const item = JSON.parse(it)
 
@@ -22,6 +23,26 @@ export default function ShortDetails({ route, navigation,  }) {
   const [isPlay, setisPlay] = useState(true);
   const [time, settime] = useState(0);
   const togglePlay = () => { if (isPlay) { video.current.pauseAsync(); setisPlay(false)} else {video.current.playAsync(); setisPlay(true)}}
+
+
+
+  useEffect(() => {
+    verifyShort(item).then((res) => {
+      setLike(res)
+    })
+}, [])
+
+const toggleLike = () => { 
+    if(like){
+        deleteShort(item).then((res) => {
+          setLike(res)
+        })
+    }else{
+        addShort(item).then((res) => {
+          setLike(res)
+        })
+    }
+ }
 
   return (
     <>
@@ -67,8 +88,8 @@ export default function ShortDetails({ route, navigation,  }) {
 
               </Row>
               <Row>
-                <Pressable style={{ width: 42, height: 42, borderRadius: 100, backgroundColor: color.off, justifyContent: 'center', alignItems: 'center', }}>
-                  {like ?<AntDesign name="heart" size={18} color={color.title} /> : <AntDesign name="hearto" size={18} color={color.title} />}
+                <Pressable onPress={toggleLike}  style={{ width: 42, height: 42, borderRadius: 100, backgroundColor: like ? color.primary : color.off, justifyContent: 'center', alignItems: 'center', }}>
+                  {like ?<AntDesign name="heart" size={18} color="#fff" /> : <AntDesign name="hearto" size={18} color={color.title} />}
                 </Pressable>
                 <Pressable   style={{ width: 42, height: 42, borderRadius: 100, marginLeft: 12, backgroundColor: color.off, justifyContent: 'center', alignItems: 'center', }}>
                     <FontAwesome6 name="share" size={18} color={color.title} />

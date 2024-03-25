@@ -12,9 +12,7 @@ export default function PinsSaves() {
     const [pins, setpins] = useState();
 
     useEffect(() => {
-        
         listPins().then((res) => {
-            console.log(JSON.parse(res));
             setpins(JSON.parse(res))
         })
     }, [])
@@ -39,7 +37,6 @@ export default function PinsSaves() {
         const isCarousel = useRef(null);
     return (
         <Main>
-            <Image blurRadius={10} source={{ uri: 'https://i.pinimg.com/564x/32/81/96/328196428eea8994bc9e3d527de88e2f.jpg' }} style={{ width: '100%', height: '110%', position: 'absolute', top: 0, left: 0, paddingVertical: 40, zIndex: -2,}} />
             <Scroll>
                 <Column>
                     <Title style={{ fontSize: 32, marginTop: 30, marginBottom: 20, marginHorizontal: 20,}}>Pins Salvos</Title>

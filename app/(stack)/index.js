@@ -3,34 +3,32 @@ import { Image, Pressable, Dimensions, FlatList,  ActivityIndicator,  } from 're
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
 import { MotiImage, MotiView, useAnimationState } from 'moti';
-import { AntDesign, Fontisto } from '@expo/vector-icons';
+import { AntDesign, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '@api/days';
 import { getShorts } from '@api/shorts';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated from 'react-native-reanimated';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 const { width, height } = Dimensions.get('window');
 
 export default function HomePage({  }) {
     const { color, theme } = useContext(ThemeContext);
-    const banner = theme == 'dark' ? require('@assets/imgs/wide.png') : require('@assets/imgs/wide_light.png')
-    const [dark, setdark] = useState(false);
     const [data, setdata] = useState([]);
     const [shorts, setshorts] = useState([]);
     const [user, setuser] = useState();
-
     const [tabIsOpen, settabIsOpen] = useState(false);
-    const toggleAnimation = useAnimationState({ close: { translateX: width + 20, }, open: { translateX: 120, }, });
     const [loading, setloading] = useState(true);
+    
+    const banner = theme == 'dark' ? require('@assets/imgs/wide.png') : require('@assets/imgs/wide_light.png')
+    const toggleAnimation = useAnimationState({ close: { translateX: width + 20, }, open: { translateX: 120, }, });
+    const accountref = useRef()
+  
     const saudacao = () => { const hora = new Date().getHours(); if (hora >= 0 && hora < 12) { return 'Bom dia' } else if (hora >= 12 && hora < 18) { return 'Boa tarde' } else { return 'Boa noite' } }
     const toggleOpen = () => { if (tabIsOpen) { toggleAnimation.transitionTo('close'); settabIsOpen(false) } else { toggleAnimation.transitionTo('open'); settabIsOpen(true) } }
-
-    const getUser = async () => { 
-        const user = await AsyncStorage.getItem('user')
-        setuser(JSON.parse(user))
-     }
+    const getUser = async () => {  const user = await AsyncStorage.getItem('user'); setuser(JSON.parse(user));}
 
     useEffect(() => {
         setloading(true)
@@ -45,15 +43,6 @@ export default function HomePage({  }) {
     }, [])
  
 
-    const changeTheme = async () => { 
-        const storedTheme = await AsyncStorage.getItem('theme');
-        const tm = storedTheme === 'light' ? 'dark' : 'light';
-        setdark(tm == 'dark' ? true : false) 
-        await AsyncStorage.setItem('theme', tm);
-    }
-
- 
-
     if (loading) { return <Main >
         <Column style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }}>
             <ActivityIndicator size={142} color="#142B74" />
@@ -61,31 +50,29 @@ export default function HomePage({  }) {
         </Main> }
     return (
         <Main>
-
-            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: theme == dark ? "#303030" : "#FFE2BA", zIndex: 99, }} >
+            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: theme == 'dark' ? "#303030" : "#FFE2BA", zIndex: 99, }} >
                 <Row style={{ justifyContent: 'space-between', alignItems: 'center', width: 240,   marginTop: 50, marginLeft:20,}}>
                     <Pressable onPress={toggleOpen} style={{ marginRight: 8,  width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: "#fff", zIndex: 99, }}>
                         <AntDesign name="close" size={24} color="#000" />
                     </Pressable>
-                    <Pressable onPress={changeTheme} > 
-                    <Column style={{ width: 70, height: 40, backgroundColor: dark ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
-                        <Column style={{ width: 26, height: 26, backgroundColor: dark ? "#fff" : "#969696", borderRadius: 100, alignSelf: dark ? 'flex-end' : 'flex-start', marginHorizontal: 8,}}/>
+                    <Pressable  > 
+                    <Column style={{ width: 70, height: 40, backgroundColor: theme == 'dark' ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
+                        <Column style={{ width: 26, height: 26, backgroundColor: theme === 'dark' ? "#fff" : "#969696", borderRadius: 100, alignSelf: theme == 'dark' ? 'flex-end' : 'flex-start', marginHorizontal: 8,}}/>
                     </Column>
                     </Pressable>
                 </Row>
                 <SideBar />
             </MotiView>
-
             <Scroll>
+
                 <MotiView from={{opacity: 0, translateY: -50,}} animate={{ opacity: 1, translateY: 0,}}>
                     <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
-                        <Pressable onPress={() => { router.navigate('account')}} style={{ justifyContent: 'center', alignItems: 'center',  flexDirection: 'row'}}>
+                        <Pressable onPress={() => { accountref.current.expand()}} style={{ justifyContent: 'center', alignItems: 'center',  flexDirection: 'row'}}>
                             <Image source={{ uri: user?.avatar }} style={{ width: 52, height: 52, borderRadius: 100, marginRight: 10, }} />
                             <HeadTitle style={{ lineHeight: 26, fontSize: 24, zIndex: 99, marginLeft: 6,}}>
                             {saudacao()}, {'\n'}{user?.nome}
                             </HeadTitle>
                         </Pressable>
-
                         <Row>
                         <Pressable onPress={() => { router.navigate('notifications')}} style={{  backgroundColor: !tabIsOpen ? 'transparent' : '#fff',  width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
                             <Fontisto name="bell" size={24} color={color.title} />
@@ -99,7 +86,6 @@ export default function HomePage({  }) {
                         </Row>
                     </Row>
                 </MotiView>
-
 
                 <MotiView from={{opacity: 0, translateY: 50,}} animate={{ opacity: 1, translateY: 0,}} transition={{delay: 300,}}>
                     <Column>
@@ -136,6 +122,15 @@ export default function HomePage({  }) {
                 </MotiView>
 
             </Scroll>
+            <BottomSheet snapPoints={[0.5, 500, 700]} ref={accountref}  backgroundStyle={{  backgroundColor: "#FBF7F2" }} handleIndicatorStyle={{backgroundColor: "#30303060",}}>
+                <BottomSheetScrollView>
+                    <Image source={require('@assets/imgs/account_wallpaper.png')} style={{ width: '100%', height: 600, borderRadius: 12, position: 'absolute', top: 0,}} resizeMode='cover' />
+                    <Pressable onPress={() => {accountref.current.close()}} style={{ marginTop: 10, }}>
+                        <AntDesign name='close' size={32} color="#fff" style={{ alignSelf: 'flex-end', marginRight: 20, }} />
+                    </Pressable>
+                    <Account user={user}/>
+                </BottomSheetScrollView>
+            </BottomSheet>
         </Main>
     )
 }
@@ -298,3 +293,82 @@ const Pins = () => {
 
     )
 }
+
+
+const Account = ({ user }) => { 
+    const { color} = useContext(ThemeContext)
+    return(
+        <Column>
+            <Column style={{ justifyContent: 'center', }}>
+                <Column style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                    <Image source={{ uri: user?.avatar }} style={{ width: 145, height: 145, borderRadius: 100,  borderWidth: 4, borderColor: "#fff",}} />
+                    <Title style={{ lineHeight: 26, fontSize: 28, zIndex: 99, marginTop: 14, letterSpacing: -1,}}>{user?.nome}</Title>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                        <MaterialIcons name="alternate-email" size={16} color={color.label}  style={{ marginRight: 6, }}/>
+                        <Label>{user?.email}</Label>
+                    </Row>
+                    <Row>
+                        <Pressable onPress={() => {router.navigate('/likes')}} style={{ paddingVertical: 8, paddingHorizontal: 20, borderRadius: 100,  marginTop: 6, borderWidth: 1, borderColor: color.primary,}}>
+                            <Label style={{ color: color.primary,  }}>Pins & Shorts curtidos</Label>
+                        </Pressable>
+                    </Row>
+                </Column>
+                <Column style={{ flexGrow: 1, flex: 1, marginVertical: 24, height: 1, backgroundColor: "#30303020", marginHorizontal: 20,  }}/>
+                    <Row style={{ justifyContent: 'space-between', alignItems: 'center',  marginHorizontal: 20,}}>
+                        <Title style={{ letterSpacing: -1, }}>Vídeos Curtos</Title>
+                        <Pressable   style={{ paddingVertical: 8, paddingHorizontal: 12, backgroundColor: color.secundary, borderRadius: 100, }}>
+                            <Title style={{ fontSize: 18,letterSpacing: -1, }}>Ver todos</Title>
+                        </Pressable>
+                    </Row>
+                    <Row style={{ marginVertical: 12, }}>
+                        <Column style={{ width: 130, height: 180, backgroundColor: color.off, borderRadius: 12, marginLeft: 20,}}/>
+                        <Column style={{ width: 130, height: 180, backgroundColor: color.off, borderRadius: 12, marginLeft: 20,}}/>
+                        <Column style={{ width: 130, height: 180, backgroundColor: color.off, borderRadius: 12, marginLeft: 20,}}/>
+                    </Row>
+
+                    <Column style={{ marginHorizontal: 20, }}>
+                        <Title style={{ letterSpacing: -1, }}>Preferências</Title>
+                        <Pressable  style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', borderRadius: 12,  paddingVertical: 20, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#30303020"  }}>
+                              <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                                <MaterialIcons name="dark-mode" size={24} color={color.label} />
+                                <Label style={{letterSpacing: -1, marginLeft: 10,}}>Modo Escuro</Label>
+                              </Row>
+                                <Column style={{ width: 50, height: 30, backgroundColor: user?.dark ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
+                                    <Column style={{ width: 20, height: 20, backgroundColor: user?.dark ? "#fff" : "#969696", borderRadius: 100, alignSelf: user?.dark ? 'flex-end' : 'flex-start', marginHorizontal: 6,}}/>
+                                </Column>
+                        </Pressable>
+                        <Pressable  style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', borderRadius: 12,  paddingVertical: 20, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#30303020"  }}>
+                              <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                                <Fontisto name="text-height" size={24} color={color.label} />
+                                <Label style={{letterSpacing: -1, marginLeft: 10,}}>Fontes Grandes</Label>
+                              </Row>
+                                <Column style={{ width: 50, height: 30, backgroundColor: user?.fonte_grande ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
+                                    <Column style={{ width: 20, height: 20, backgroundColor: user?.fonte_grande ? "#fff" : "#969696", borderRadius: 100, alignSelf: user?.fonte_grande ? 'flex-end' : 'flex-start', marginHorizontal: 6,}}/>
+                                </Column>
+                        </Pressable>
+                        <Pressable  style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', borderRadius: 12,  paddingVertical: 20, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#30303020"  }}>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                                <Ionicons name="game-controller-outline" size={24} color={color.label} /> 
+                                <Label style={{letterSpacing: -1, marginLeft: 10,}}>Modo Game</Label>
+                              </Row>
+                                <Column style={{ width: 50, height: 30, backgroundColor: user?.gaming ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
+                                    <Column style={{ width: 20, height: 20, backgroundColor: user?.gaming ? "#fff" : "#969696", borderRadius: 100, alignSelf: user?.gaming ? 'flex-end' : 'flex-start', marginHorizontal: 6,}}/>
+                                </Column>
+                        </Pressable>
+                        <Pressable  style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', borderRadius: 12,  paddingVertical: 20, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#30303020"  }}>
+                              <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                                <Fontisto name="text-height" size={24} color={color.label} />
+                                <Label style={{letterSpacing: -1, marginLeft: 10,}}>Imagens em HD</Label>
+                              </Row>
+                                <Column style={{ width: 50, height: 30, backgroundColor: user?.hd_images ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
+                                    <Column style={{ width: 20, height: 20, backgroundColor: user?.hd_images ? "#fff" : "#969696", borderRadius: 100, alignSelf: user?.hd_images ? 'flex-end' : 'flex-start', marginHorizontal: 6,}}/>
+                                </Column>
+                        </Pressable>
+                        <Pressable  style={{ justifyContent: 'space-between', alignItems: 'center', borderRadius: 30,  paddingVertical: 12, paddingHorizontal: 32, backgroundColor: color.primary, marginVertical: 20, alignSelf: 'center',}}>
+                            <Title style={{ fontSize: 18, letterSpacing: -1, color: "#fff"}}>Salvar</Title>
+                        </Pressable>
+                    </Column>
+            </Column>
+        </Column>
+    )
+ }

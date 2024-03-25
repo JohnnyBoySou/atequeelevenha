@@ -99,24 +99,6 @@ export default function PreyPage({navigation }) {
                     </Row>
                 </Column>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
              </Scroll>
         </Main>
     );
