@@ -15,7 +15,7 @@ import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 const { width, height } = Dimensions.get('window');
 
 export default function HomePage({  }) {
-    const { color, theme } = useContext(ThemeContext);
+    const { color, theme, font } = useContext(ThemeContext);
     const [data, setdata] = useState([]);
     const [shorts, setshorts] = useState([]);
     const [user, setuser] = useState();
@@ -69,7 +69,7 @@ export default function HomePage({  }) {
                     <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
                         <Pressable onPress={() => { accountref.current.expand()}} style={{ justifyContent: 'center', alignItems: 'center',  flexDirection: 'row'}}>
                             <Image source={{ uri: user?.avatar }} style={{ width: 52, height: 52, borderRadius: 100, marginRight: 10, }} />
-                            <HeadTitle style={{ lineHeight: 26, fontSize: 24, zIndex: 99, marginLeft: 6,}}>
+                            <HeadTitle style={{ lineHeight: 26, fontSize: 24, zIndex: 99, marginLeft: 6, fontFamily: font.medium,}}>
                             {saudacao()}, {'\n'}{user?.nome}
                             </HeadTitle>
                         </Pressable>
@@ -303,7 +303,7 @@ const Account = ({ user }) => {
                 <Column style={{ justifyContent: 'center', alignItems: 'center',  }}>
                     <Image source={{ uri: user?.avatar }} style={{ width: 145, height: 145, borderRadius: 100,  borderWidth: 4, borderColor: "#fff",}} />
                     <Title style={{ lineHeight: 26, fontSize: 28, zIndex: 99, marginTop: 14, letterSpacing: -1,}}>{user?.nome}</Title>
-                    <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                    <Row style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 6,  }}>
                         <MaterialIcons name="alternate-email" size={16} color={color.label}  style={{ marginRight: 6, }}/>
                         <Label>{user?.email}</Label>
                     </Row>
