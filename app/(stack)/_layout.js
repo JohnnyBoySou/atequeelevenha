@@ -30,6 +30,7 @@ export default  function StackLayout() {
         <Stack.Screen name="notifications" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="account" options={{ animation: 'slide_from_left'}}/>
         <Stack.Screen name="likes" options={{ animation: 'slide_from_left'}}/>
+        <Stack.Screen name="event" options={{ animation: 'slide_from_right'}}/>
       </Stack>
     </ThemeProvider>
   );

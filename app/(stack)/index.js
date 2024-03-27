@@ -48,6 +48,7 @@ export default function HomePage({  }) {
             <ActivityIndicator size={142} color="#142B74" />
         </Column>
         </Main> }
+
     return (
         <Main>
             <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: theme == 'dark' ? "#303030" : "#FFE2BA", zIndex: 99, }} >
@@ -118,8 +119,16 @@ export default function HomePage({  }) {
                         </Row>
                         <Prayer />
                         <Spacer height={244} />
+                        <HeadTitle>Eventos</HeadTitle>
+                        <Event color={color}/>
+
+                        <Spacer height={24} />
+
                     </Column>
                 </MotiView>
+
+
+
 
             </Scroll>
             <BottomSheet snapPoints={[0.5, 500, 700]} ref={accountref}  backgroundStyle={{  backgroundColor: "#FBF7F2" }} handleIndicatorStyle={{backgroundColor: "#30303060",}}>
@@ -372,3 +381,12 @@ const Account = ({ user }) => {
         </Column>
     )
  }
+
+
+ const Event = ({color}) => { 
+    return(
+        <Pressable onPress={() => {router.navigate('/event')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
+            <Image source={require('@assets/imgs/event_card.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
+        </Pressable>
+    )
+  }
