@@ -15,6 +15,7 @@ export default function Pins() {
     const [POSTS, setPOSTS] = useState([]);
     const [category, setcategory] = useState(true);
 
+    
     useEffect(() => {
         getPins().then((data) => {
             setPOSTS(data);
