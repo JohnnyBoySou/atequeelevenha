@@ -51,7 +51,7 @@ export default function () {
         const user = await AsyncStorage.getItem('user')
         setTimeout(() => {
             if (user) {
-                router.replace('/(stack)');
+                router.replace('/(stack)/audio/audio');
                 return;
             }
             else{
@@ -65,7 +65,6 @@ export default function () {
         </Column>
     )
 }
-
 
 
 const styles = StyleSheet.create({

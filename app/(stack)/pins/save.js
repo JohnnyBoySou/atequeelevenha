@@ -3,7 +3,6 @@ import { Column, Row, Main, Scroll, Title, Label, } from '@theme/global';
 import { listPins } from '@hooks/usePin';
 import { Dimensions, Image } from 'react-native';
 import { ThemeContext } from 'styled-components/native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 const { width } = Dimensions.get('window');
 
@@ -41,6 +40,15 @@ export default function PinsSaves() {
                 <Column>
                     <Title style={{ fontSize: 32, marginTop: 30, marginBottom: 20, marginHorizontal: 20,}}>Pins Salvos</Title>
           
+
+               
+                </Column>
+            </Scroll>
+        </Main>
+    )
+}
+
+/**
                     <Carousel
                         ref={isCarousel}
                      style={{ marginTop: 20, marginHorizontal: 20,}}
@@ -53,15 +61,6 @@ export default function PinsSaves() {
                         layoutCardOffset={9}
                        // onSnapToItem={index => setIndex(index)}
                     />
-
-               
-                </Column>
-            </Scroll>
-        </Main>
-    )
-}
-
-/**
  *  <Pagination
                             dotsLength={pins?.length}
                             activeDotIndex={index}

@@ -25,14 +25,14 @@ export const Column = styled.View`
 export const Label = styled.Text`
   color:  ${props => props.theme.color.label};
   font-size: 18px;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
   font-family: ${props => props.theme.font.book};
 `;
 
 export const Title = styled.Text`
   color: ${props => props.theme.color.title};
   font-size: 24px;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   font-family: ${props => props.theme.font.medium};
 `;
 
