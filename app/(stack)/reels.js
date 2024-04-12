@@ -1,9 +1,9 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { Animated, FlatList, Image, Pressable } from "react-native";
 import { Main, Scroll, Title, Column, Label, Row, Spacer,  } from "@theme/global";
-import { useNavigation } from "@react-navigation/native";
 import { ThemeContext } from 'styled-components/native';
 import { getShorts, getShortsPopular, getShortsRecents } from "@api/shorts";
+import { router } from "expo-router";
 
 export default function ReelsPage(  { navigation }) {
 
@@ -58,11 +58,10 @@ export default function ReelsPage(  { navigation }) {
 
 const Shorts = ({ shorts }) => {
     const { color, font } = useContext(ThemeContext);
-    const navigation = useNavigation();
 
     const Video = ({ item }) => {
         return (
-            <Pressable onPress={() => navigation.navigate('ShortDetails', { item: item, })} style={{ width: 190, height: 272, backgroundColor: "#DF8E3C", marginLeft: 20,  borderRadius: 16, }}>
+            <Pressable onPress={() => router.navigate('ShortDetails', { item: item, })} style={{ width: 190, height: 272, backgroundColor: "#DF8E3C", marginLeft: 20,  borderRadius: 16, }}>
                 <Image source={{uri: item?.url}} style={{ width: 190, height: 272, borderRadius: 16, }} resizeMode='cover' />
             </Pressable>
         )

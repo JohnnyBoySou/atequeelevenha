@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState, useEffect } from 'react';
 import { Column, Label, Main, Title, Scroll, Row } from '@theme/global';
 import { FlatList, Pressable, Dimensions } from 'react-native'; 
 import { ThemeContext } from 'styled-components/native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import BottomSheet , { BottomSheetScrollView } from '@gorhom/bottom-sheet'; 
 import { AnimatePresence, MotiView, MotiImage } from "moti";
 import { AntDesign } from '@expo/vector-icons';
@@ -10,6 +10,9 @@ const { width, height } = Dimensions.get('window');
 
 export default function AudioPage({ }) {
     const detailsItem = useRef(null);
+    const { it } = useLocalSearchParams()
+    const item = JSON.parse(it)
+
     const { color, theme } = useContext(ThemeContext);
     useEffect(() => {
         //getShorts().then((res) => {  setAudios(res); setitem(res[2]); console.log(res[2])}); 
@@ -76,6 +79,15 @@ export default function AudioPage({ }) {
                                 <MotiImage from={{scale: 0, opacity: 0, transform: [{rotate: '32deg',}]}} animate={{scale: 1, opacity: 1, transform: [{rotate: '12deg',}]}} transition={{type: 'timing'}} source={{ uri: 'https://i.pinimg.com/564x/fc/60/96/fc609601bddd4dc669909bbaefd2b250.jpg' }} style={{ width: 80, height: 80, marginTop: 20, borderRadius: 12, transform: [{rotate: '12deg',}]}} />
                             </Row>
                         </Pressable>
+                        <Pressable onPress={() => {detailsItem.current?.expand()}}  style={{ borderWidth: 1, borderColor: color.primary+70,  borderRadius: 18, flexGrow: 1, paddingVertical: 24, }}>
+                            <Title style={{ textAlign: 'center', fontSize: 32, marginBottom: 4, }}>Boa noite!</Title>
+                            <Label style={{ textAlign: 'center',  marginBottom: 12,}}>15 audios -  25 min</Label>
+                            <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
+                                <MotiImage from={{scale: 0, opacity: 0, transform: [{rotate: '-32deg',}]}} animate={{scale: 1, opacity: 1,  transform: [{rotate: '-12deg',}]}} transition={{type: 'timing'}} source={{ uri: 'https://i.pinimg.com/564x/3a/41/e6/3a41e69b86e2e9314d8aa7cc299ebcfe.jpg' }} style={{ width: 80, height: 80, marginTop: 20, borderRadius: 12, transform: [{rotate: '-12deg',}]}} />
+                                <MotiImage from={{scale: 0, opacity: 0,}} animate={{scale: 1, opacity: 1,}} transition={{type: 'timing'}} source={{ uri: 'https://i.pinimg.com/564x/07/1a/ae/071aae5869bff4ed73867fd9691371ff.jpg' }} style={{ width: 90, height: 100, borderRadius: 12, marginHorizontal: -30, zIndex: 99, transform: [{rotate: '0deg',}]}} />
+                                <MotiImage from={{scale: 0, opacity: 0, transform: [{rotate: '32deg',}]}} animate={{scale: 1, opacity: 1, transform: [{rotate: '12deg',}]}} transition={{type: 'timing'}} source={{ uri: 'https://i.pinimg.com/564x/fc/60/96/fc609601bddd4dc669909bbaefd2b250.jpg' }} style={{ width: 80, height: 80, marginTop: 20, borderRadius: 12, transform: [{rotate: '12deg',}]}} />
+                            </Row>
+                        </Pressable>
                 </Column>      
                 
                           
@@ -100,7 +112,7 @@ export default function AudioPage({ }) {
 
 const Card = ({item, color}) => {
     return(
-        <Row style={{ backgroundColor: "#00000010", borderRadius: 18, flexGrow: 1, padding: 20, marginHorizontal: 20, marginVertical: 6, }}>
+        <Pressable onPress={() => {router.navigate('')}}  style={{ backgroundColor: "#00000010", borderRadius: 18, flexGrow: 1, padding: 20, marginHorizontal: 20, marginVertical: 6, flexDirection: 'row' }}>
             <Row style={{  alignItems: 'center',   marginTop: 0, marginBottom: -10,}}>
                 <MotiImage from={{scale: 0.5, }} animate={{scale: 1, opacity: 1}} transition={{type: 'timing'}} source={{ uri: item.capa }} style={{ width: 100, height: 100, borderRadius: 8, marginBottom: 12,  zIndex: 1,}} />
                 <MotiView from={{transform: [{translateX: -100,}], opacity: 0}} animate={{transform: [{translateX: -50,}], opacity: 1}} transition={{type: 'timing'}}   style={{ width: 80, height: 80, borderRadius: 100, marginBottom: 12, backgroundColor: color.secundary,}} />
@@ -118,6 +130,6 @@ const Card = ({item, color}) => {
                     </Pressable>
                 </Row>
             </Column>
-        </Row>
+        </Pressable>
     );
 }
