@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState, useEffect, useCallback } from "react";
-import { FlatList, Pressable, Dimensions, ScrollView } from "react-native";
+import { FlatList, Pressable, Dimensions, ScrollView, ActivityIndicator } from "react-native";
 import { Main, Title, Column, Label, Row,  } from "@theme/global";
 import { ThemeContext } from 'styled-components/native';
 import { getShortsRecents } from "@api/shorts";
@@ -7,7 +7,7 @@ import { AntDesign, FontAwesome6, MaterialCommunityIcons, Fontisto } from "@expo
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 import { Video, ResizeMode } from 'expo-av';
-import { AnimatePresence, MotiView } from "moti";
+import { AnimatePresence, MotiImage, MotiView } from "moti";
 import{ useNavigation } from '@react-navigation/native';
 import { router } from 'expo-router';
 
@@ -19,18 +19,30 @@ export default function ReelsScrollPage({ navigation }) {
     const [recents, setrecents] = useState();
     const { color, font } = useContext(ThemeContext);
     const [current, setcurrent] = useState();
+    const [loading, setloading] = useState(true);
 
     useEffect(() => {
-        getShortsRecents().then((res) => {  setrecents(res);  }  );
+        const fetchData = async () => {
+          setloading(true)
+          getShortsRecents().then((res) => {  setrecents(res);  setloading(false)}  );
+        }
+        fetchData()
     }, [])
 
     const onViewableItemsChanged = ({ viewableItems }) => {
         setcurrent(viewableItems[0].item.id);
     };
     const viewabilityConfigCallbackPairs = useRef([{onViewableItemsChanged}]);
-
+    const a = false
     return(
         <Main>
+          {loading &&
+              <Column style={{ marginTop: 20, }}>
+                  <ActivityIndicator size={72} color="#142B74" />
+                  <Label style={{ textAlign: 'center', fontSize: 24, marginTop: 20, fontFamily: font.medium, }}>Deixando tudo pronto!</Label>
+              </Column>
+            }
+          {!loading &&
             <FlatList
                 data={recents}
                 renderItem={({ item }) => <ShortList item={item} current={current}/>}
@@ -40,7 +52,7 @@ export default function ReelsScrollPage({ navigation }) {
                 horizontal
                 viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
                 showsHorizontalScrollIndicator={false}
-            />
+            />}
         </Main>
     )
 }
@@ -63,6 +75,10 @@ export function ShortList({ item, current,  }) {
          //   video.current.pauseAsync();
         }
     }, [current])
+
+
+
+    const a = false
     return (
       <>
       <Main>
@@ -99,9 +115,6 @@ export function ShortList({ item, current,  }) {
   
             <Row style={{ justifyContent: 'space-between', alignItems: 'center',  paddingHorizontal: 20, paddingBottom: 20, marginTop: 0, borderBottomColor: color.off, borderBottomWidth: 2,}}>
               <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
-                <Pressable onPress={() => router.back()}  style={{ width: 42, height: 42, borderRadius: 100, marginLeft: -10, justifyContent: 'center', alignItems: 'center', }}>
-                  <AntDesign name="arrowleft" size={18} color={color?.title} />
-                </Pressable>
   
                 <Pressable  style={{ backgroundColor: color.title,  flexDirection: 'row', justifyContent: 'center', alignItems: 'center',  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
                   <Label style={{ color: theme == 'dark' ? "#000" : "#fff" }}>Sobre</Label>
@@ -133,34 +146,33 @@ export function ShortList({ item, current,  }) {
                   <FontAwesome6 name="hands-clapping" size={18} color={color.title} />
                   <Label style={{ marginLeft: 10, }}>Palmas</Label>
                 </Pressable>
-                <Pressable style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: color.title,  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
-                  <Fontisto name="bookmark" size={18} color={color.title} />
-                  <Label style={{ marginLeft: 10, }}>Favoritar</Label>
-                </Pressable>
+               
               </Row>
   
   
-              <Row style={{ justifyContent: 'space-between', alignItems: 'center', paddingTop: 20, marginTop: 20, marginHorizontal: -20, paddingHorizontal: 20, borderTopColor: color.off, borderTopWidth: 2, }}>
+             {a && <Row style={{ justifyContent: 'space-between', alignItems: 'center', paddingTop: 20, marginTop: 20, marginHorizontal: -20, paddingHorizontal: 20, borderTopColor: color.off, borderTopWidth: 2, }}>
                 <Title>Veja mais</Title>
                 <Pressable style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: color.title,  borderRadius: 100, paddingHorizontal: 14, paddingVertical: 8,}}>
                   <MaterialCommunityIcons name="play" size={24} color={color.title} />
                   <Label style={{ marginHorizontal: 10, }}>Assistir</Label>
                 </Pressable>
-              </Row>
-              <ScrollView horizontal>
+              </Row>}
+
+              {a &&  <ScrollView horizontal>
                 <Column style={{ width: 140, marginVertical: 12,  marginRight: 12, backgroundColor: color.off, borderRadius: 12, height: 200, }}></Column>
                 <Column style={{ width: 140, marginVertical: 12,  marginRight: 12, backgroundColor: color.off, borderRadius: 12, height: 200, }}></Column>
                 <Column style={{ width: 140, marginVertical: 12,  marginRight: 12, backgroundColor: color.off, borderRadius: 12, height: 200, }}></Column>
-              </ScrollView>
-  
-              <Column>
+              </ScrollView>}
+
+            <Column style={{ marginTop: 10, }}>
                 <Title>Anúncio</Title>
-                <Column style={{ flexGrow: 1, marginVertical: 12, backgroundColor: color.off, borderRadius: 12, height: 200, }}></Column>
+                <MotiImage style={{ flexGrow: 1, marginVertical: 12, backgroundColor: color.off, borderRadius: 12, height: 200, width: 200, objectFit: 'cover', alignSelf: 'center' }} source={require('../assets/imgs/ad.png')}/>
               </Column>
             </Column>
+
           </MotiView>
   
-            <MotiView from={{ opacity: 0, translateY: 40,}} animate={{ opacity: 1, translateY: 0,}} transition={{ type: 'timing', duration: 300,}}><Column style={{ padding: 20, }}>
+        {a && <MotiView from={{ opacity: 0, translateY: 40,}} animate={{ opacity: 1, translateY: 0,}} transition={{ type: 'timing', duration: 300,}}><Column style={{ padding: 20, }}>
               <Title style={{  marginBottom: 5, }}>Controles</Title>
   
               <Row style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 20, marginTop:20, }}>
@@ -180,7 +192,7 @@ export function ShortList({ item, current,  }) {
               </Pressable>
             </Row>
             </Column>
-          </MotiView>
+          </MotiView>}
 
           </BottomSheetScrollView>
         </BottomSheet>

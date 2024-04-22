@@ -57,7 +57,8 @@ export const verifyShort = async (pinToVerify) => {
 export const listShorts = async () => {
     try {
         const savedPin = await AsyncStorage.getItem(keyValue);
-        return savedPin ? [savedPin] : [];
+        const res = savedPin ? JSON.parse(savedPin) : [];
+        return res
     } catch (error) {
         console.log('Error listing pins:', error);
         return [];

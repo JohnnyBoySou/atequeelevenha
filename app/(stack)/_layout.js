@@ -13,7 +13,6 @@ export default  function StackLayout() {
   return (
     <ThemeProvider theme={theme === "dark" ? dark : light}>
       <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name="audio" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="index" options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_bottom'}} />
         <Stack.Screen name="reels" options={{ animation: 'fade_from_bottom'}} />
         <Stack.Screen name="calendar"  options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_bottom'}}/>
@@ -33,7 +32,7 @@ export default  function StackLayout() {
         <Stack.Screen name="likes" options={{ animation: 'slide_from_left'}}/>
         <Stack.Screen name="event" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="audio/[item]" options={{ animation: 'slide_from_right'}}/>
-        <Stack.Screen name="audio/home" options={{ animation: 'slide_from_right'}}/>
+        <Stack.Screen name="audio/page" options={{ animation: 'slide_from_right'}}/>
       </Stack>
     </ThemeProvider>
   );

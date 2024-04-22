@@ -17,14 +17,12 @@ export default function Likes() {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
                 const pinsResponse = await listPins();
                 const shortsResponse = await listShorts();
-                setpins(JSON.parse(pinsResponse));
-                setshorts(JSON.parse(shortsResponse));
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
+                
+                setpins(pinsResponse);
+                setshorts(shortsResponse);
+           
         }
         fetchData();
     }, []);
@@ -51,7 +49,7 @@ export default function Likes() {
                     onPlaybackStatusUpdate={e => settime((e.positionMillis / e.durationMillis * 100).toFixed(0))}
                     progressUpdateIntervalMillis={50}
                 />
-                <Pressable style={{ width: 300, height: 500, backgroundColor: "#30303000", position: 'absolute', top: 0, justifyContent: 'center', alignItems: 'center', }} onPress={() => { togglePlay(); setisPlay(!isPlay) }}>
+                <Pressable style={{ width: 300, height: 500, backgroundColor: "#30303000", position: 'absolute', top: 0, justifyContent: 'center', alignItems: 'center', marginLeft: 30,}} onPress={() => { togglePlay(); setisPlay(!isPlay) }}>
                     <AnimatePresence>
                         {isPlay ?
                             <MotiView from={{ opacity: 1, }} animate={{ opacity: 0, }}>
@@ -81,15 +79,29 @@ export default function Likes() {
     }
 
 
+
+
+    const Load = () => {
+    return(
+        <Column>
+        <Column style={{ width: 140, height: 220, alignSelf: 'center', borderWidth: 2, borderColor: "#30303050", borderRadius: 16, justifyContent: 'center', alignItems: 'center', marginTop: 60, }} >
+            <AntDesign name="heart" size={64} color={color.primary} />
+        </Column>
+        <Column style={{ width: 100, height: 10, alignSelf: 'center', backgroundColor: "#30303050", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, }} />
+        <Column style={{ width: 60, height: 10, alignSelf: 'center', backgroundColor: "#30303030", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, }} />
+        <Label style={{ textAlign: 'center', fontSize: 24, marginTop: 20, fontFamily: font.medium, }}>Nada por aqui...</Label>
+        <Label style={{ textAlign: 'center', fontSize: 20, }}>Clique no ícone de coração {'\n'}para salvar, eles aparecerão aqui!</Label>
+    </Column>
+        )}
     return (
         <Main>
             <Scroll>
                 <Column style={{ marginHorizontal: 20, }}>
-                    <Pressable onPress={() => router.back()} style={{ zIndex: 100, width: 52, height: 52, borderRadius: 100, }}>
+                    <Pressable onPress={() => router.back()} style={{ zIndex: 100, width: 52, height: 52, borderRadius: 100, marginTop: 10, borderWidth: 1, borderColor: "#30303030", justifyContent: 'center', alignItems: 'center',  }}>
                         <AntDesign name="arrowleft" size={32} color={color.title} />
                     </Pressable>
 
-                    <Title style={{ fontSize: 52, marginTop: -20, }}>Curtidos</Title>
+                    <Title style={{ fontSize: 52, marginTop: -10, textAlign: 'center' }}>Curtidos</Title>
 
                     <Row style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginVertical: 20, }}>
                         <Pressable style={{ paddingVertical: 8, paddingHorizontal: 20, backgroundColor: type === 'pins' ? color.primary : "transparent", borderRadius: 100, borderWidth: 1, borderColor: color.primary, }} onPress={() => { settype('pins') }} >
@@ -107,6 +119,7 @@ export default function Likes() {
                                 data={pins}
                                 keyExtractor={item => item.id}
                                 renderItem={({ item }) => (<Pin post={item} />)}
+                                ListEmptyComponent={<Load />}
                             />
                         </MotiView>
                         :
@@ -115,21 +128,13 @@ export default function Likes() {
                                 data={shorts}
                                 keyExtractor={item => item.id}
                                 renderItem={({ item }) => (<Shorts item={item} />)}
+                                ListEmptyComponent={<Load />}
                             />
                         </MotiView>
                     }
 
 
-                    {pins?.length === 0 || shorts?.length === 0 ? (
-                        <Column>
-                            <Column style={{ width: 140, height: 220, alignSelf: 'center', borderWidth: 2, borderColor: "#30303050", borderRadius: 16, justifyContent: 'center', alignItems: 'center', marginTop: 60, }} >
-                                <AntDesign name="heart" size={64} color={color.primary} />
-                            </Column>
-                            <Column style={{ width: 100, height: 10, alignSelf: 'center', backgroundColor: "#30303050", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, }} />
-                            <Column style={{ width: 60, height: 10, alignSelf: 'center', backgroundColor: "#30303030", borderBottomLeftRadius: 16, borderBottomRightRadius: 16, }} />
-                            <Label style={{ textAlign: 'center', fontSize: 24, marginTop: 20, fontFamily: font.medium, }}>Nada por aqui...</Label>
-                            <Label style={{ textAlign: 'center', fontSize: 20, }}>Clique no ícone de coração {'\n'}para salvar, eles aparecerão aqui!</Label>
-                        </Column>) : null}
+                    
 
 
 
@@ -138,3 +143,5 @@ export default function Likes() {
         </Main>
     )
 }
+
+ 

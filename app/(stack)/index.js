@@ -135,7 +135,7 @@ export default function HomePage({  }) {
                 <BottomSheetScrollView>
                     <Image source={require('@assets/imgs/account_wallpaper.png')} style={{ width: '100%', height: 600, borderRadius: 12, position: 'absolute', top: 0,}} resizeMode='cover' />
                     <Pressable onPress={() => {accountref.current.close()}} style={{ marginTop: 10, }}>
-                        <AntDesign name='close' size={32} color="#fff" style={{ alignSelf: 'flex-end', marginRight: 20, }} />
+                        <AntDesign name='close' size={32} color="#000" style={{ alignSelf: 'flex-end', marginRight: 20, }} />
                     </Pressable>
                     <Account user={user}/>
                 </BottomSheetScrollView>
@@ -313,7 +313,6 @@ const Account = ({ user }) => {
                     <Image source={{ uri: user?.avatar }} style={{ width: 145, height: 145, borderRadius: 100,  borderWidth: 4, borderColor: "#fff",}} />
                     <Title style={{ lineHeight: 26, fontSize: 28, zIndex: 99, marginTop: 14, letterSpacing: -1,}}>{user?.nome}</Title>
                     <Row style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 6,  }}>
-                        <MaterialIcons name="alternate-email" size={16} color={color.label}  style={{ marginRight: 6, }}/>
                         <Label>{user?.email}</Label>
                     </Row>
                     <Row>
@@ -323,20 +322,10 @@ const Account = ({ user }) => {
                     </Row>
                 </Column>
                 <Column style={{ flexGrow: 1, flex: 1, marginVertical: 24, height: 1, backgroundColor: "#30303020", marginHorizontal: 20,  }}/>
-                    <Row style={{ justifyContent: 'space-between', alignItems: 'center',  marginHorizontal: 20,}}>
-                        <Title style={{ letterSpacing: -1, }}>Vídeos Curtos</Title>
-                        <Pressable   style={{ paddingVertical: 8, paddingHorizontal: 12, backgroundColor: color.secundary, borderRadius: 100, }}>
-                            <Title style={{ fontSize: 18,letterSpacing: -1, }}>Ver todos</Title>
-                        </Pressable>
-                    </Row>
-                    <Row style={{ marginVertical: 12, }}>
-                        <Column style={{ width: 130, height: 180, backgroundColor: color.off, borderRadius: 12, marginLeft: 20,}}/>
-                        <Column style={{ width: 130, height: 180, backgroundColor: color.off, borderRadius: 12, marginLeft: 20,}}/>
-                        <Column style={{ width: 130, height: 180, backgroundColor: color.off, borderRadius: 12, marginLeft: 20,}}/>
-                    </Row>
+                   
 
-                    <Column style={{ marginHorizontal: 20, }}>
-                        <Title style={{ letterSpacing: -1, }}>Preferências</Title>
+                    <Column style={{ marginHorizontal: 0, }}>
+                        <Title style={{ letterSpacing: -1, marginLeft: 20,}}>Preferências</Title>
                         <Pressable  style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', borderRadius: 12,  paddingVertical: 20, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: "#30303020"  }}>
                               <Row style={{ justifyContent: 'center', alignItems: 'center',  }}>
                                 <MaterialIcons name="dark-mode" size={24} color={color.label} />
