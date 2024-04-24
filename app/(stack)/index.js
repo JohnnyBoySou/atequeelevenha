@@ -123,7 +123,8 @@ export default function HomePage({  }) {
                         <Event color={color}/>
 
                         <Spacer height={24} />
-
+                        <HeadTitle>Audios</HeadTitle>
+                        <Audio color={color}/>
                     </Column>
                 </MotiView>
 
@@ -375,6 +376,15 @@ const Account = ({ user }) => {
  const Event = ({color}) => { 
     return(
         <Pressable onPress={() => {router.navigate('/event')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
+            <Image source={require('@assets/imgs/event_card.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
+        </Pressable>
+    )
+  }
+
+  
+ const Audio = ({color}) => { 
+    return(
+        <Pressable onPress={() => {router.navigate('/audio')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
             <Image source={require('@assets/imgs/event_card.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
         </Pressable>
     )
