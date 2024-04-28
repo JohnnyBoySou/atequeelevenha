@@ -2,8 +2,8 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { Image, Pressable, Dimensions, FlatList,  ActivityIndicator,  } from 'react-native';
 import { Column, Label, Row, Main, Scroll, Title, HeadTitle, Spacer } from '@theme/global';
 import { ThemeContext } from "styled-components/native";
-import { MotiImage, MotiView, useAnimationState } from 'moti';
-import { AntDesign, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { AnimatePresence, MotiImage, MotiView, useAnimationState } from 'moti';
+import { AntDesign, Feather, Fontisto, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { getDays } from '@api/days';
 import { getShorts } from '@api/shorts';
@@ -11,8 +11,9 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Animated from 'react-native-reanimated';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-
 const { width, height } = Dimensions.get('window');
+
+const logo = require('@assets/imgs/logo_blue_bg.png')
 
 export default function HomePage({  }) {
     const { color, theme, font } = useContext(ThemeContext);
@@ -38,8 +39,7 @@ export default function HomePage({  }) {
         }
         fetchData()
         getUser()
-        toggleAnimation.transitionTo('close'); settabIsOpen(false)
-        
+        toggleAnimation.transitionTo('open'); settabIsOpen(true)
     }, [])
  
 
@@ -51,20 +51,25 @@ export default function HomePage({  }) {
 
     return (
         <Main>
-            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height, backgroundColor: theme == 'dark' ? "#303030" : "#FFE2BA", zIndex: 99, }} >
-                <Row style={{ justifyContent: 'space-between', alignItems: 'center', width: 240,   marginTop: 50, marginLeft:20,}}>
-                    <Pressable onPress={toggleOpen} style={{ marginRight: 8,  width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: "#fff", zIndex: 99, }}>
-                        <AntDesign name="close" size={24} color="#000" />
-                    </Pressable>
-                    <Pressable  > 
-                    <Column style={{ width: 70, height: 40, backgroundColor: theme == 'dark' ? color.secundary : "#616161",  alignItems: 'center', justifyContent: 'center', borderRadius: 100,  }}>
-                        <Column style={{ width: 26, height: 26, backgroundColor: theme === 'dark' ? "#fff" : "#969696", borderRadius: 100, alignSelf: theme == 'dark' ? 'flex-end' : 'flex-start', marginHorizontal: 8,}}/>
-                    </Column>
-                    </Pressable>
-                </Row>
-                <SideBar />
-            </MotiView>
+
+            
+
+
+
+
             <Scroll>
+                <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height,  zIndex: 99, backgroundColor: "#3E59AE",  borderRadius: 12,}} >
+                    <Row style={{ justifyContent: 'space-between', alignItems: 'center', width: 230, marginTop: 14, marginLeft: 20, zIndex: 99,}}>
+                        <Pressable onPress={toggleOpen} style={{ marginRight: 8,  width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100,  }}>
+                            <AntDesign name="close" size={32} color="#fff" />
+                        </Pressable>
+                        <Feather name="help-circle" size={32} color="#fff" />
+                    </Row>
+                    <AnimatePresence>
+                    {tabIsOpen && <MotiImage from={{scale: 0.6, transform: [{rotate: '12deg',}]}} animate={{ scale: 1.1, transform: [{rotate: '0deg',}]}}  exit={{scale: 0.6}} source={logo} style={{ width: 80, height: 100, marginLeft: 100,}} resizeMode='contain' />}
+                    </AnimatePresence>
+                    <SideBar color={color} font={font}/>
+                </MotiView>
 
                 <MotiView from={{opacity: 0, translateY: -50,}} animate={{ opacity: 1, translateY: 0,}}>
                     <Row style={{ paddingTop: 20, marginHorizontal: 20, justifyContent: 'space-between', alignItems: 'center', }}>
@@ -75,10 +80,10 @@ export default function HomePage({  }) {
                             </HeadTitle>
                         </Pressable>
                         <Row>
-                        <Pressable onPress={() => { router.navigate('notifications')}} style={{  backgroundColor: !tabIsOpen ? 'transparent' : '#fff',  width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
+                        <Pressable onPress={() => { router.navigate('notifications')}} style={{   width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
                             <Fontisto name="bell" size={24} color={color.title} />
                         </Pressable>
-                        <Pressable onPress={toggleOpen} style={{ marginRight: 8,  backgroundColor: !tabIsOpen ? 'transparent' : '#fff',  width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
+                        <Pressable onPress={toggleOpen} style={{ marginRight: 8,     width: 52, height: 52, borderRadius: 12, zIndex: 99, justifyContent: 'center', alignItems: 'center', }}>
                             {!tabIsOpen ? <Column style={{ justifyContent: 'center', alignItems: 'flex-end',  }}>
                                 <Column style={{ width: 30, height: 3, borderRadius: 12, backgroundColor: color.title, }} />
                                 <Column style={{ width: 20, height: 3, borderRadius: 12, backgroundColor: color.title, marginTop: 6,}} />
@@ -127,9 +132,6 @@ export default function HomePage({  }) {
                         <Audio color={color}/>
                     </Column>
                 </MotiView>
-
-
-
 
             </Scroll>
             <BottomSheet snapPoints={[0.5, 500, 700]} ref={accountref}  backgroundStyle={{  backgroundColor: "#FBF7F2" }} handleIndicatorStyle={{backgroundColor: "#30303060",}}>
@@ -272,20 +274,52 @@ const Prayer = () => {
     )
 }
 
-const SideBar = () => {
+
+const SideBar = ({color, font}) => {
     return (
-        <Column style={{ padding: 20, marginTop: 40, }}>
-            <Column style={{ width: 244, alignSelf: 'flex-start', height: 200, backgroundColor: "#252525", borderRadius: 24, }} />
-            <Spacer height={20} />
-            <Column style={{ width: 244, alignSelf: 'flex-start', height: 100, backgroundColor: "#323232", borderRadius: 24, }} />
-            <Spacer height={10} />
-            <Column style={{ width: 244, alignSelf: 'flex-start', height: 60, backgroundColor: "#121212", borderRadius: 24, }} />
-            <Spacer height={32} />
-            <Column style={{ width: 244, alignSelf: 'flex-start', height: 70, backgroundColor: "#505050", borderRadius: 24, }} />
-            <Spacer height={8} />
+        <Column style={{ padding: 20, marginTop: 10, zIndex: 99,  borderRadius: 16, width: 280, backgroundColor: "#FFE8D7", height: '100%', flex: 1,}}>
+            
+            <Pressable style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: color.primary, borderRadius: 8, marginBottom: 12,  }}>
+                <Feather name="home" size={24} color="#fff" />
+                <Title style={{ fontSize: 24, marginLeft: 10, fontFamily: font.medium, color: "#fff", }}>Início</Title>
+            </Pressable>
+
+            <Pressable onPress={() => { router.navigate('pins/home') }} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="grid" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Pins</Title>
+            </Pressable>
+
+            <Pressable onPress={() => { router.navigate('audio/page') }} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="disc" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Áudio</Title>
+            </Pressable>
+
+            <Pressable onPress={() => { router.navigate('reels_scroll') }} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="play" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Shorts</Title>
+            </Pressable>
+            <Pressable style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="layers" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Editor</Title>
+            </Pressable>
+            <Pressable style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="music" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Playlist's</Title>
+            </Pressable>
+            <Pressable style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="shopping-bag" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Loja</Title>
+            </Pressable>
+            <Pressable style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 12, backgroundColor: "#ffffff70", borderRadius: 6, marginBottom: 12,  }}>
+                <Feather name="star" size={24} color={color.title} />
+                <Title style={{ fontSize: 20, marginLeft: 10, fontFamily: font.book, }}>Avaliar App</Title>
+            </Pressable>
+
         </Column>
     )
 }
+
+
 
 const Pins = () => {
     return (
@@ -384,8 +418,8 @@ const Account = ({ user }) => {
   
  const Audio = ({color}) => { 
     return(
-        <Pressable onPress={() => {router.navigate('/audio')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
-            <Image source={require('@assets/imgs/event_card.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
+        <Pressable onPress={() => {router.navigate('/audio/page')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
+            <Image source={require('@assets/imgs/audio.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
         </Pressable>
     )
   }
