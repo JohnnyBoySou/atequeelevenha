@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Column } from '@theme/global';
 import Animated, { useSharedValue, withSequence, withTiming, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
-import { StyleSheet, useWindowDimensions, useColorScheme } from 'react-native';
+import { StyleSheet, useWindowDimensions, useColorScheme,  } from 'react-native';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

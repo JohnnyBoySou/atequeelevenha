@@ -24,15 +24,11 @@ export default function Pins() {
     return (
         <Main>
             <Scroll stickyHeaderIndices={[0]}>
-
-
                 <Column style={{ backgroundColor: color.background, }}>
                 <Row style={{ paddingHorizontal: 20, justifyContent: 'space-between', alignItems: 'center',   marginBottom: 20,  }}>
                     <Row style={{ alignItems: 'center', }}>
-                        <Pressable onPress={() => {router.back()}} >
-                            <AntDesign name="arrowleft" size={24} color={color.title} />
-                        </Pressable>
-                        <Title style={{ fontSize: 42, zIndex: 99, marginLeft: 12,}}>Pins</Title>
+                       
+                        <Title style={{ fontSize: 42, zIndex: 99, }}>Pins</Title>
                     </Row>
                     <Pressable onPress={() => {router.navigate('pins/save')}} >
                             <AntDesign name="heart" size={24} color={color.title} />

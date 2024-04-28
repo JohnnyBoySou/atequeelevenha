@@ -24,7 +24,6 @@ export default  function StackLayout() {
         <Stack.Screen name="pins/save"  options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_right'}}/>
         <Stack.Screen name="prey" options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_right'}}/>
         <Stack.Screen name="reels_scroll" options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_right'}}/>
-        <Stack.Screen name="editor/index" />
         <Stack.Screen name="onboarding" options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_right'}}/>
         <Stack.Screen name="auth" options={{ presentation: 'modal', gestureEnabled: true, animation: 'slide_from_right'}}/>
         <Stack.Screen name="notifications" options={{ animation: 'slide_from_right'}}/>
@@ -33,6 +32,7 @@ export default  function StackLayout() {
         <Stack.Screen name="event" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="audio/[item]" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="audio/page" options={{ animation: 'slide_from_right'}}/>
+        <Stack.Screen name="editor/index" options={{ animation: 'slide_from_right'}}/>
       </Stack>
     </ThemeProvider>
   );
