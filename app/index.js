@@ -51,7 +51,7 @@ export default function () {
         const user = await AsyncStorage.getItem('user')
         setTimeout(() => {
             if (user) {
-                router.replace('/(stack)');
+                router.replace('/(stack)/(tabs)');
                 return;
             }
             else{

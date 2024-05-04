@@ -33,6 +33,7 @@ export default  function StackLayout() {
         <Stack.Screen name="audio/[item]" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="audio/page" options={{ animation: 'slide_from_right'}}/>
         <Stack.Screen name="editor/index" options={{ animation: 'slide_from_right'}}/>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false,  }} />
       </Stack>
     </ThemeProvider>
   );

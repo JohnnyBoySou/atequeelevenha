@@ -13,6 +13,7 @@ export default function PinsSaves() {
     useEffect(() => {
         listPins().then((res) => {
             setpins(JSON.parse(res))
+            console.log(res)
         })
     }, [])
 
