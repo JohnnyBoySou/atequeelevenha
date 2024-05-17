@@ -32,7 +32,7 @@ export default function Auth() {
           gaming: true,
       }
         AsyncStorage.setItem('user', JSON.stringify(usr))
-        router.push('/(stack)')
+        router.push('/(stack)/tabs')
       } catch (error) {
         console.log(error.DEVELOPER_ERROR)
       }
@@ -46,7 +46,7 @@ export default function Auth() {
           signIn()
         }
         else if(usr !== null){
-          router.push('/(stack)')
+          router.push('/(stack)/tabs')
         }
       }
         catch (error) {

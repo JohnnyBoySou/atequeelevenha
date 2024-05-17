@@ -105,11 +105,10 @@ export default function HomePage({  }) {
                         </Row>
                         <Prayer />
                         <Spacer height={244} />
-                        <HeadTitle>Eventos</HeadTitle>
+                        <HeadTitle>Próximo Evento</HeadTitle>
                         <Event color={color}/>
 
                         <Spacer height={24} />
-                        <HeadTitle>Audios</HeadTitle>
                         <Audio color={color}/>
                     </Column>
                 </MotiView>
@@ -126,7 +125,7 @@ export default function HomePage({  }) {
             </BottomSheet>
 
             
-<MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height,  zIndex: 999, backgroundColor: "#3E59AE",  borderRadius: 12,}} >
+            <MotiView state={toggleAnimation} transition={{ type: 'timing', duration: 300, }} style={{ position: 'absolute', top: 0, right: 0, width: 400, height: 1.1 * height,  zIndex: 999, backgroundColor: "#3E59AE",  borderRadius: 12,}} >
                     <Row style={{ justifyContent: 'space-between', alignItems: 'center', width: 230, marginTop: 34, marginLeft: 20, zIndex: 99,}}>
                         <Pressable onPress={toggleOpen} style={{ marginRight: 8,  width: 44, height: 44, justifyContent: 'center', alignItems: 'center', borderRadius: 100,  }}>
                             <AntDesign name="close" size={32} color="#fff" />
@@ -262,7 +261,7 @@ const Prayer = () => {
                 <Animated.View sharedTransitionTag="prey" style={{ width: 72, height: 72, backgroundColor: "#ffffff30", borderRadius: 100, justifyContent: 'center', alignItems: 'center', }}>
                     <Image  source={require('@assets/imgs/prayer.png')} style={{ width: 62, height: 62, }} resizeMode='contain' />
                 </Animated.View>
-                <Title style={{ textAlign: 'center', fontSize: 28, color: '#fff', }}>Quero fazer um pedido {"\n"}de oração</Title>
+                <Title style={{ textAlign: 'center', fontSize: 28, color: '#fff', }}>Quero fazer um {"\n"}pedido de oração</Title>
                 <Pressable onPress={() => { router.navigate('/prey') }} style={{ paddingHorizontal: 32, paddingVertical: 8, borderRadius: 100, backgroundColor: "#fff", justifyContent: 'center', alignItems: 'center', alignSelf: 'center', marginTop: 12, }}>
                     <Title style={{ color: color.primary, }}>Fazer oração</Title>
                 </Pressable>
@@ -404,10 +403,20 @@ const Account = ({ user }) => {
  }
 
 
- const Event = ({color}) => { 
+ const Event = ({}) => { 
+    
+    const { color } = useContext(ThemeContext)
     return(
-        <Pressable onPress={() => {router.navigate('/event')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
-            <Image source={require('@assets/imgs/event_card.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
+        <Pressable onPress={() => {router.navigate('/event')}} style={{  flexGrow: 1,  borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 0, }}>
+            <Row>
+                <Column style={{ backgroundColor: '#fff', borderRadius: 8, width: 120, height: 160, justifyContent: 'center', alignItems: 'center', zIndex: 4,  }}>
+                    <Title style={{ fontSize: 62, marginBottom: -10, }}>12</Title>
+                    <Label style={{ fontSize: 32, }}>Jun</Label>
+                </Column>
+                <Column style={{ width: 200, marginVertical: 12, backgroundColor: '#f7f7f7', borderTopRightRadius: 12, borderBottomRightRadius: 12, marginLeft: -4, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 12, borderWidth: 1, borderColor: color.primary+20, }}>
+                    <Label style={{ fontSize: 15, }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</Label>
+                </Column>
+            </Row>
         </Pressable>
     )
   }
@@ -415,8 +424,18 @@ const Account = ({ user }) => {
   
  const Audio = ({color}) => { 
     return(
-        <Pressable onPress={() => {router.navigate('/audio/page')}} style={{  flexGrow: 1, height: 160, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, marginTop: 30, }}>
-            <Image source={require('@assets/imgs/audio.png')} style={{ flexGrow: 1, height: 190,  borderRadius: 24,}} resizeMode='contain'/>
+        <Pressable onPress={() => {router.navigate('/audio/page')}} style={{  flexGrow: 1, borderRadius: 12, justifyContent: 'center', alignItems: 'center', padding: 12, marginVertical: 12, }}>
+            <Image source={require('@assets/imgs/shape2.png')} style={{ width:440, height: 440,  borderRadius: 24, opacity: .6, transform: [{rotate: '-44deg'}], position: 'absolute', top: -100,}} resizeMode='contain'/>
+            <Row>
+                <MotiImage  source={{uri: 'https://i.pinimg.com/736x/b4/5a/bd/b45abd1e6a4d24942a4fc0ccec63ee3b.jpg' }} style={{ width: 120, height: 120, borderRadius: 12, transform: [{rotate: '-12deg'}] }} /> 
+                <MotiImage  source={{uri: 'https://i.pinimg.com/736x/bd/84/61/bd8461a782dcddee77f3a6b522db38ce.jpg' }} style={{ width: 140, height: 140, borderRadius: 12, zIndex: 99, marginHorizontal: -18, marginTop: -20, }} /> 
+                <MotiImage source={{uri: 'https://i.pinimg.com/736x/a6/51/98/a6519896ebd1aff3c7f0efe107587521.jpg' }} style={{ width: 120, height: 120, borderRadius: 12, transform: [{rotate: '12deg'}]}} /> 
+
+            </Row>
+            
+            <Pressable style={{ flexDirection: 'row',  backgroundColor: "#141414", borderRadius: 100, paddingVertical: 8,  paddingHorizontal: 22, alignSelf: 'center', marginTop: 12, }}>
+                    <Title style={{  fontSize: 18, color: "#fff"}}>Ver Playlist's</Title>
+                </Pressable>
         </Pressable>
     )
   }

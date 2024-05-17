@@ -4,7 +4,7 @@ import { Column, Label, Main, Title, Scroll, Row } from '@theme/global';
 import { FlatList, Pressable, Dimensions } from 'react-native';
 import { AntDesign, Feather, FontAwesome6 } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import BottomSheet , { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { getShorts } from "@api/shorts";
 import { AnimatePresence, MotiView, MotiImage } from "moti";
@@ -17,7 +17,9 @@ export default function AudioDetailsPage({ }) {
     const author = useRef(null)
     const { color, theme, font } = useContext(ThemeContext);
     const [audios, setAudios] = useState();
-   // const [item, setitem] = useState();
+   
+   const { it } = useLocalSearchParams();
+   const item = JSON.parse(it)
 
     useEffect(() => {
         getShorts().then((res) => {  setAudios(res);   }  ); 
@@ -28,8 +30,7 @@ export default function AudioDetailsPage({ }) {
     const [time, settime] = useState(0);
     const togglePlay = () => { if (isPlay) { video.current.pauseAsync(); setisPlay(false)} else {video.current.playAsync(); setisPlay(true)}}
 
-    const item = {"desc": "Não desista daquilo que eu te convidei", "id": 7, "title": "O senhor diz para você hoje", "url": "https://i.pinimg.com/564x/99/39/71/993971125c50963c2167bb7714f83dc5.jpg", "video": "https://v1.pinimg.com/videos/mc/720p/5c/de/6a/5cde6a7880f8f874c0bff5a613764be9.mp4", 
-    "author": {"id": 1, "name": "Sousa", "avatar": "https://i.pinimg.com/736x/90/9c/f1/909cf183ed41214de5f7b2d82c47e3a3.jpg", "bio": "“Sonhe como se fosse viver para sempre, viva como se fosse morrer hoje.”"}}
+    //const item = {"desc": "Não desista daquilo que eu te convidei", "id": 7, "title": "O senhor diz para você hoje", "url": "https://i.pinimg.com/564x/99/39/71/993971125c50963c2167bb7714f83dc5.jpg", "video": "https://v1.pinimg.com/videos/mc/720p/5c/de/6a/5cde6a7880f8f874c0bff5a613764be9.mp4", "author": {"id": 1, "name": "Sousa", "avatar": "https://i.pinimg.com/736x/90/9c/f1/909cf183ed41214de5f7b2d82c47e3a3.jpg", "bio": "“Sonhe como se fosse viver para sempre, viva como se fosse morrer hoje.”"}}
 
     return (
         <Main>

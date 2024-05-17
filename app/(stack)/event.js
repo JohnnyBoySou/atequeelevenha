@@ -82,7 +82,6 @@ export default function Event() {
                     </Column>
 
                     <Column style={{ marginHorizontal: 20, marginVertical: 20,}}>
-                        <Title style={{ fontSize: 32, letterSpacing: -1, }}>Comprometimento</Title>
                     </Column>
 
                 </Column>
