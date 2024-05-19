@@ -105,10 +105,8 @@ export default function HomePage({  }) {
                         </Row>
                         <Prayer />
                         <Spacer height={244} />
-                        <HeadTitle>Próximo Evento</HeadTitle>
-                        <Event color={color}/>
-
                         <Spacer height={24} />
+
                         <Audio color={color}/>
                     </Column>
                 </MotiView>

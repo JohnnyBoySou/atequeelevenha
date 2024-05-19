@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState, useEffect, useCallback } from "react";
-import { FlatList, Pressable, Dimensions, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
+import { FlatList, Pressable, Dimensions, ScrollView, ActivityIndicator, RefreshControl, StatusBar } from "react-native";
 import { Main, Label, Title, Row, Column } from '@theme/global';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { AntDesign, FontAwesome6, MaterialCommunityIcons, Fontisto, Ionicons } from "@expo/vector-icons";
@@ -13,12 +13,15 @@ import { addShort, deleteShort, verifyShort } from './../../hooks/useShorts';
 const { width, height } = Dimensions.get('window');
 
 export default function Reels() {
+    const a = false;
+    const { color, font } = useContext(ThemeContext);
     
     const [type, settype] = useState('Feed');
     const [showType, setshowType] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [current, setcurrent] = useState();
-    const { color, font } = useContext(ThemeContext);
+
+    const [cache, setcache] = useState(null);
     const onRefresh = () => {
         setRefreshing(true);
     };
@@ -44,9 +47,17 @@ export default function Reels() {
             </Column>
         )}
 
+
+    const downloadSheet = useRef(null);
+          
+    const download = (item) => {
+      setcache(item)
+      downloadSheet.current.expand();
+    }   
 return (
     <Main >
-            <Row style={{ alignItems: 'center', paddingTop: 15, paddingLeft: 20, paddingBottom: 16, borderRadius: 24,  }}>
+        <StatusBar hidden/>
+         {a &&   <Row style={{ alignItems: 'center', paddingTop: 15, paddingLeft: 20, paddingBottom: 16, borderRadius: 24,  }}>
                 <Pressable onPress={() => setshowType(!showType)} style={{ marginRight: 16, }}>
                     <Title style={{  fontSize: 24, fontFamily: 'Font_Bold'}}>Shorts</Title>
                 </Pressable>
@@ -82,19 +93,44 @@ return (
                   <MotiView style={{ width: 32, height: 32, backgroundColor: '#FFC79E', borderRadius: 100, }} from={{transform: [{translateY: 20,}], opacity: 0,}} animate={{transform: [{translateY: 0,}], opacity: 1,}} exit={{transform: [{translateY: 50,}]}} transition={{ delay: 600,}}/>
                 </Row>}
             </AnimatePresence>
-            </Row>
+            </Row>}
 
             <ScrollView pagingEnabled={true} showsVerticalScrollIndicator={false} decelerationRate="fast" refreshControl={<RefreshControl colors={['#E26D5E', '#00C6AE', '#FFC79E' ]} refreshing={false} onRefresh={onRefresh} />}>
                 <FlatList
                     data={type === 'Feed' ? feed : feed.reverse()}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item, current }) => <ShortList item={item} current={current} />}
+                    renderItem={({ item, current }) => <ShortList item={item} current={current}  download={() => download(item)}/>}
                     showsHorizontalScrollIndicator={false}
                     ListEmptyComponent={<Loading />}
                     viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
                 />
 
             </ScrollView>
+            
+          <BottomSheet ref={downloadSheet} snapPoints={[0.5, '40%']} backgroundStyle={{backgroundColor: color.background, }} handleIndicatorStyle={{backgroundColor: "#d7d7d760"}}>
+
+          <BottomSheetScrollView>
+            <Column style={{ margin: 12, }}>
+              <Title style={{ fontSize: 24, marginBottom: 20, textAlign: 'center', }}>Salvar na Galeria</Title>
+              <Row>
+                <Row>
+                  <Column style={{ width: 100, height: 160, borderRadius: 12, backgroundColor: '#303030', zIndex: -2, transform: [{rotate: '12deg'}], position: 'absolute', left: 20, }}></Column>
+                  <Video source={{ uri: cache?.video }} style={{ width: 120, height: 160, borderRadius: 4, transform: [{rotate: '-10deg'}], marginLeft: 20, }} />
+                </Row>
+
+                <Column style={{ flex: 1, marginLeft: 30, marginRight: 20, }}>
+                  <Title style={{ fontSize: 24, marginBottom: 8, }}>{cache?.title}</Title>
+                  <Label>{cache?.desc}</Label>
+                  <Title style={{ fontSize: 16, marginBottom: 8, marginTop: 12, backgroundColor: "#E26D5E30", color: "#E26D5E", borderRadius: 100, alignSelf: 'flex-start',  paddingVertical: 6, paddingHorizontal: 18, }}>Vídeo</Title>
+                </Column>
+              </Row>
+              <Pressable style={{ backgroundColor: color.primary, paddingVertical: 14, paddingHorizontal: 40, alignSelf: 'center', borderRadius: 108, justifyContent: 'center', alignItems: 'center', marginBottom: 20, marginTop: 20, }}>
+                <Label style={{ color: "#fff", }}>Baixar (12MB)</Label>
+              </Pressable>
+            
+            </Column>
+          </BottomSheetScrollView>
+          </BottomSheet>
     </Main>
 );
 }
@@ -102,9 +138,8 @@ return (
 
 
 
-export function ShortList({ item, current,  }) {
+export function ShortList({ item, current, download, share}) {
     const { color, font, theme } = useContext(ThemeContext);
-    const aboutModal = useRef(null);
     const video = useRef(null);
     const [like, setLike] = useState(false);
     const [isPlay, setisPlay] = useState(true);
@@ -147,52 +182,54 @@ export function ShortList({ item, current,  }) {
     return (
       <>
         <Column style={{ width: time+'%', height: 5, position: 'absolute', bottom: 0, borderRadius: 100, backgroundColor: "#fff", zIndex: 99, left: 6, right: 6,  }}/>
-        
-        <Video
-            ref={video}
-            style={{  width: width, height: 0.8639 * height,  backgroundColor: '#404040', }}
-            source={{ uri: item?.video }}
-            resizeMode={ResizeMode.COVER}
-            isLooping
-            //onLoad={() => {togglePlay(); setisPlay(!isPlay); }}
-            onPlaybackStatusUpdate={e => settime((e.positionMillis / e.durationMillis * 100).toFixed(0)) }
-            progressUpdateIntervalMillis={50}
-          />
+          <Video
+              ref={video}
+              style={{  width: width, height: height - 48, backgroundColor: '#404040', }}
+              source={{ uri: item?.video }}
+              resizeMode={ResizeMode.COVER}
+              isLooping
+              //onLoad={() => {togglePlay(); setisPlay(!isPlay); }}
+              onPlaybackStatusUpdate={e => settime((e.positionMillis / e.durationMillis * 100).toFixed(0)) }
+              progressUpdateIntervalMillis={50}
+            />
 
-        <Pressable style={{ width: width, height: height, backgroundColor: "#30303000", position: 'absolute', top: -40, justifyContent: 'center', alignItems: 'center', }} onPress={() =>{togglePlay(); setisPlay(!isPlay)}}>
-          <AnimatePresence>
-          {isPlay ? 
-            <MotiView from={{ opacity: 1,}} animate={{ opacity: 0,}}>
-              <FontAwesome6 name="play" size={42} color="#fff" />
-            </MotiView> : 
-            <MotiView from={{ opacity: 0,}} animate={{ opacity: 1,}}>
-              <FontAwesome6 name="pause" size={42} color="#fff" />
-            </MotiView>
-          }
-          </AnimatePresence>
-        </Pressable>
-
-        <Column style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 20, right: 14,  }}>
+          <Pressable style={{ width: width, height: height, backgroundColor: "#30303000", position: 'absolute', top: -40, justifyContent: 'center', alignItems: 'center', }} onPress={() =>{togglePlay(); setisPlay(!isPlay)}}>
             <AnimatePresence>
-                <Pressable onPress={toggleLike} style={{ width: 52, height: 52, borderRadius: 100, opacity: like ? 1 : 0.7, backgroundColor: like ? "#FF5833" : color.off, justifyContent: 'center', alignItems: 'center', marginBottom: 12, }}>
-                {like ? 
-                <MotiView from={{scale: 0.8, opacity: .6, }} animate={{scale: 1.3, opacity: 1,}}  transition={{ duration: 500,}}>
-                    <AntDesign name="heart" size={22} color="#fff" /> 
-                </MotiView>
-                : 
-                <MotiView from={{scale: 1.3, opacity: 1, }} animate={{scale: 0.9, opacity: 1, }}  transition={{ duration: 500,}}>
-                    <AntDesign name="hearto" size={22} color={color.title} />
-                </MotiView>
-                }
-                </Pressable>
+            {isPlay ? 
+              <MotiView from={{ opacity: 1,}} animate={{ opacity: 0,}}>
+                <FontAwesome6 name="play" size={42} color="#fff" />
+              </MotiView> : 
+              <MotiView from={{ opacity: 0,}} animate={{ opacity: 1,}}>
+                <FontAwesome6 name="pause" size={42} color="#fff" />
+              </MotiView>
+            }
             </AnimatePresence>
-            <Pressable   style={{ width: 52, height: 52, borderRadius: 100, opacity: like ? 1 : 0.7,  backgroundColor: color.off, justifyContent: 'center', alignItems: 'center', }}>
-                <Ionicons name="share-social-outline" size={24} color={color.title} />
-            </Pressable>
-        </Column>
-  
+          </Pressable>
+
+          <Column style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: 100, right: 14,  }}>
+              <AnimatePresence>
+                  <Pressable onPress={toggleLike} style={{ width: 52, height: 52, borderRadius: 100, opacity: like ? 1 : 0.7, backgroundColor: like ? "#FF5833" : color.off, justifyContent: 'center', alignItems: 'center', marginBottom: 12, }}>
+                    {like ? 
+                    <MotiView from={{scale: 0.8, opacity: .6, }} animate={{scale: 1.3, opacity: 1,}}  transition={{ duration: 500,}}>
+                        <AntDesign name="heart" size={22} color="#fff" /> 
+                    </MotiView>
+                    : 
+                    <MotiView from={{scale: 1.3, opacity: 1, }} animate={{scale: 0.9, opacity: 1, }}  transition={{ duration: 500,}}>
+                        <AntDesign name="hearto" size={22} color={color.title} />
+                    </MotiView>
+                    }
+                  </Pressable>
+              </AnimatePresence>
+              <Pressable   style={{ width: 52, height: 52, borderRadius: 100, opacity: like ? 1 : 0.7,  backgroundColor: color.off, justifyContent: 'center', alignItems: 'center', }}>
+                  <Ionicons name="share-social-outline" size={24} color={color.title} />
+              </Pressable>
+              <Pressable  onPress={() => {download(item); togglePlay()}}   style={{ width: 52, height: 52, borderRadius: 100, opacity: like ? 1 : 0.7,  backgroundColor: color.off, justifyContent: 'center', alignItems: 'center', marginTop: 12, }}>
+                  <Ionicons name="download-outline" size={24} color={color.title} />
+              </Pressable>
+          </Column>
+
+
       </>
-  
     );
   }
 

@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Tabs } from 'expo-router';
 import { SquarePlay , Home, LayoutGrid, SquareUserRound}  from 'lucide-react-native';
+import { ThemeContext } from 'styled-components/native';
+import { useColorScheme } from 'react-native';
 
 export default function TabLayout() {
+  
+  const { color,  font } = useContext(ThemeContext);
+  const theme = useColorScheme();
+  const bg = theme == 'dark' ? '#252525' : '#FFFBF9';
+  const bgOff = theme == 'dark' ? '#1E1E1E' : '#F5F5F5';
   return (
     <Tabs 
         initialRouteName='profile'
         screenOptions={({ route }) => ({
-        tabBarActiveTintColor: '#3E59AE', headerShown: false, tabBarShowLabel: false, 
-        tabBarActiveBackgroundColor: '#FFFBF9', tabBarInactiveBackgroundColor: '#FFFBF9', 
-        tabBarStyle: { borderTopWidth: 0, elevation: 0, shadowOpacity: 0, shadowOffset: { height: 0, width: 0 }, shadowRadius: 0, shadowColor: 'transparent' },
+         headerShown: false, tabBarShowLabel: false, 
+        tabBarActiveBackgroundColor: bg, tabBarInactiveBackgroundColor: bgOff, 
+        tabBarStyle: { borderTopWidth: 0, borderRadius: 20, elevation: 0, shadowOpacity: 0, shadowOffset: { height: 0, width: 0 }, shadowRadius: 0, shadowColor: 'transparent' },
       })}
     >
 
